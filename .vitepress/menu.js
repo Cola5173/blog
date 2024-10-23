@@ -34,28 +34,35 @@ export function sidebar() {
                 collapsed: false,
             }
         ],
-        // 可观测
-        "/observability/": [
-            {text: "部署资源参考", link: "/deploy/部署资源参考.md"},
-            {text: "中间件部署", link: "/deploy/中间件部署.md"},
-            {text: "调用链系统部署", link: "/deploy/调用链系统部署.md"},
-            {text: "日志系统部署", link: "/deploy/日志系统部署.md"},
-            {text: "监控系统部署", link: "/deploy/监控系统部署.md"},
-            {text: "告警系统部署", link: "/deploy/告警系统部署.md"},
-            {text: "权限系统部署", link: "/deploy/权限系统部署.md"},
-            {text: "前端部署", link: "/deploy/前端部署.md"},
-            {text: "采控系统部署", link: "/deploy/采控系统部署.md"},
-            {text: "服务自动拉起", link: '/deploy/服务自动拉起.md'},
+        // 工作
+        "/work/": [
+            {
+                text: "可观测",
+                base: "/work/observability/",
+                items: [
+                    {text: "可观测", link: "可观测.md"}
+                ],
+                collapsed: false,
+            },
+            {
+                text: "日志",
+                base: "/work/logs/",
+                items: [
+                    {text: "Kafka", link: "Kafka.md"}
+                ],
+                collapsed: false,
+            },
         ],
         // 生活随记
         "/life/": [
-            {text: "升级V4.0.8到V4.0.9", link: "/upgrade/升级V4.0.8到V4.0.9.md"},
-            {text: "升级V4.0.7到V4.0.8", link: "/upgrade/升级V4.0.7到V4.0.8.md"},
-            {text: "升级V4.0.6到V4.0.7", link: "/upgrade/升级V4.0.6到V4.0.7.md"},
-            {text: "升级V4.0.4到V4.0.6", link: "/upgrade/升级V4.0.4到V4.0.6.md"},
-            {text: "升级V4.0.3到V4.0.4", link: "/upgrade/升级V4.0.3到V4.0.4.md"},
-            {text: "升级V4.0.2到V4.0.3", link: "/upgrade/升级V4.0.2到V4.0.3.md"},
-            {text: "升级V4.0.0到V4.0.2", link: "/upgrade/升级V4.0.0到V4.0.2.md"},
+            {
+                text: "2024",
+                base: "/life/2024",
+                items: [
+                    {text: "还没写", link: "还没写.md"}
+                ],
+                collapsed: false,
+            }
         ],
         // 其它
         "/other/": [
@@ -99,9 +106,9 @@ export function nav() {
             activeMatch: "/leetcode/",
         },
         {
-            text: "👁️可观测",
-            link: "/observability/可观测首页.md",
-            activeMatch: "/observability/",
+            text: "👩🏻‍💻工作",
+            link: "/work/工作首页.md",
+            activeMatch: "/work/",
         },
         {
             text: "🍵生活随记",
