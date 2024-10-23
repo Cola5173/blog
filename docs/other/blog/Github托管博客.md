@@ -29,7 +29,7 @@ cache
 # 初始化仓库，交给 git 托管
 git init
 # 查看是否已经关联过远端的分支
- git remote -v
+git remote -v
 # 开始关联
 git remote add origin https://github.com/FKX1213/test.git
 ```
