@@ -6,6 +6,14 @@ export function sidebar() {
         // 后端开发
         "/backend/": [
             {
+                text: "基本概念",
+                base: "/backend/concept/",
+                items: [
+                    {text: "消息队列", link: "MQ.md"}
+                ],
+                collapsed: false,
+            },
+            {
                 text: "中间件",
                 base: "/backend/middleware/",
                 items: [
