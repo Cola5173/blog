@@ -1,7 +1,6 @@
 # Kafka
 
-::: details
-参考资料如下：
+::: details 参考资料如下：
 - [千锋教育最新kafka入门到精通教程](https://www.bilibili.com/video/BV1Xy4y1G7zA)
 - [windows系统kafka小白入门篇](https://blog.csdn.net/m0_70325779/article/details/137248462)
 :::
@@ -104,6 +103,20 @@ Kafka 的客户端（包括生产者和消费者）在连接集群时会与任�
 3. **生产者** 根据元数据决定消息发送到哪个分区、哪个 broker。
 4. **消费者** 根据元数据决定从哪个分区、哪个 broker 拉取消息。
 5. **元数据失效**时，客户端会重新向 Kafka 集群请求最新的元数据。
+
+### 1.5.replica
+
+还有个新的问题是，如果集群中的某一台 broker 发生故障了，怎么办❓❓❓
+
+这就是 `replica` 机制，在创建 topic 的时候，指定 `replica-factor` 副本因子，确定副本的数量：
+
+<img src="./imgs/Kafka/10.png" alt="副本因子" style="display: block; margin: 0 auto; zoom: 30%">
+
+在 Kafka 中，每个分区（partition）都独立拥有一个 leader。如果一个 topic 有多个分区，那么每个分区都会有一个 leader 来处理该分区的数据读写操作，follower 用于同步 leader 的数据。
+
+<img src="./imgs/Kafka/11.png" alt="leader&follower" style="display: block; margin: 0 auto; zoom: 30%">
+
+即使，其中一个 broker 宕机了，仍然可以通过副本供客户端访问。会重新选举出一个 leader，用于处理该分区的读写操作。
 
 ## 2.安装
 
@@ -216,12 +229,53 @@ kafka-topics.sh --create --topic test --partitions 1 --replication-factor 1 --bo
 编写配置文件 `application.yml` :
 
 ```yml
+server:
+  port: 3489
+
 spring:
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+```
+
+编写一个 controller 用于接受 mock 的请求：
+
+```java:line-numbers
+@RestController
+@RequestMapping("/kafka")
+public class TestController {
+
+    @PostMapping("/send")
+    public String send(@RequestParam("msg") String msg) {
+        return "success";
+    }
+
+    @GetMapping("/consume")
+    public String consume() {
+        return "success";
+    }
+}
+```
+
+编写一个 service 用于和 Kafka 交互：
+
+```java:line-numbers
+@Service
+public class TestService {
+
+    // 注入kafka-client，key和value的序列化方式都是String
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+}
 ```
 
 ### 4.1.生产消息
 
-基于 SpingBoot ，编写代码，朝刚刚创建的名为 test 的topic发送消息。在日常的开发中，
+基于 SpingBoot ，编写代码，朝刚刚创建的名为 test 的topic发送消息。在日常的开发中，其实很简单，
 

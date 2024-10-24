@@ -79,7 +79,8 @@ export function sidebar() {
                 base: "/other/",
                 items: [
                     {text: "关于我", link: "aboutMe.md"},
-                    {text: "文档图标大全", link: "icons.md"},
+                    {text: "文档小工具", link: "icons.md"},
+                    {text: "收藏网址", link: "myCollections.md"},
                 ],
                 collapsed: false,
             },
