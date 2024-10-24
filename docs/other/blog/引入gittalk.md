@@ -91,7 +91,10 @@ export default {
 - 进入仓库
 - settings
 - 滑到 features
-- 
+- 确定自己打开了 issues 选项
 
+如果还是出现这种问题，大概率是自己在本地 debug 启动，由于在 OAuth App 设置的两个 url 是项目部署的路径，和本地不一样。可以先push代码，从项目部署路径查阅。
+
+实在不行，打开页面的管理工具，看是否自动触发请求到 github 的 gittalk 中，自行 debug。有问题的可以在这个页面下留言，讨论~~~~😁😁😁😁😁
 
 <git-talk />
