@@ -1,6 +1,7 @@
 # Git
 
 ::: tip
+学习资料：
 - [黑马程序员Git全套教程，完整的git项目管理工具教程](https://www.bilibili.com/video/BV1MU4y1Y7h5)
 :::
 
@@ -126,15 +127,18 @@ git 的大部分的使用都是基于已有远端项目，然后从远端将项�
 
 记录经常使用的一些 git 命令：
 
-````shell
+````shell:line-numbers
 # git 本地仓库初始化
 git init
 # 查看本地仓库对应的远端仓库
 git remote -v
 # 查看 git 的全局配置项
 git config --global --list
+# 查看 git 的这个项目的本地配置项
+git config --local --list
 # 和远端仓库产生关联
 git remote add origin URL
 # 为单个项目开启代理
-git config http.proxy http://127.0.0.1:7890
+git config --local http.proxy http://127.0.0.1:1087 
+git config --local https.proxy http://127.0.0.1:1087
 ````
