@@ -42,7 +42,7 @@ export default {
     const commentConfig = {
       clientID: "你的clientID",
       clientSecret: "你的clientSecret",
-      repo: "仓库.github.io",
+      repo: "github仓库名", // 用于存放评论，可以新建一个
       owner: "名称",
       admin: ["名称"],
       id: md5(location.pathname),
@@ -79,6 +79,19 @@ export default {
 
 ## 使用：
 
-在需要的Markdown里使用 `<gitalk/>` 开启评论
+在需要的Markdown里使用 `<git-talk />` 开启评论
 
-<gitalk/>
+## 评论仓库的问题
+
+由于我只是在 github 上创建了一个仓库，并没有初始化，也没有开启 issue ，导致出现：
+
+<img src="./imgs/引入gittalk/img_2.png" alt="未找到相关的 Issues 进行评论" style="display: block; margin: 0 auto; zoom:60%">
+
+需要去对应的 issue 存放仓库，进行如下操作：
+- 进入仓库
+- settings
+- 滑到 features
+- 
+
+
+<git-talk />

@@ -16,8 +16,8 @@ export default {
   mounted() {
     const commentConfig = {
       clientID: "Ov23likVb5bs19Ssmf2k",
-      clientSecret: "6c2b6e20919885ff4a0c6b77dc53cf2abd9743fft",
-      repo: "blog.github.io",
+      clientSecret: "6c2b6e20919885ff4a0c6b77dc53cf2abd9743ff",
+      repo: "blogComments",
       owner: "FKX1213",
       admin: ["FKX1213"],
       id: md5(location.pathname),
