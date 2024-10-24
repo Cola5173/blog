@@ -91,6 +91,7 @@ export function sidebar() {
                     {text: "Vitepress搭建博客", link: "Vitepress搭建博客.md"},
                     {text: "Github托管博客", link: "Github托管博客.md"},
                     {text: "Vercel部署博客", link: "Vercel部署博客.md"},
+                    {text: "引入gittalk", link: "引入gittalk.md"},
                 ],
                 collapsed: false,
             },
