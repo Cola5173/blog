@@ -10,7 +10,7 @@
 
 创建一个，此刻获取到clientID和clientSecret
 
-## 安装依赖
+## 2.安装依赖
 
 在博客的终端控制台，输入命令：
 ```shell
@@ -18,7 +18,7 @@ npm install md5 gitalk
 ```
 <img src="./imgs/引入gittalk/img_1.png" alt="安装依赖图" style="display: block; margin: 0 auto; zoom: 40%">
 
-## 新增配置
+## 3.新增配置
 
 新增 `.vitepress/components/gitalk.vue` ，默认gitalk存在黑色模式下字体白色，背景色也是白色，导致看不见字体，所以样式里设置一下：
 
@@ -77,11 +77,11 @@ export default {
 };
 ```
 
-## 使用：
+## 4.使用：
 
 在需要的Markdown里使用 `<git-talk />` 开启评论
 
-## 评论仓库的问题
+## 5.评论仓库的问题
 
 由于我只是在 github 上创建了一个仓库，并没有初始化，也没有开启 issue ，导致出现：
 
@@ -96,5 +96,9 @@ export default {
 如果还是出现这种问题，大概率是自己在本地 debug 启动，由于在 OAuth App 设置的两个 url 是项目部署的路径，和本地不一样。可以先push代码，从项目部署路径查阅。
 
 实在不行，打开页面的管理工具，看是否自动触发请求到 github 的 gittalk 中，自行 debug。有问题的可以在这个页面下留言，讨论~~~~😁😁😁😁😁
+
+## 6.小问题修复
+
+
 
 <git-talk />
