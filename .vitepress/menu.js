@@ -53,10 +53,10 @@ export function sidebar() {
                 collapsed: false,
             },
             {
-                text: "日志",
-                base: "/work/logs/",
+                text: "2024",
+                base: "/work/2024/",
                 items: [
-                    {text: "Kafka", link: "Kafka.md"}
+                    {text: "问题修复记录", link: "bugs.md"}
                 ],
                 collapsed: false,
             },
@@ -76,7 +76,7 @@ export function sidebar() {
         "/other/": [
             {
                 text: "其它",
-                base: "/other/",
+                base: "/other/mixed/",
                 items: [
                     {text: "关于我", link: "aboutMe.md"},
                     {text: "文档小工具", link: "icons.md"},
@@ -127,7 +127,7 @@ export function nav() {
         },
         {
             text: "🤖其它",
-            link: "/other/aboutMe.md",
+            link: "/other/mixed/aboutMe.md",
             activeMatch: "/other/",
         }
     ];

@@ -2,6 +2,10 @@
 
 应一位朋友的邀请，引入gittalk功能，可以进行互动。撸起袖子加油干，不会就学。
 
+::: details 参考资料
+- [VitePress 使用 Gitalk 添加评论功能](https://libraheresy.github.io/site/blog/VitePress/VitePress_%E4%BD%BF%E7%94%A8_Gitalk_%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD)
+:::
+
 ## 1.注册应用
 
 进入Github，进入个人设置Settings，最下方Developer settings，点击：OAuth Apps，点击：New OAuth App
@@ -77,7 +81,7 @@ export default {
 };
 ```
 
-## 4.使用：
+## 4.使用
 
 在需要的Markdown里使用 `<git-talk />` 开启评论
 
@@ -193,5 +197,4 @@ export default {
 
 至此，解决好了 ✌✌✌✌✌✌
 
-
-<git-talk />
+以后，再也不用在 md 文档的底部，输入 `<git-talk />`  标签啦！！！！！
