@@ -272,7 +272,7 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 ```
 
-### 4.1.生产消息
+### 4.1.producer
 
 基于 SpringBoot ，编写代码，朝刚刚创建的名为 test 的topic发送消息。在日常的开发中，其实很简单:
 
@@ -293,3 +293,142 @@ class KafkaDemoApplicationTests {
 ```
 
 这样就可以直接发送成功了，这就是最简单的发送消息咯。
+
+KafkaTemplate 提供了好几种发送消息的方式：
+
+<img src="./imgs/Kafka/img.png" alt="send" style="display: block; margin: 0 auto; zoom: 70%;">
+
+分别的含义是：
+
+- 发送消息类，message中已提前封装好信息
+- 指定topic、data
+- 发送producerRecord对象，已提前封装好各种信息
+- 指定topic、key、data
+- 指定topic、partition、key、data
+- 指定topic、partition、时间戳、key、data
+
+日常就是根据你想要的方式，去选择性的使用方法即可。需要注意的是，之前在引入 KafkaTemplate ：
+
+```java
+KafkaTemplate<K, V>
+```
+
+显示的制定了泛型 K 和 V，使用String类型
+
+### 4.3.consumer
+
+#### 4.3.1.监听机制
+
+如何使用Java代码来监听topic，消费消息呢？是通过监听机制来实现的：
+
+```java:line-numbers
+@Service
+@Slf4j
+public class EventConsumer {
+
+    @KafkaListener
+    public void consume(ConsumerRecord<String, String> record) {
+        log.warn("监听到 topic：{}， 的消息内容为：{}", record.topic(), record.value());
+    }
+}
+```
+
+通过 `@KafkaListener` 注解，实现在启动项目的时候，监听 Kafka 中 topic 内的内容变化，但是直接启动会报错：
+
+:::details 报错信息
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug'
+enabled.
+22:32:19.643 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: topics, topicPattern, or topicPartitions must be provided
+:::
+
+在使用这个注解的时候，需要指定一些信息：
+
+```java
+@KafkaListener(topics = {"test"})
+public void consume(ConsumerRecord<String, String> record) {
+    log.warn("监听到 topic：{}， 的消息内容为：{}", record.topic(), record.value());
+}
+```
+
+但仍然报错：
+
+:::details 报错信息
+Caused by: java.lang.IllegalStateException: No group.id found in consumer config, container properties, or
+@KafkaListener annotation; a group.id is required when group management is used.
+:::
+
+可以通过配置文件 or 在注解中指定 `consumer group` ，大部分项目中都是使用一个消费组，一般都在配置文件中指定：
+
+```yml:line-numbers
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: test-consumer
+```
+
+成功启动项目，但是发现，控制台并没有输出相关日志，尝试再次发送消息到 kafka 中，发现日志正常打印。这是因为 consumer
+的默认配置就是，从消费者开始工作后的新消息才会被处理。
+
+#### 4.3.2.消费偏移量策略
+
+这就引入了一项配置，Kafka 消费者的 `auto-offset-reset`
+配置用于指定当消费者组的偏移量（offset）不存在或不可用时（例如，第一次消费或偏移量已过期被删除）应该从哪里开始消费消息。常用的选项为
+`latest`（SpringBoot 默认项）、`earliest`，但是总共有四种：
+
+- **`latest`**
+    - 含义：当没有有效偏移量时，从 **最新的消息** 开始消费。
+    - 用法：消费者会忽略历史消息，只消费新产生的消息。
+    - 适合场景：适用于只关心新数据、不需要处理历史消息的情况。
+    - 举例：如果当前 topic 中已经有 100 条消息，而消费者第一次连接时使用 `latest`，则它会从第 101 条消息开始消费。
+- **`earliest`**
+    - 含义：当没有有效偏移量时，从 **最早的消息** 开始消费。
+    - 用法：消费者会从分区的起始位置（即偏移量 0）开始读取数据。
+    - 适合场景：适用于需要处理所有历史消息的情况，或者系统第一次启动时。
+    - 举例：如果 `earliest` 被设置，消费者会从最早的消息开始处理，无论消息已经存在了多久。
+- **`none`**
+    - 含义：当没有偏移量可供恢复时，抛出错误，表示没有合适的偏移量。
+    - 用法：只有在消费者组有已存储的偏移量时才会启动，否则会报错并停止。
+    - 适合场景：适用于不允许任何数据丢失或跳过的应用中，确保消费者组的偏移量总是存在。
+    - 举例：如果该消费者组从未消费过该 topic，或者偏移量被清除，客户端会直接报错，避免消息丢失。
+- **`exception`**
+    - 含义：该选项并不是 Kafka 的官方设置；通常通过 `none` 和自定义错误处理来实现类似的效果。
+    - 处理方式：遇到无法获取偏移量的情况时抛出异常，以便应用程序进行自定义处理。
+
+❗❗❗如果之前已经使用过相同的 `consumer-group-id` 消费过，Kafka 会保存该消费组的偏移量。即使重新设置了消费者的
+`auto-offset-reset=earliest` ，该配置也不会生效。此时，要么使用新的消费组or重置该消费组的的偏移量。
+
+Kafka 中提供了脚本工具，用于手动重置消费组的偏移量：
+
+```shell
+# 进入 Kafka 安装目录的 bin 目录，使用 kafka-consumer-groups.sh 工具
+./kafka-consumer-groups.sh --bootstrap-server <broker地址> \
+                           --group <消费组ID> \
+                           --topic <topic名称> \
+                           --reset-offsets \
+                           --to-earliest \
+                           --execute
+```
+
+```cmd
+kafka-consumer-groups.bat --bootstrap-server localhost:9092 ^
+                          --group test-consumer ^
+                          --topic test ^
+                          --reset-offsets ^
+                          --to-earliest ^
+                          --execute
+```
+
+❗❗❗记住，消费组的状态需要为 `inactive` 否则会重置消费组偏移量失败：
+
+:::details 重置结果细节
+Error: Assignments can only be reset if the group 'test-consumer' is inactive, but the current state is Stable.
+:::
+
+重置成功后就可以监听到 test 主题下的所有消息咯~
