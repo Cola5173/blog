@@ -27,6 +27,7 @@ export function sidebar() {
                 items: [
                     {text: "lombok", link: "Lombok.md"},
                     {text: "Git", link: "Git.md"},
+                    {text: "Linux", link: "Linux.md"},
                 ],
                 collapsed: false,
             },
@@ -85,7 +86,7 @@ export function sidebar() {
                 collapsed: false,
             },
             {
-                text: "博客",
+                text: "博客搭建流程",
                 base: "/other/blog/",
                 items: [
                     {text: "Vitepress搭建博客", link: "Vitepress搭建博客.md"},
@@ -122,7 +123,7 @@ export function nav() {
         },
         {
             text: "🍵生活随记",
-            link: `/life/生活.md`,
+            link: `/life/Life.md`,
             activeMatch: "/life/",
         },
         {
