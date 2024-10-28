@@ -272,7 +272,9 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 ```
 
-### 4.1.producer
+### 4.2.producer
+
+#### 4.2.1.入门
 
 基于 SpringBoot ，编写代码，朝刚刚创建的名为 test 的topic发送消息。在日常的开发中，其实很简单:
 
@@ -292,7 +294,18 @@ class KafkaDemoApplicationTests {
 }
 ```
 
-这样就可以直接发送成功了，这就是最简单的发送消息咯。
+这样就可以直接发送成功了，这就是最简单的发送消息咯。需要注意的是，之前在引入 KafkaTemplate ：
+
+```java
+KafkaTemplate<K, V>
+
+Type parameters:
+<K> – the key type. <V> – the value type.
+```
+
+显示的制定了泛型 K 和 V，使用String类型.
+
+#### 4.2.2.send()
 
 KafkaTemplate 提供了好几种发送消息的方式：
 
@@ -307,13 +320,123 @@ KafkaTemplate 提供了好几种发送消息的方式：
 - 指定topic、partition、key、data
 - 指定topic、partition、时间戳、key、data
 
-日常就是根据你想要的方式，去选择性的使用方法即可。需要注意的是，之前在引入 KafkaTemplate ：
+日常就是根据你想要的方式，去选择性的使用方法即可。
+
+`Message<?> message` 的使用：
 
 ```java
-KafkaTemplate<K, V>
+    /**
+     * KafkaHeaders：中可以设置很多参数
+     * payload：消息体内容
+     */
+    @Test
+    void test02() {
+        Message<String> msg = MessageBuilder.withPayload("send Message<?> message")
+                .setHeader(KafkaHeaders.TOPIC, "test")
+                .build();
+        kafkaTemplate.send(msg);
+    }
 ```
 
-显示的制定了泛型 K 和 V，使用String类型
+`ProducerRecord<K, V> record` 的使用：
+
+<img src="./imgs/Kafka/img_1.png" alt="send" style="display: block; margin: 0 auto; zoom: 70%;">
+
+```java
+    /**
+     * ProducerRecord的使用
+     */
+    @Test
+    void test03() {
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>("test", "ProducerRecord<K, V> record");
+        kafkaTemplate.send(producerRecord);
+    }
+```
+
+#### 4.2.3.sendDefault()
+
+KafkaTemplate 还有一个名为 `sendDefault()` 的方法，如下：
+
+<img src="./imgs/Kafka/img_2.png" alt="send" style="display: block; margin: 0 auto; zoom: 70%;">
+
+可以观察到，在这些方法中没有 topic ，是因为如果需要使用前，需要在配置文件中写明默认发送的主题：
+
+```yml
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: test-consumer
+      auto-offset-reset: earliest
+    template:
+      default-topic: test # 配置默认发送的主题
+```
+
+采用这个方法发送消息，会自动发送到配置文件中写明的主题中:
+
+```java
+    /**
+     * sendDefault的使用
+     */
+    @Test
+    void test04() {
+        kafkaTemplate.sendDefault("sendDefault");
+    }
+```
+
+#### 4.2.4.发送结果
+
+发送消息的方法都学完了，如何获取消息发送完的结果呢？是否发送成功❓❓❓
+
+无论是 `send()` 方法还是 `sendDefault` 方法，都会返回一个 `CompletableFuture<SendResult<K, V>>`
+对象，是一个异步计算回调后的结果，去调用相关的函数就可执行后续操作。
+
+CompletableFuture 的使用见：[]()。
+
+#### 4.2.5.分区策略
+
+如果一个 topic 存在多个分区，producer 向 topic 中发送消息时，采用什么何种策略将消息发送到哪个区域呢❓❓❓
+
+阅读源码发现：
+
+```java
+    /**
+     * computes partition for given record.
+     * if the record has partition returns the value otherwise
+     * if custom partitioner is specified, call it to compute partition
+     * otherwise try to calculate partition based on key.
+     * If there is no key or key should be ignored return
+     * RecordMetadata.UNKNOWN_PARTITION to indicate any partition
+     * can be used (the partition is then calculated by built-in
+     * partitioning logic).
+     */
+    private int partition(ProducerRecord<K, V> record, byte[] serializedKey, byte[] serializedValue, Cluster cluster) {
+        if (record.partition() != null)
+            return record.partition();
+
+        if (partitioner != null) {
+            int customPartition = partitioner.partition(
+                record.topic(), record.key(), serializedKey, record.value(), serializedValue, cluster);
+            if (customPartition < 0) {
+                throw new IllegalArgumentException(String.format(
+                    "The partitioner generated an invalid partition number: %d. Partition number should always be non-negative.", customPartition));
+            }
+            return customPartition;
+        }
+
+        if (serializedKey != null && !partitionerIgnoreKeys) {
+            // hash the keyBytes to choose a partition
+            return BuiltInPartitioner.partitionForKey(serializedKey, cluster.partitionsForTopic(record.topic()).size());
+        } else {
+            return RecordMetadata.UNKNOWN_PARTITION;
+        }
+    }
+```
 
 ### 4.3.consumer
 
@@ -432,3 +555,4 @@ Error: Assignments can only be reset if the group 'test-consumer' is inactive, b
 :::
 
 重置成功后就可以监听到 test 主题下的所有消息咯~
+

@@ -14,6 +14,16 @@ export function sidebar() {
                 collapsed: false,
             },
             {
+                text: "工具类",
+                base: "/backend/tools/",
+                items: [
+                    {text: "lombok", link: "Lombok.md"},
+                    {text: "Git", link: "Git.md"},
+                    {text: "Linux", link: "Linux.md"},
+                ],
+                collapsed: false,
+            },
+            {
                 text: "中间件",
                 base: "/backend/middleware/",
                 items: [
@@ -22,12 +32,10 @@ export function sidebar() {
                 collapsed: false,
             },
             {
-                text: "工具类",
-                base: "/backend/tools/",
+                text: "并发编程",
+                base: "/backend/concurrent/",
                 items: [
-                    {text: "lombok", link: "Lombok.md"},
-                    {text: "Git", link: "Git.md"},
-                    {text: "Linux", link: "Linux.md"},
+                    {text: "JUC", link: "JUC.md"},
                 ],
                 collapsed: false,
             },
