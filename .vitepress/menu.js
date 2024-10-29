@@ -76,7 +76,7 @@ export function sidebar() {
                 text: "2024",
                 base: "/life/2024",
                 items: [
-                    {text: "还没写", link: "还没写.md"}
+                    // {text: "还没写", link: "还没写.md"}
                 ],
                 collapsed: false,
             }
