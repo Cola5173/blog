@@ -3,6 +3,7 @@
 ::: details 参考资料如下：
 
 - [千锋教育最新kafka入门到精通教程](https://www.bilibili.com/video/BV1Xy4y1G7zA)
+- [kafka消息中间件精讲](https://www.bilibili.com/video/BV14J4m187jz)
 - [windows系统kafka小白入门篇](https://blog.csdn.net/m0_70325779/article/details/137248462)
 - [kafka消息中间件精讲](https://www.bilibili.com/video/BV14J4m187jz)
   :::
@@ -398,7 +399,15 @@ spring:
 
 CompletableFuture 的使用见：还没写。
 
-#### 4.2.5.分区策略
+#### 4.2.5.发送流程
+
+Kafka 生产者的发送消息的流程为：
+
+<img src="./imgs/Kafka/img_3.png" alt="send" style="display: block; margin: 0 auto; zoom: 70%;">
+
+拦截器--------》序列化器--------》分区器
+
+#### 4.2.6.分区器
 
 如果一个 topic 存在多个分区，producer 向 topic 中发送消息时，采用什么何种策略将消息发送到哪个区域呢❓❓❓
 
@@ -435,6 +444,160 @@ CompletableFuture 的使用见：还没写。
         } else {
             return RecordMetadata.UNKNOWN_PARTITION;
         }
+    }
+```
+
+生产者向多分区的 topic 发送消息时，分区选择策略可以根据消息是否包含 **Key** 或 **自定义分区器** 来决定，逻辑如下：
+
+- **如果指定了分区号**：消息直接发送到指定的分区
+- **如果没有指定分区，但指定了 Key**：
+    - Kafka 使用 Key 的哈希值来计算目标分区。具体算法就是使用 `Utils.murmur2` 方法将 Key 哈希为一个整数，然后再取正数，以保证哈希值非负：
+      ```java
+      Utils.toPositive(Utils.murmur2(serializedKey)) % numPartitions;
+      ```
+    - 这样可以确保相同 Key 的消息发送到相同的分区，方便消费端实现 Key 的数据顺序性。
+- **如果既没有指定分区也没有指定 Key**：
+    - 采用的是一种伪轮询策略 `StickyPartitioner` 实现的动态选择分区的逻辑
+    - 主要依据当前集群的负载状态以及可用分区情况来做决定。代码逻辑可分为两种情况：
+        - **没有分区负载信息**：则从可用分区中随机选择一个分区；若无可用分区，则在全部分区中随机选择。
+        - **有分区负载信息**：则基于分区的负载权重进行选择。代码生成一个随机数，根据分区负载的累积频率表，使用二分查找找到对应的分区，保证将更多消息发送到负载较低的分区。
+
+自己可以配置其它提供的分区策略，或自己定义一个分区策略，实现逻辑如下：
+
+```java
+@Configuration
+public class KafkaConfig {
+    /**
+     * 生产者创建工厂
+     */
+    public ProducerFactory<String, String> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    /**
+     * 生产者相关配置，都在ProducerConfig类中
+     */
+    public Map<String, Object> producerConfigs() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        //指定RoundRobin分区策略
+        config.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, RoundRobinPartitioner.class);
+        return config;
+    }
+
+    /**
+     * 覆盖默认配置类中的KafkaTemplate
+     */
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
+```
+
+如果想要实现自定义的分区策略呢？其实道理都是一样的，只需要再多谢一个类，实现 `` 接口：
+
+```java
+public class CustomPartitioner implements Partitioner {
+
+    /**
+     * 计算分区逻辑部分代码
+     */
+    @Override
+    public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
+        return 0;
+    }
+
+    @Override
+    public void close() {
+        // 可不写
+    }
+
+    @Override
+    public void configure(Map<String, ?> configs) {
+        // 可不写
+    }
+}
+```
+
+然后，在生产者的配置类中配置即可：
+
+```java
+@Configuration
+public class KafkaConfig {
+    ...
+
+    /**
+     * 生产者相关配置，都在ProducerConfig类中
+     */
+    public Map<String, Object> producerConfigs() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        //指定自定义的发送消息分区策略
+        config.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class);
+        return config;
+    }
+
+    ...
+}
+```
+
+#### 4.2.7.拦截器
+
+如果想要实现自定义的拦截器，需要实现 `ProducerInterceptor` 接口：
+
+```java
+public class CustomInterceptor implements ProducerInterceptor<String, String> {
+
+    /**
+     * 发送消息前，会先调用这个方法
+     */
+    @Override
+    public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+        log.info("自定义消息拦截器 success ........");
+        return record;// 需要将消息发送出去
+    }
+
+    /**
+     * 服务器收到消息后的确认
+     */
+    @Override
+    public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
+
+    }
+
+    @Override
+    public void close() {
+        //可不写
+    }
+
+    @Override
+    public void configure(Map<String, ?> configs) {
+        //可不写
+    }
+}
+```
+
+在之前编写的 kafka 配置类中添加即可：
+
+```java
+    /**
+     * 生产者相关配置，都在ProducerConfig类中
+     */
+    public Map<String, Object> producerConfigs() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        //指定自定义的发送消息分区策略
+        config.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class);
+        //指定自定义的发送消息拦截器
+        config.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,CustomInterceptor.class.getName());
+        return config;
     }
 ```
 

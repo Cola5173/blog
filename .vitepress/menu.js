@@ -9,9 +9,9 @@ export function sidebar() {
                 text: "基本概念",
                 base: "/backend/concept/",
                 items: [
-                    {text: "消息队列", link: "MQ.md"}
+                    // {text: "消息队列", link: "MQ.md"}
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "工具类",
@@ -21,13 +21,22 @@ export function sidebar() {
                     {text: "Git", link: "Git.md"},
                     {text: "Linux", link: "Linux.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "中间件",
                 base: "/backend/middleware/",
                 items: [
-                    {text: "Kafka", link: "Kafka.md"}
+                    // {text: "Kafka", link: "Kafka.md"}
+                ],
+                collapsed: true,
+            },
+            {
+                text: "消息队列",
+                base: "/backend/mq/",
+                items: [
+                    {text: "消息队列", link: "MQ.md"},
+                    {text: "Kafka", link: "Kafka.md"},
                 ],
                 collapsed: false,
             },
@@ -37,7 +46,7 @@ export function sidebar() {
                 items: [
                     {text: "JUC", link: "JUC.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
         ],
         // 力扣
@@ -54,18 +63,11 @@ export function sidebar() {
         // 工作
         "/work/": [
             {
-                text: "可观测",
-                base: "/work/observability/",
-                items: [
-                    {text: "可观测", link: "可观测.md"}
-                ],
-                collapsed: false,
-            },
-            {
                 text: "2024",
                 base: "/work/2024/",
                 items: [
-                    {text: "问题修复记录", link: "bugs.md"}
+                    {text: "问题修复记录", link: "bugs.md"},
+                    {text: "可观测", link: "observability.md"},
                 ],
                 collapsed: false,
             },
