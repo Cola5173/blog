@@ -396,7 +396,7 @@ spring:
 无论是 `send()` 方法还是 `sendDefault` 方法，都会返回一个 `CompletableFuture<SendResult<K, V>>`
 对象，是一个异步计算回调后的结果，去调用相关的函数就可执行后续操作。
 
-CompletableFuture 的使用见：[]()。
+CompletableFuture 的使用见：还没写。
 
 #### 4.2.5.分区策略
 
