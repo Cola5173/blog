@@ -45,6 +45,7 @@ export function sidebar() {
                 base: "/backend/concurrent/",
                 items: [
                     {text: "JUC", link: "JUC.md"},
+                    {text: "CompletableFuture", link: "CompletableFuture.md"},
                 ],
                 collapsed: true,
             },
