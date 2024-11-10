@@ -19,6 +19,7 @@ export function sidebar() {
                 items: [
                     {text: "lombok", link: "Lombok.md"},
                     {text: "Git", link: "Git.md"},
+                    {text: "EasyExcel", link: "EasyExcel.md"},
                     {text: "Linux", link: "Linux.md"},
                 ],
                 collapsed: true,
