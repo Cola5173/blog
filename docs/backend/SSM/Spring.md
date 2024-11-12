@@ -106,9 +106,63 @@ public class UserDaoTest {
     - singleton，加载应用就创建bean，应用在，bean在，销毁容器，bean就无了
     - prototype，使用对象时，创建新的对象实例，只要bean在使用中，就一直活着，当对象长时间不用时，会被 Java 的垃圾回收器回收
 
-### 3.2.bean的实例化方式
+### 3.2.依赖注入
 
-1. 无参**构造**方法实例化
-2. 工厂**静态**方法实例化
-3. 工厂**实例**方法实例化
+现在 spring 容器可以成功管理 bean 了，那么如何将 bean 注入到其它得到类中呢？比如， service 中的类如何使用 dao ， controller
+怎么获取到 service ？
+
+就是通过**依赖注入**（DI，`dependency injection`）完成的，是 Spring 框架核心 IOC 的具体体现，通过以下两种方法：
+
+- 构造方法
+
+  ```java
+  public class UserServiceImpl implements UserService {
+    private UserDao userDao;
+  
+      public UserServiceImpl() {
+      }
+  
+      public UserServiceImpl(UserDao userDao) {
+          this.userDao = userDao;
+      }
+  
+      @Override
+      public void save() {
+          userDao.save();
+      }
+  }
+  ```
+  spring的xml配置文件中配置：
+
+  ```xml
+    <bean id="userDao" class="com.fkx.spring.dao.impl.UserDaoImpl"/>
+    <bean id="userService" class="com.fkx.spring.service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+  ```
+- set方法
+  ```java
+  public class UserServiceImpl implements UserService {
+    private UserDao userDao;
+  
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+  
+    @Override
+    public void save() {
+        userDao.save();
+    }
+  }
+  ```
+  spring的xml配置文件中配置：
+
+  ```xml
+  <bean id="userDao" class="com.fkx.spring.dao.impl.UserDaoImpl"/>
+  <bean id="userService" class="com.fkx.spring.service.impl.UserServiceImpl">
+       <property name="userDao" ref="userDao"/>
+  </bean>
+  ```
+
+将 Dao 注入到 Service 中。
 
