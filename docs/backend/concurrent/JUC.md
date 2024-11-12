@@ -3,6 +3,7 @@
 :::details 学习资料：
 
 - [Java Concurrent 并发编程](https://www.bilibili.com/video/BV1Wa4y1H7c7)
+- [黑马程序员深入学习Java并发编程](https://www.bilibili.com/video/BV16J411h7Rd)
   :::
 
 JUC的全称是：`java.util.concurrent`，是 Java 的并发编程的包，后续均为对其的学习。
@@ -26,7 +27,7 @@ Java 中，线程作为最小调度单位，进程作为资源分配的的最小
 
 程序员最关心的是***并发***，程序可不可以并行，取决于操作系统和硬件。
 
-## 2.线程
+## 2.Thread
 
 在进行并发编程编码时，最关心的就是异步线程如何去执行任务。在Java 中，当我们启动 main 函数时其实就是启动了一个 JVM 的进程，而
 main 函数所在的线程就是这个进程中的一个线程，也称主线程。
@@ -103,3 +104,63 @@ main 函数所在的线程就是这个进程中的一个线程，也称主线程
         log.info("获取 futureTask 返回的结果：{}", futureTask.get());
     }
     ```
+
+### 2.3.线程方法
+
+`Thread` 类的方法有：
+
+| methodName | 含义          |
+|------------|-------------|
+| run()      | 线程执行逻辑      |
+| start()    | 启动线程，只能启动一次 |
+| sleep()    | 休眠          |
+| yield()    | 让别的线程先执行    |
+| join()     |
+
+- `sleep()`
+
+```java
+    /**
+     * sleep()方法演示
+     * 其它线程可以使用 interrupt 方法打断正在水面的线程，此时会抛出 InterruptedException
+     * 睡眠结束后的线程未必会立刻得到执行，需要等时间片
+     * 建议使用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性
+     */
+    @Test
+    @SneakyThrows
+    public void test04() {
+        Thread thread = new Thread(() -> {
+            log.info("{}:sleeping.......", Thread.currentThread().getName());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                log.info("{}:wake up...", Thread.currentThread().getName());
+                e.printStackTrace();
+            }
+        }, "cat");
+        thread.start();
+        Thread.sleep(1000);
+        log.info("{}:interrupt...", Thread.currentThread().getName());
+        thread.interrupt();
+    }
+```
+
+<img src="./imgs/JUC/img_1.png" alt="线程状态转换图" style="display: block; margin: 0 auto; zoom: 70%">
+
+- 线程优先级
+
+```java
+    /**
+     * 线程优先级
+     * 可以设置优先级，但具体实现依赖CPU的时间片
+     */
+    @Test
+    public void test05() {
+        Thread t1 = new Thread(() -> {
+            log.info("{},的优先级更高");
+        }, "t1");
+
+        t1.setPriority(1);
+        t1.start();
+    }
+```

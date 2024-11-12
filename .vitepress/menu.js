@@ -14,6 +14,15 @@ export function sidebar() {
                 collapsed: true,
             },
             {
+                text: "SSM",
+                base: "/backend/SSM/",
+                items: [
+                    {text: "Spring", link: "Spring.md"},
+                    {text: "MyBatisPlus", link: "MyBatisPlus.md"},
+                ],
+                collapsed: false,
+            },
+            {
                 text: "工具类",
                 base: "/backend/tools/",
                 items: [
@@ -25,10 +34,10 @@ export function sidebar() {
                 collapsed: true,
             },
             {
-                text: "中间件",
-                base: "/backend/middleware/",
+                text: "数据库",
+                base: "/backend/database/",
                 items: [
-                    // {text: "Kafka", link: "Kafka.md"}
+                    // {text: "MyBatisPlus", link: "MyBatisPlus.md"}
                 ],
                 collapsed: true,
             },
@@ -39,7 +48,7 @@ export function sidebar() {
                     {text: "消息队列", link: "MQ.md"},
                     {text: "Kafka", link: "Kafka.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "并发编程",
@@ -70,6 +79,14 @@ export function sidebar() {
                 items: [
                     {text: "问题修复记录", link: "bugs.md"},
                     {text: "可观测", link: "observability.md"},
+                ],
+                collapsed: false,
+            },
+            {
+                text: "软考",
+                base: "/work/CSC/",
+                items: [
+                    {text: "软考初级-程序员", link: "Programmer.md"},
                 ],
                 collapsed: false,
             },
@@ -105,6 +122,14 @@ export function sidebar() {
                     {text: "Github托管博客", link: "Github托管博客.md"},
                     {text: "Vercel部署博客", link: "Vercel部署博客.md"},
                     {text: "引入gittalk", link: "引入gittalk.md"},
+                ],
+                collapsed: true,
+            },
+            {
+                text: "股票",
+                base: "/other/stock/",
+                items: [
+                    {text: "股票基础常识", link: "Basics.md"},
                 ],
                 collapsed: false,
             },
