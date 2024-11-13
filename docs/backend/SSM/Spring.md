@@ -166,3 +166,134 @@ public class UserDaoTest {
 
 将 Dao 注入到 Service 中。
 
+上面的操作都是注入引用的 bean，除了对象的引用可以注入，普通数据类型、集合等都可以在spring容器中进行注入：
+
+注入数据的三种数据类型：
+
+- 普通数据类型
+  ```java
+    public class UserDaoImpl implements UserDao {
+      private String userName;
+      private int age;
+  
+      public void setAge(int age) {
+          this.age = age;
+      }
+  
+      public void setUserName(String userName) {
+          this.userName = userName;
+      }  
+    }
+  ```
+  ```xml
+    <bean id="userDao" class="com.fkx.spring.dao.impl.UserDaoImpl">
+        <property name="userName" value="bob"/>
+        <property name="age" value="25"/>
+    </bean>
+  ```
+
+- 引用数据类型
+- 集合数据类型
+
+```java
+@Data
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+```java
+@Data
+public class UserDaoImpl implements UserDao {
+
+    private List<String> list;
+    private Map<String, User> map;
+    private Properties properties;
+
+    @Override
+    public void save() {
+        System.out.println(list);
+        System.out.println(map);
+        System.out.println(properties);
+        System.out.println("save running");
+    }
+}
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="userDao" class="com.fkx.spring.dao.impl.UserDaoImpl">
+        <property name="list">
+            <list>
+                <value>a</value>
+                <value>b</value>
+                <value>c</value>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="a" value-ref="userA"/>
+                <entry key="b" value-ref="userB"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="a">A</prop>
+                <prop key="b">B</prop>
+                <prop key="c">C</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="userA" class="com.fkx.spring.domain.User">
+        <property name="name" value="adam"/>
+        <property name="age" value="23"/>
+    </bean>
+    <bean id="userB" class="com.fkx.spring.domain.User">
+        <property name="name" value="bob"/>
+        <property name="age" value="24"/>
+    </bean>
+</beans>
+```
+
+### 3.3.引入其它的配置文件
+
+在实际的开发中，Spring 配置内容非常多，可以在 Spring 的主配置文件中通过 `import` 标签进行加载：
+
+```txt
+<import resource="applicationContext-xxx.xml"/>
+```
+
+### 3.4.ApplicationContext的继承体系
+
+`applicationContext` ：接口类型，代表应用上下文，可以通过它的实例获得 Spring 容器中的 bean 对象
+
+`ApplicationContext` 的实现类：
+
+- ClassPathXmlApplicationContext：它是从类的根路径下加载配置文件
+- FileSystemXmlApplicationContext：磁盘路径上加载配置文件
+- AnnotationConfigApplicationContext：使用注解配置容器对象
+
+## 4.注解开发
+
+之前的都是通过 xml 进行配置，影响开发效率，采用注解代替 xml 配置文件，提高开发效率：
+
+常见的注解有：
+
+| 注解               | 说明                                |
+|------------------|-----------------------------------|
+| `@Component`     | 类上用于实例化bean                       |
+| `@Controller`    | web类上用于实例化bean                    |
+| `@Service`       | service层类上用于实例化bean               |
+| `@Repository`    | dao层类上用于实例化bean                   |
+| `@Autowired`     | 使用在字段上用于根据类型依赖注入                  |
+| `@Qualifier`     | 结合@Autowired一起使用用于根据名称进行依赖注入      |
+| `@Resource`      | 相当于@Autowired+@Qualifier，按照名称进行DI |
+| `@Value`         | 注入普通属性                            |
+| `@Scope`         | 标注bean的作用范围                       |
+| `@PostConstruct` | 使用在方法上，bean的初始化方法                 |
+| `@PreDestroy`    | 使用在方法上，bean的销毁方法                  |
+
