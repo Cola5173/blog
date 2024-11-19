@@ -74,13 +74,21 @@ export function sidebar() {
         // 工作
         "/work/": [
             {
+                text: "前端学习",
+                base: "/work/frontend/",
+                items: [
+                    {text: "Dart", link: "Dart.md"},
+                ],
+                collapsed: false,
+            },
+            {
                 text: "2024",
                 base: "/work/2024/",
                 items: [
                     {text: "问题修复记录", link: "bugs.md"},
                     {text: "可观测", link: "observability.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "软考",
@@ -88,7 +96,7 @@ export function sidebar() {
                 items: [
                     {text: "软考初级-程序员", link: "Programmer.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
         ],
         // 生活随记
