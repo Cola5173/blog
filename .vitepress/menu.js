@@ -9,7 +9,7 @@ export function sidebar() {
                 text: "基本概念",
                 base: "/backend/concept/",
                 items: [
-                    // {text: "消息队列", link: "MQ.md"}
+                    {text: "JavaSE", link: "JavaSE.md"}
                 ],
                 collapsed: true,
             },
