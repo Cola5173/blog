@@ -6,7 +6,7 @@ export function sidebar() {
         // 后端开发
         "/backend/": [
             {
-                text: "基本概念",
+                text: "基础知识",
                 base: "/backend/concept/",
                 items: [
                     {text: "JavaSE", link: "JavaSE.md"}
