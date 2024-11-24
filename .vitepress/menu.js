@@ -6,10 +6,11 @@ export function sidebar() {
         // 后端开发
         "/backend/": [
             {
-                text: "基础知识",
-                base: "/backend/concept/",
+                text: "javaSE",
+                base: "/backend/javaSE/",
                 items: [
-                    {text: "JavaSE", link: "JavaSE.md"}
+                    {text: "JavaSE（一）走进Java语言", link: "JavaSE01.md"},
+                    {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
                 ],
                 collapsed: true,
             },
