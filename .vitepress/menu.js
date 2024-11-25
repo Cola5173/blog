@@ -11,6 +11,7 @@ export function sidebar() {
                 items: [
                     {text: "JavaSE（一）走进Java语言", link: "JavaSE01.md"},
                     {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
+                    {text: "JavaSE（三）面向对象基础篇", link: "JavaSE03.md"},
                 ],
                 collapsed: true,
             },
