@@ -12,6 +12,7 @@ export function sidebar() {
                     {text: "JavaSE（一）走进Java语言", link: "JavaSE01.md"},
                     {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
                     {text: "JavaSE（三）面向对象基础篇", link: "JavaSE03.md"},
+                    {text: "JavaSE（四）面向对象高级篇", link: "JavaSE04.md"},
                 ],
                 collapsed: false,
             },
@@ -155,7 +156,7 @@ export function nav() {
         {text: "首页", link: "/"},
         {
             text: "⌨️后端开发",
-            link: "/backend/后端开发首页.md",
+            link: "/backend/backendIndex.md",
             activeMatch: "/backend/"
         },
         {
