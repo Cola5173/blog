@@ -13,7 +13,7 @@ export function sidebar() {
                     {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
                     {text: "JavaSE（三）面向对象基础篇", link: "JavaSE03.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "SSM",
@@ -22,7 +22,7 @@ export function sidebar() {
                     {text: "Spring", link: "Spring.md"},
                     {text: "MyBatisPlus", link: "MyBatisPlus.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "工具类",
