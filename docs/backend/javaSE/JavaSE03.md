@@ -61,6 +61,41 @@ new 类名();//使用new关键字来创建某个类的对象，注意new后面�
 
 ### 3.1.2.对象的使用
 
+可以使用一个变量来指代某个对象，只不过引用类型的变量，存储的是对象的引用，而不是对象本身：
+
+```java
+public static void main(String[] args) {
+  	//创建一个变量指代我们刚刚创建好的对象，变量的类型就是对应的类名
+  	//p存放的是对象的引用，而不是本体，可以通过对象的引用来间接操作对象
+    Person p = new Person();
+}
+```
+
+对象类型的变量存放的是对象的引用：
+
+```java
+public static void main(String[] args) {
+    Person p1 = new Person();
+    Person p2 = p1;
+}
+```
+
+将变量p2赋值为p1的值，那么实际上只是传递了对象的引用，而不是对象本身的复制，这跟我们前面的基本数据类型有些不同，p2和p1都指向的是同一个对象：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/09/19/GBPaNZsr2MSKvCq.png" alt="指针引用">
+
+来测试一下：
+
+```java
+public static void main(String[] args) {
+    Person p1 = new Person();
+    Person p2 = p1;
+    System.out.println(p1 == p2);    //使用 == 可以判断两个变量引用的是不是同一个对象
+}
+```
+
+
+
 ### 3.1.3.方法创建与使用
 
 ### 3.1.4.方法进阶使用
