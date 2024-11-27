@@ -242,14 +242,14 @@ public static void main(String[] args) {
 
 用于规定给定组件必须要出现多少次才能满足匹配的，我们一般称为限定符，限定符表如下：
 
-| 字符    | 描述                                                               |
-|-------|------------------------------------------------------------------|
-| *     | 匹配前面的子表达式零次或多次。例如，zo* 能匹配 "z" 以及 "zoo"。***** 等价于 {0,}。           |
-| +     | 匹配前面的子表达式一次或多次。例如，zo+ 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。    |
-| ?     | 匹配前面的子表达式零次或一次。                                                  |
-| {n}   | n 是一个非负整数。匹配确定的 n 次。例如，o{2} 不能匹配 "Bob" 中的 o，但是能匹配 "food" 中的两个 o。 |
-| {n,}  | n 是一个非负整数。至少匹配n 次。                                               |
-| {n,m} | m 和 n 均为非负整数，其中 n <= m。最少匹配 n 次且最多匹配 m 次。                        |
+| 字符      | 描述                                        |
+|---------|-------------------------------------------|
+| `*`     | 匹配前面的子表达式零次或多次。                           |
+| `+`     | 匹配前面的子表达式一次或多次。                           |
+| `?`     | 匹配前面的子表达式零次或一次。                           |
+| `{n}`   | n 是一个非负整数。匹配确定的 n 次。                      |
+| `{n,}`  | n 是一个非负整数。至少匹配n 次。                        |
+| `{n,m}` | m 和 n 均为非负整数，其中 n <= m。最少匹配 n 次且最多匹配 m 次。 |
 
 如果我们想要表示一个范围内的字符，可以使用方括号：
 
@@ -262,18 +262,189 @@ public static void main(String[] args) {
 
 对于普通字符来说，可以下面的方式实现多种字符匹配：
 
-| 字符     | 描述                                    |
-|--------|---------------------------------------|
-| [ABC]  | 匹配 [...] 中的所有字符                       |
-| [^ABC] | 匹配除了 [...] 中字符的所有字符                   |
-| [A-Z]  | [A-Z] 表示一个区间，匹配所有大写字母，[a-z] 表示所有小写字母。 |
-| .      | 匹配除换行符（\n、\r）之外的任何单个字符，相等于 [^\n\r]    |
-| [\s\S] | 匹配所有。\s 是匹配所有空白符，包括换行，\S 非空白符，不包括换行。  |
-| \w     | 匹配字母、数字、下划线。等价于 [A-Za-z0-9_]          |
+| 字符       | 描述                                    |
+|----------|---------------------------------------|
+| `[ABC]`  | 匹配 [...] 中的所有字符                       |
+| `[^ABC]` | 匹配除了 [...] 中字符的所有字符                   |
+| `[A-Z]`  | [A-Z] 表示一个区间，匹配所有大写字母，[a-z] 表示所有小写字母。 |
+| `.`      | 匹配除换行符（\n、\r）之外的任何单个字符，相等于 [^\n\r]    |
+| `[\s\S]` | 匹配所有。\s 是匹配所有空白符，包括换行，\S 非空白符，不包括换行。  |
+| `\w`     | 匹配字母、数字、下划线。等价于 [A-Za-z0-9_]          |
 
-实际上正则表达式内容非常多，如果需要完整学习正则表达式，可以到：[正则表达式-语法|菜鸟教程](https://www.runoob.com/regexp/regexp-syntax.html)
+实际上正则表达式内容非常多，如果需要完整学习正则表达式：[正则表达式-语法|菜鸟教程](https://www.runoob.com/regexp/regexp-syntax.html)
 
 正则表达式并不是只有Java才支持，其他很多语言比如JavaScript、Python等等都是支持正则表达式。
 
 ## 4.4.内部类
+
+内部类顾名思义，就是创建在内部的类，内部类很多地方都很绕，所以说一定要仔细思考。
+
+### 4.4.1.成员内部类
+
+可以直接在类的内部定义成员内部类：
+
+```java
+public class Test {
+    public class Inner {   //内部类也是类，所以说里面也可以有成员变量、方法等，甚至还可以继续套娃一个成员内部类
+        public void test(){
+            System.out.println("我是成员内部类！");
+        }
+    }
+}
+```
+
+成员内部类和成员方法、成员变量一样，是对象所有的，而不是类所有的，如果要使用成员内部类，那么就需要：
+
+```java
+public static void main(String[] args) {
+    //首先需要创建对象
+    Test test = new Test();
+    //成员内部类的类型名称就是 外层.内部类名称
+    Test.Inner inner = test.new Inner();
+    inner.test();
+}
+```
+
+成员内部类也可以使用访问权限控制，在成员内部类中，是可以访问到外层的变量的：
+
+```java:line-numbers
+public class Test {
+    private final String name;
+    
+    public Test(String name){
+        this.name = name;
+    }
+    public class Inner {
+        public void test(){
+            System.out.println("我是成员内部类："+name);
+            //成员内部类可以访问到外部的成员变量
+          	//因为成员内部类本身就是某个对象所有的，每个对象都有这样的一个类定义，这里的name是其所依附对象的
+        }
+    }
+}
+```
+
+每个类可以创建一个对象，每个对象中都有一个单独的类定义，可以通过这个成员内部类又创建出更多对象。
+
+如果内部类中也定义了同名的变量，此时我们怎么去明确要使用的是哪一个呢？
+
+```java:line-numbers
+public class Test {
+    private final String name;
+
+    public Test(String name){
+        this.name = name;
+    }
+    public class Inner {
+
+        String name;
+        public void test(String name){
+            System.out.println("方法参数的name = "+name);//依然是就近原则
+            System.out.println("成员内部类的name = "+this.name);//在内部类中使用this关键字，只能表示内部类对象
+            System.out.println("成员内部类的name = "+Test.this.name);
+          	//如果需要指定为外部的对象，那么需要在前面添加外部类型名称
+        }
+    }
+}
+```
+
+### 4.4.2.静态内部类
+
+静态内部类就像静态方法和静态变量一样，是属于类的，可以直接创建使用：
+
+```java:line-numbers
+public class Test {
+    private final String name;
+
+    public Test(String name){
+        this.name = name;
+    }
+
+    public static class Inner {
+        public void test(){
+            System.out.println("我是静态内部类！");
+        }
+    }
+}
+```
+
+不需要依附任何对象，可以直接创建静态内部类的对象：
+
+```java:line-numbers
+public static void main(String[] args) {
+    Test.Inner inner = new Test.Inner();   //静态内部类的类名同样是之前的格式，但是可以直接new了
+  	inner.test();
+}
+```
+
+### 4.4.3.局部内部类
+
+局部内部类就像局部变量一样，可以在方法中定义：
+
+```java:line-numbers
+public class Test {
+    private final String name;
+
+    public Test(String name){
+        this.name = name;
+    }
+
+    public void hello(){
+        //直接在方法中创建局部内部类
+        class Inner {    
+            
+        }
+    }
+}
+```
+
+局部内部类的形式，使用频率很低，基本上不会用到，了解就行了。
+
+### 4.4.4.匿名内部类
+
+匿名内部类是使用频率非常高的一种内部类，不能直接通过new的方式去创建一个抽象类或是接口对象，但是可以使用匿名内部类：
+
+```java
+public abstract class Student {
+    public abstract void test();
+}
+```
+
+使用匿名内部类，将其中的抽象方法实现，并直接创建实例对象：
+
+```java:line-numbers
+public static void main(String[] args) {
+    Student student = new Student() {   
+        //在new的时候，后面加上花括号，把未实现的方法实现了
+        @Override
+        public void test() {
+            System.out.println("我是匿名内部类的实现!");
+        }
+    };
+    student.test();
+}
+```
+
+此时这里创建出来的Student对象，就是一个已经实现了抽象方法的对象，这个抽象类直接就定义好了，甚至连名字都没有，就可以直接就创出对象。
+
+## 4.5.异常机制
+
+当程序运行出现我们没有考虑到的情况时，就有可能出现异常或是错误！
+
+### 4.5.1.异常的类型
+
+异常类型本质依然类的对象，但是异常类型支持在程序运行出现问题时抛出（也就是上面出现的红色报错）也可以提前声明，告知使用者需要处理可能会出现的异常！
+
+异常其实就两大类:
+
+- 运行时异常：
+    - 如上述的列子，在编译阶段无法感知代码是否会出现问题，只有在运行的时候才知道会不会出错
+    - 所有的运行时异常都继承自 `RuntimeException`
+- 编译时异常:
+    - 编译时异常明确指出可能会出现的异常，在编译阶段就需要进行处理（捕获异常）必须要考虑到出现异常的情况，如果不进行处理，将无法通过编译！
+    - 默认继承自 `Exception` 类的异常都是编译时异常
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/09/24/RjzWnNDc6TZeSoJ.png" alt="异常体系">
+
+### 4.5.2.抛出异常
 
