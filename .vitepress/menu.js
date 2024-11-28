@@ -13,6 +13,7 @@ export function sidebar() {
                     {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
                     {text: "JavaSE（三）面向对象基础篇", link: "JavaSE03.md"},
                     {text: "JavaSE（四）面向对象高级篇", link: "JavaSE04.md"},
+                    {text: "JavaSE（五）泛型程序设计", link: "JavaSE05.md"},
                 ],
                 collapsed: false,
             },
