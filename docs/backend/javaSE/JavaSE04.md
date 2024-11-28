@@ -446,5 +446,352 @@ public static void main(String[] args) {
 
 <img src="https://oss.itbaima.cn/internal/markdown/2022/09/24/RjzWnNDc6TZeSoJ.png" alt="异常体系">
 
-### 4.5.2.抛出异常
+### 4.5.2.异常处理
 
+当程序没有按照我们理想的样子运行而出现异常时（默认会交给JVM来处理，JVM发现任何异常都会立即终止程序运行，并在控制台打印栈追踪信息）。
+
+如果希望能够自己处理出现的问题，让程序继续运行下去，就需要对异常进行捕获，比如：
+
+```java:line-numbers
+public static void main(String[] args) {
+    /使用try-catch语句进行异常捕获
+    try {
+        Object object = null;
+        object.toString();
+    } catch (NullPointerException e){   
+        //因为异常本身也是一个对象，catch中实际上就是用一个局部变量去接收异常
+    }
+    System.out.println("程序继续正常运行！");
+}
+```
+
+将代码编写到 `try` 语句块中，只要是在这个范围内发生的异常，都可以被捕获，使用 `catch` 关键字对指定的异常进行捕获。
+
+`catch` 中捕获的类型只能是Throwable的子类，也就是说要么是抛出的异常，要么是错误，不能是其他的任何类型：
+
+```java
+public static void main(String[] args) {
+    try {
+        Object object = null;
+        object.toString();
+    } catch (NullPointerException e){
+        e.printStackTrace();   //打印栈追踪信息
+        System.out.println("异常错误信息："+e.getMessage());   //获取异常的错误信息
+    }
+    System.out.println("程序继续正常运行！");
+}
+```
+
+如果不想在当前这个方法中进行处理，那么可以继续踢皮球，抛给上一级：
+
+```java
+public static void main(String[] args) throws IOException {  //继续编写throws往上一级抛
+    test(10);
+}
+
+private static void test(int a) throws IOException {
+    throw new IOException();
+}
+```
+
+果已经是主方法了，那么就相当于到顶层了，此时发生异常再往上抛出的话，就会直接交给JVM进行处理，默认会让整个程序终止并打印栈追踪信息。
+
+当代码可能出现多种类型的异常时，可以分不同情况处理不同类型的异常，就可以使用多重异常捕获：
+
+```java
+try {
+  //....
+} catch (NullPointerException e) {
+            
+} catch (IndexOutOfBoundsException e){
+
+} catch (RuntimeException e){
+            
+}
+```
+
+如果希望，程序运行时，无论是否出现异常，都会在最后执行任务，可以交给finally语句块来处理：
+
+```java:line-numbers
+try {
+    //....
+}catch (Exception e){
+            
+}finally {
+  	System.out.println("lbwnb");   //无论是否出现异常，都会在最后执行
+}
+```
+
+`try` 语句块至少要配合 `catch` 或 `finally` 中的任意一个。
+
+### 4.5.3.断言表达式
+
+使用断言表达式来对某些东西进行判断，如果判断失败会抛出错误，只不过默认情况下没有开启断言，需要在虚拟机参数中手动开启一下：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/09/24/cAG8kY395fOuTLg.png" alt="开启断言">
+
+断言表达式需要使用到assert关键字，如果assert后面的表达式判断结果为false，将抛出AssertionError错误：
+
+```java
+public static void main(String[] args) {
+    int a = 10;
+    assert a > 10;//大于10就抛出错误
+}
+```
+
+也可以在表达式的后面添加错误信息：
+
+```java
+public static void main(String[] args) {
+    int a = 10;
+    assert a > 10 : "我是自定义的错误信息";
+}
+```
+
+断言表达式一般只用于测试，正常的程序中一般不会使用，了解就行了。
+
+## 4.6.常用工具类介绍
+
+工具类就是专门为一些特定场景编写的，便于去使用的类，一般都会内置大量的静态方法，可以通过类名直接使用。
+
+### 4.6.1.数学工具类
+
+数学工具类来完成乘方、三角函数之类的高级运算：
+
+```java:line-numbers
+public static void main(String[] args) {
+  	//Math也是java.lang包下的类，所以说默认就可以直接使用
+    System.out.println(Math.pow(5, 3));   //我们可以使用pow方法直接计算a的b次方
+  
+  	Math.abs(-1);    //abs方法可以求绝对值
+  	Math.max(19, 20);    //快速取最大值
+  	Math.min(2, 4);   //快速取最小值
+  	Math.sqrt(9);    //求一个数的算术平方根
+}
+```
+
+三角函数：
+
+```java
+Math.sin(Math.PI / 2);     //求π/2的正弦值，这里我们可以使用预置的PI进行计算
+Math.cos(Math.PI);       //求π的余弦值
+Math.tan(Math.PI / 4);    //求π/4的正切值
+
+Math.asin(1);     //三角函数的反函数也是有的，这里是求arcsin1的值
+Math.acos(1);
+Math.atan(0);
+```
+
+对数函数：
+
+```java
+public static void main(String[] args) {
+    Math.log(Math.E);    //e为底的对数函数，其实就是ln，我们可以直接使用Math中定义好的e
+    Math.log10(100);     //10为底的对数函数
+    //利用换底公式，可以弄出来任何我们想求的对数函数
+    double a = Math.log(4) / Math.log(2);   //这里是求以2为底4的对数，log(2)4 = ln4 / ln2
+    System.out.println(a);
+}
+```
+
+向上取整、向下取整：
+
+```java
+public static void main(String[] args) {
+    Math.ceil(4.5);    //通过使用ceil来向上取整，4
+    Math.floor(5.6);   //通过使用floor来向下取整，6
+}
+```
+
+随机数的生成：
+
+```java
+public static void main(String[] args) {
+    Random random = new Random();   //创建Random对象
+    for (int i = 0; i < 30; i++) {
+        System.out.print(random.nextInt(100)+" ");  //nextInt方法可以指定创建0 - x之内的随机数
+    }
+}
+```
+
+### 4.6.2.数组工具类
+
+数组工具类Arrays：
+
+```java:line-numbers
+public static void main(String[] args) {
+    int[] arr = new int[]{1, 4, 5, 8, 2, 0, 9, 7, 3, 6};
+    System.out.println(Arrays.toString(arr));//打印
+
+    Arrays.sort(arr);    //排序，将所有的元素按照从小到大的顺序排放
+
+    Arrays.fill(arr, 66);//快速进行填充
+  
+    int[] target = Arrays.copyOf(arr, 5);//拷贝数组的全部内容，并生成一个新的数组对象
+    
+    int[] target2 = Arrays.copyOfRange(arr, 3, 5);//也可以只拷贝某个范围内的内容
+    
+    Arrays.binarySearch(arr, 5);//二分搜索快速找到对应的元素在哪个位置
+}
+```
+
+## 4.7.实战练习
+
+### 4.7.1.冒泡排序算法
+
+题目：有一个int数组，但是数组内的数据是打乱的，现在我们需要将数组中的数据按从小到大的顺序进行排列：
+
+```java
+public static void main(String[] args) {
+    int[] arr = new int[]{3, 5, 7, 2, 9, 0, 6, 1, 8, 4};
+}
+```
+
+请你设计一个Java程序将这个数组中的元素按照顺序排列。
+
+```java:line-numbers
+/**
+ * @author cola1213
+ * @date 2024/11/28 11:57
+ * @description 冒泡排序算法
+ **/
+public class BubbleSort {
+    public static void main(String[] args) {
+        int[] arr = new int[]{3, 5, 7, 2, 9, 0, 6, 1, 8, 4};
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 1; j < arr.length; j++) {
+                if (arr[j - 1] > arr[j]) {
+                    int temp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(arr));
+    }
+}
+```
+
+### 4.7.2.二分搜索算法
+
+题目：现在有一个从小到大排序的数组，给你一个目标值target，现在我们想要找到这个值在数组中的对应下标，如果数组中没有这个数，请返回-1：
+
+```java
+public static void main(String[] args) {
+    int[] arr = {1, 3, 4, 6, 7, 8, 10, 11, 13, 15};
+    int target = 3;
+}
+```
+
+请你设计一个Java程序实现这个功能。
+
+```java:line-numbers
+/**
+ * @author cola1213
+ * @date 2024/11/28 12:07
+ * @description 二分搜索查找
+ **/
+public class BinarySearch {
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 4, 6, 7, 8, 10, 11, 13, 15};
+        int target = 3;
+
+        int l = 0;
+        int r = arr.length - 1;
+        int mid = l;
+
+        while (l <= r) {
+            mid = l + (r - l) / 2;
+            if (arr[mid] == target) {
+                System.out.println(mid);
+                return;
+            } else if (arr[mid] > target) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        System.out.println("-1");
+    }
+}
+```
+
+### 4.7.3青蛙跳台阶问题
+
+题目：现在一共有n个台阶，一只青蛙每次只能跳一阶或是两阶，那么一共有多少种跳到顶端的方案？例如n=2，那么一共有两种方案，一次性跳两阶或是每次跳一阶。
+
+现在请你设计一个Java程序，计算当台阶数为n的情况下，能够有多少种方案到达顶端。
+
+```java:line-numbers
+/**
+ * @author cola1213
+ * @date 2024/11/28 12:12
+ * @description 青蛙跳台阶
+ **/
+public class FrogJumpingStep {
+    public static void main(String[] args) {
+        System.out.println(getWays(4));
+    }
+
+    static int getWays(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+
+        int a = 1;
+        int b = 2;
+        int c = 0;
+
+        for (int i = 3; i <= n; i++) {
+            c = a + b;
+            b = c;
+            a = b;
+        }
+
+        return c;
+    }
+}
+```
+
+### 4.7.4.回文串判断
+
+题目：“回文串”是一个正读和反读都一样的字符串，请你实现一个Java程序，判断用户输入的字符串（仅出现英文字符）是否为“回文”串。
+
+- ABCBA 是一个回文串，因为正读反读都是一样的
+- ABCA 不是一个回文串，因为反着读不一样
+
+```java:line-numbers
+/**
+ * @author cola1213
+ * @date 2024/11/28 22:23
+ * @description 回文串判断
+ **/
+public class PalindromicString {
+    public static void main(String[] args) {
+        System.out.println(isOrNot("ABCBA"));
+    }
+
+    static boolean isOrNot(String s) {
+        if (s == null || s.length() <= 1) {
+            return true;
+        }
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r) {
+            if (s.charAt(l) == s.charAt(r)) {
+                l++;
+                r--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
