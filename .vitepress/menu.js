@@ -89,6 +89,7 @@ export function sidebar() {
                 text: "2024",
                 base: "/work/2024/",
                 items: [
+                    {text: "Vector", link: "Vector.md"},
                     {text: "问题修复记录", link: "bugs.md"},
                     {text: "可观测", link: "observability.md"},
                 ],
