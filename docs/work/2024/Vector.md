@@ -3,6 +3,7 @@
 :::details 参考资料：
 
 - [可观测性数据收集集大成者 Vector 介绍](https://flashcat.cloud/blog/vector/)
+- [vector实践-性能吊打logstash](https://wiki.eryajf.net/pages/0322lius/)
 
 :::
 
