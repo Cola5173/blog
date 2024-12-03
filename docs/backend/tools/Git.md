@@ -134,7 +134,7 @@ git config --local --list
 # 和远端仓库产生关联
 git remote add origin URL
 # 为单个项目开启代理
-git config --local http.proxy http://127.0.0.1:1087 
+git config --local http.proxy http://127.0.0.1:7890
 git config --local https.proxy http://127.0.0.1:1087
 # 设置项目级别的用户名和邮箱（这样提交代码，就不会使用全局配置的公司用户名和邮箱咯）：
 git config user.name "你的GitHub用户名"
