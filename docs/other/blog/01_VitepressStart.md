@@ -37,7 +37,7 @@ npm -v
 
 和默认的项目组成结构有点区别，我改成了自己喜欢的方式：
 
-![image-20241022090356760](./imgs/Vitepress搭建博客/image-20241022090356760.png)
+![image-20241022090356760](imgs/01_VitepressStart/image-20241022090356760.png)
 
 | 目录名称   | 作用                 |
 | ---------- | -------------------- |
@@ -58,7 +58,7 @@ npm -v
 npm add -D vitepress
 ```
 
-![image-20241022091812255](./imgs/Vitepress搭建博客/image-20241022091812255.png)
+![image-20241022091812255](imgs/01_VitepressStart/image-20241022091812255.png)
 
 初始化 `Vitepress`：
 
@@ -66,7 +66,7 @@ npm add -D vitepress
 npx vitepress init
 ```
 
-![image-20241022092113317](./imgs/Vitepress搭建博客/image-20241022092113317.png)
+![image-20241022092113317](imgs/01_VitepressStart/image-20241022092113317.png)
 
 
 
@@ -74,7 +74,7 @@ npx vitepress init
 
 到这里了，已经初始化好项目了，可以使用前端开发工具打开项目：
 
-![image-20241022092308372](./imgs/Vitepress搭建博客/image-20241022092308372.png)
+![image-20241022092308372](imgs/01_VitepressStart/image-20241022092308372.png)
 
 介绍一下我们要用到的文件：
 
@@ -88,15 +88,15 @@ npx vitepress init
 - 将自带的三个 md 文档挪动到新建的 docs 目录下
 - 在 `config.mjs` 文件下，新增一行代码，修改路径
 
-![image-20241022092612283](./imgs/Vitepress搭建博客/image-20241022092612283-1729560372858-1.png)
+![image-20241022092612283](imgs/01_VitepressStart/image-20241022092612283-1729560372858-1.png)
 
 至此，运行 `package.json` 中的：
 
-![image-20241022092845023](./imgs/Vitepress搭建博客/image-20241022092845023.png)
+![image-20241022092845023](imgs/01_VitepressStart/image-20241022092845023.png)
 
 打开控制台中的地址链接  http://localhost:5173/ ，成功跳转，显示页面：
 
-![image-20241022092947341](./imgs/Vitepress搭建博客/image-20241022092947341.png)
+![image-20241022092947341](imgs/01_VitepressStart/image-20241022092947341.png)
 
 
 
@@ -104,7 +104,7 @@ npx vitepress init
 
 改造部分，我的思路是，新建一个菜单 `menu.js` 专门负责顶部导航栏和侧边导航栏的跳转和映射，于是：
 
-![image-20241022101554265](./imgs/Vitepress搭建博客/image-20241022101554265.png)
+![image-20241022101554265](imgs/01_VitepressStart/image-20241022101554265.png)
 
 - `menu.js`
 
@@ -164,7 +164,7 @@ export function nav() {
 
 文档的目录层级为：
 
-![image-20241022101356104](./imgs/Vitepress搭建博客/image-20241022101356104.png)
+![image-20241022101356104](imgs/01_VitepressStart/image-20241022101356104.png)
 
 需要修改 `config.js` ：
 
@@ -235,9 +235,9 @@ export default defineConfig({
 
 最终的效果为：
 
-![image-20241022101658292](./imgs/Vitepress搭建博客/image-20241022101658292.png)
+![image-20241022101658292](imgs/01_VitepressStart/image-20241022101658292.png)
 
-![image-20241022101709396](./imgs/Vitepress搭建博客/image-20241022101709396.png)
+![image-20241022101709396](imgs/01_VitepressStart/image-20241022101709396.png)
 
 
 

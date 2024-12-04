@@ -16,7 +16,7 @@ export function sidebar() {
                     {text: "JavaSE（五）泛型程序设计", link: "JavaSE05.md"},
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "工具类",
@@ -73,7 +73,7 @@ export function sidebar() {
                 items: [
                     {text: "还没写", link: "还没写.md"}
                 ],
-                collapsed: false,
+                collapsed: true,
             }
         ],
         // 工作
@@ -84,7 +84,7 @@ export function sidebar() {
                 items: [
                     {text: "Dart", link: "Dart.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "2024",
@@ -113,7 +113,7 @@ export function sidebar() {
                 items: [
                     {text: "还没写", link: "还没写.md"}
                 ],
-                collapsed: false,
+                collapsed: true,
             }
         ],
         // 其它
@@ -126,16 +126,17 @@ export function sidebar() {
                     {text: "文档小工具", link: "icons.md"},
                     {text: "收藏网址", link: "myCollections.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "博客搭建流程",
                 base: "/other/blog/",
                 items: [
-                    {text: "Vitepress搭建博客", link: "Vitepress搭建博客.md"},
-                    {text: "Github托管博客", link: "Github托管博客.md"},
-                    {text: "Vercel部署博客", link: "Vercel部署博客.md"},
-                    {text: "引入gittalk", link: "引入gittalk.md"},
+                    {text: "1-VitepressStart", link: "01_VitepressStart.md"},
+                    {text: "2-Github", link: "02_Github.md"},
+                    {text: "3-Vercel", link: "03_Vercel.md"},
+                    {text: "4-gittalk", link: "04_gittalk.md"},
+                    {text: "5-增加文字总数和阅读时间组件", link: "05_ReadingStats.md"},
                 ],
                 collapsed: true,
             },
@@ -145,7 +146,7 @@ export function sidebar() {
                 items: [
                     {text: "股票基础常识", link: "Basics.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
         ],
     };
