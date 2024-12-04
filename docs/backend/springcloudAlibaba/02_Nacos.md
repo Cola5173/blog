@@ -89,7 +89,11 @@ startup.cmd -m standalone
 
 <img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/backend/springcloudAlibaba/nacos/04.png" alt="运行sql文件" style="display: block; margin: 0 auto; zoom: 100%">
 
-访问地址为：http://10.40.160.231:8848/nacos/index.html ，无需用户名和密码，即可使用。
+访问地址为，无需用户名和密码，即可使用：
+
+````txt
+http://10.40.160.231:8848/nacos/index.html 
+````
 
 至此，Nacos的安装与部署完成。
 
