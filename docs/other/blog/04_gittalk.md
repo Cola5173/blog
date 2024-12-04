@@ -10,7 +10,7 @@
 
 进入Github，进入个人设置Settings，最下方Developer settings，点击：OAuth Apps，点击：New OAuth App
 
-<img src="imgs/04_gittalk/img.png" alt="配置图" style="display: block; margin: 0 auto; zoom: 30%">
+<img src="./imgs/04_gittalk/img.png" alt="配置图" style="display: block; margin: 0 auto; zoom: 30%">
 
 创建一个，此刻获取到clientID和clientSecret
 
@@ -20,7 +20,7 @@
 ```shell
 npm install md5 gitalk
 ```
-<img src="imgs/04_gittalk/img_1.png" alt="安装依赖图" style="display: block; margin: 0 auto; zoom: 40%">
+<img src="./imgs/04_gittalk/img_1.png" alt="安装依赖图" style="display: block; margin: 0 auto; zoom: 40%">
 
 ## 3.新增配置
 
@@ -89,7 +89,7 @@ export default {
 
 由于我只是在 github 上创建了一个仓库，并没有初始化，也没有开启 issue ，导致出现：
 
-<img src="imgs/04_gittalk/img_2.png" alt="未找到相关的 Issues 进行评论" style="display: block; margin: 0 auto; zoom:60%">
+<img src="./imgs/04_gittalk/img_2.png" alt="未找到相关的 Issues 进行评论" style="display: block; margin: 0 auto; zoom:60%">
 
 需要去对应的 issue 存放仓库，进行如下操作：
 - 进入仓库
@@ -105,7 +105,7 @@ export default {
 
 在使用的时候，发现问题：
 
-<img src="imgs/04_gittalk/img_3.png" alt="小问题" style="display: block; margin: 0 auto; zoom:60%">
+<img src="./imgs/04_gittalk/img_3.png" alt="小问题" style="display: block; margin: 0 auto; zoom:60%">
 
 打算尝试新的方法去解决，在 `.vitepress` 目录中的 `theme` 创建一个 `layout` 目录，内创建 `GitalkLayout.vue` 文件，文件内容：
 

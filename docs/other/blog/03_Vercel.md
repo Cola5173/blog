@@ -16,19 +16,19 @@
 
 首先，add a new project：
 
-![image-20241022110206543](imgs/03_Vercel/image-20241022110206543.png)
+![image-20241022110206543](./imgs/03_Vercel/image-20241022110206543.png)
 
 关联之前的博客项目：
 
-![image-20241022110229929](imgs/03_Vercel/image-20241022110229929.png)
+![image-20241022110229929](./imgs/03_Vercel/image-20241022110229929.png)
 
 配置好这些参数，开始 deploy：
 
-![image-20241022110351972](imgs/03_Vercel/image-20241022110351972.png)
+![image-20241022110351972](./imgs/03_Vercel/image-20241022110351972.png)
 
 good good，成功部署咯：
 
-![image-20241022110453533](imgs/03_Vercel/image-20241022110453533.png)
+![image-20241022110453533](./imgs/03_Vercel/image-20241022110453533.png)
 
 
 
@@ -36,7 +36,7 @@ good good，成功部署咯：
 
 点击 `continue to dashboard` ，通过 `domains` 可以访问，但还得是科学上网：
 
-![image-20241022110601037](imgs/03_Vercel/image-20241022110601037.png)
+![image-20241022110601037](./imgs/03_Vercel/image-20241022110601037.png)
 
 
 

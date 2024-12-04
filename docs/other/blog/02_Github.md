@@ -4,7 +4,7 @@
 
 科学上网❗❗❗需要 github 的账号，在 github 中创建一个仓库，用于对应 
 
-![image-20241022102950503](imgs/02_Github/image-20241022102950503.png)
+![image-20241022102950503](./imgs/02_Github/image-20241022102950503.png)
 
 
 
@@ -34,7 +34,7 @@ git remote -v
 git remote add origin https://github.com/FKX1213/test.git
 ```
 
-![image-20241022103321743](imgs/02_Github/image-20241022103321743.png)
+![image-20241022103321743](./imgs/02_Github/image-20241022103321743.png)
 
 
 
@@ -42,17 +42,17 @@ git remote add origin https://github.com/FKX1213/test.git
 
 ### 3.1.commit
 
-![image-20241022103421095](imgs/02_Github/image-20241022103421095.png)
+![image-20241022103421095](./imgs/02_Github/image-20241022103421095.png)
 
-![image-20241022103507568](imgs/02_Github/image-20241022103507568.png)
+![image-20241022103507568](./imgs/02_Github/image-20241022103507568.png)
 
 ### 3.2.push
 
-![image-20241022103542250](imgs/02_Github/image-20241022103542250.png)
+![image-20241022103542250](./imgs/02_Github/image-20241022103542250.png)
 
-![image-20241022103554381](imgs/02_Github/image-20241022103554381.png)
+![image-20241022103554381](./imgs/02_Github/image-20241022103554381.png)
 
-![image-20241022103605923](imgs/02_Github/image-20241022103605923.png)
+![image-20241022103605923](./imgs/02_Github/image-20241022103605923.png)
 
 至此，push 成功。
 
@@ -114,6 +114,6 @@ C:\Windows\System32\drivers\etc
 git config --global -l
 ```
 
-![image-20241022104220695](imgs/02_Github/image-20241022104220695.png)
+![image-20241022104220695](./imgs/02_Github/image-20241022104220695.png)
 
 之后，就可以正常使用了。

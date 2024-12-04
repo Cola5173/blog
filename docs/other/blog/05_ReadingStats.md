@@ -83,4 +83,4 @@
 
 即可开箱使用咯，成果展示：
 
-<img src="imgs/05_ReadingStats/img.png" alt="成果展示" style="display: block; margin: 0 auto; zoom: 100%">
+<img src="./imgs/05_ReadingStats/img.png" alt="成果展示" style="display: block; margin: 0 auto; zoom: 100%">
