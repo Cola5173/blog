@@ -64,6 +64,15 @@ export function sidebar() {
                 ],
                 collapsed: true,
             },
+            {
+                text: "SpringCloudAlibaba",
+                base: "/backend/springcloudAlibaba/",
+                items: [
+                    {text: "SpringCloudAlibaba", link: "01_springcloudAlibaba.md"},
+                    {text: "Nacos", link: "Nacos.md"},
+                ],
+                collapsed: true,
+            },
         ],
         // 力扣
         "/leetcode/": [
