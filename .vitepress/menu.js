@@ -14,9 +14,10 @@ export function sidebar() {
                     {text: "JavaSE（三）面向对象基础篇", link: "JavaSE03.md"},
                     {text: "JavaSE（四）面向对象高级篇", link: "JavaSE04.md"},
                     {text: "JavaSE（五）泛型程序设计", link: "JavaSE05.md"},
+                    {text: "JavaSE（六）集合类与IO", link: "JavaSE06.md"},
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "工具类",
@@ -153,6 +154,7 @@ export function sidebar() {
                 text: "股票",
                 base: "/other/stock/",
                 items: [
+                    {text: "趋势交易", link: "TrendTrading.md"},
                     {text: "股票基础常识", link: "Basics.md"},
                 ],
                 collapsed: true,

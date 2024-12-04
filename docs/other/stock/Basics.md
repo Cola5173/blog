@@ -112,4 +112,3 @@ A股的交易时间，是每周一到周五，法定节假日除外：
 <img src="./imgs/Basics/img_2.png" alt="下行趋势" style="display: block; margin: 0 auto; zoom: 50%">
 
 做趋势不预测，什么时候突破关键位，什么时候Buy。
-
