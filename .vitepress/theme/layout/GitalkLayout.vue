@@ -1,5 +1,9 @@
 <template>
   <Layout>
+    <template #doc-before>
+      <!-- 显示字数和阅读时间的组件 -->
+      <reading-stats/>
+    </template>
     <template #doc-after>
       <div v-if="initGitalkStep" id="gitalk-container"></div>
     </template>
@@ -8,13 +12,14 @@
 
 <script lang="ts" setup>
 import md5 from "md5"
-import { useRoute } from 'vitepress'
+import {useRoute} from 'vitepress'
 import Theme from 'vitepress/theme'
-import { ref, watch, onMounted, nextTick } from 'vue'
+import {ref, watch, onMounted, nextTick} from 'vue'
 import Gitalk from 'gitalk'
 import "gitalk/dist/gitalk.css"
+import ReadingStats from "../../components/ReadingStats.vue";
 
-const { Layout } = Theme
+const {Layout} = Theme
 const route = useRoute()
 // 当前加载状态
 // 0 DOM 中无元素，此时调用应将元素插入到 DOM 中，等下个 step 再加载
@@ -49,7 +54,7 @@ const initGitalk = () => {
     // 客户端密钥 <==== 按你的实际情况修改 ====>
     clientSecret: '7c408950cfa3ba7e83947a4e902226227b8a811e',
     // Github 账号 <==== 按你的实际情况修改 ====>
-    admin: [ 'FKX1213' ],
+    admin: ['FKX1213'],
     // 创建 Issue 时，为 Issue 增加的标签
     // labels: [ 'GitTalk' ],
     // 如果 Issue 不存在，且登陆的是管理员账号，是否显示创建 Issue 按钮
