@@ -406,13 +406,13 @@ Java stack information for the threads listed above:
         at com.xxx.javase.chapter07.Deadlock.lambda$method01$0(Deadlock.java:23)
         - waiting to lock <0x00000004e8093a70> (a java.lang.Object)
         - locked <0x00000004e8093a60> (a java.lang.Object)
-        at com.fkx.javase.chapter07.Deadlock$$Lambda$14/0x0000000800c01200.run(Unknown Source)
+        at com.xx.javase.chapter07.Deadlock$$Lambda$14/0x0000000800c01200.run(Unknown Source)
         at java.lang.Thread.run(java.base@17.0.4.1/Thread.java:833)
 "t2":
         at com.xxx.javase.chapter07.Deadlock.lambda$method01$1(Deadlock.java:37)
         - waiting to lock <0x00000004e8093a60> (a java.lang.Object)
         - locked <0x00000004e8093a70> (a java.lang.Object)
-        at com.fkx.javase.chapter07.Deadlock$$Lambda$15/0x0000000800c01418.run(Unknown Source)
+        at com.xx.javase.chapter07.Deadlock$$Lambda$15/0x0000000800c01418.run(Unknown Source)
         at java.lang.Thread.run(java.base@17.0.4.1/Thread.java:833)
 
 Found 1 deadlock.
@@ -963,4 +963,241 @@ public static void m4() {
 }
 ````
 
-### 7.2.4.创建类对象
+### 7.2.4.创建类实例
+
+可以通过Class对象来创建对象、调用方法、修改变量，使用 `newInstance()` 来创建对应类型的实例，返回泛型T，注意它会抛出
+`InstantiationException` 和 `IllegalAccessException` 异常：
+
+````java
+public static void m1() throws InstantiationException, IllegalAccessException {
+    Class<Student> clazz = Student.class;
+    Student student = clazz.newInstance();
+    student.test();
+}
+
+static class Student {
+
+    public Student() {
+    }
+    
+    public void test() {
+        System.out.println("萨日朗");
+    }
+}
+````
+
+- 当类默认的构造方法被带参构造覆盖时，会出现 `InstantiationException` 异常，因为 `newInstance()` 只适用于默认无参构造
+- 当默认无参构造的权限不是public时，会出现 `IllegalAccessException` 异常，表示无权去调用默认构造方法
+
+在JDK9之后，不再推荐使用 `newInstance()` ，通过获取类的构造方法来创建对象实例，会更加合理。使用 `getConstructor()`
+来获取类的构造方法：
+
+````java
+public static void m2() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Class<Student> clazz = Student.class;
+    Student student = clazz.getConstructor(String.class).newInstance("what's up");
+    student.test();
+}
+````
+
+但是当访问权限不足时，会无法找到此构造方法。使用 `getDeclaredConstructor()` 方法可以找到类中的非public构造方法（这意味着，反射可以无视权限修饰符访问类的内容）：
+
+````java
+public static void m3() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Class<Student> clazz = Student.class;
+    Constructor<Student> constructor = clazz.getDeclaredConstructor(String.class);
+    //修改访问权限
+    constructor.setAccessible(true);
+    Student student = constructor.newInstance("what's up");
+    student.test();
+}
+````
+
+### 7.2.5.调用类方法
+
+可以通过反射来调用类的方法（本质上还是类的实例进行调用）只是利用反射机制实现了方法的调用，调用 `getMethod()`
+方法，可以获取到类中所有声明为public的方法，得到一个 `Method` 对象，通过 Method 对象的 `invoke()`
+方法（返回值就是方法的返回值，因为这里是void，返回值为null）来调用已经获取到的方法，注意传参：
+
+````java
+public class Student {
+    public void test(String str) {
+        System.out.println("萨日朗" + str);
+    }
+}
+
+static void m1() throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    Class<?> clazz = Class.forName("com.xx.javase.chapter07.Student");
+    Object instance = clazz.newInstance();   //创建出学生对象
+    Method method = clazz.getMethod("test", String.class);   //通过方法名和形参类型获取类中的方法
+
+    method.invoke(instance, "what's up");   //通过Method对象的invoke方法来调用方法
+}
+````
+
+:::warning 注意：
+利用反射之后，在一个对象从构造到方法调用，没有任何一处需要引用到对象的实际类型，也没有导入Student类，整个过程都是反射在代替进行操作，使得整个过程被模糊了，过多的使用反射，会极大地降低后期维护性。
+:::
+
+同构造方法一样，当出现非public方法时，我们可以通过反射来无视权限修饰符，获取非public方法并调用，将test()方法的权限修饰符改为private：
+
+````java
+static void m2() throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    Class<?> clazz = Class.forName("com.xx.javase.chapter07.Student");
+    Object instance = clazz.newInstance();   //创建出学生对象
+    Method method = clazz.getDeclaredMethod("test", String.class);   //通过方法名和形参类型获取类中的方法
+    method.setAccessible(true);
+
+    method.invoke(instance, "what's up");   //通过Method对象的invoke方法来调用方法
+}
+````
+
+Method 和 Constructor 都和 Class一样，存储了方法的信息，包括方法的形式参数列表，返回值，方法的名称等内容，可以直接通过 Method
+对象来获取这些信息：
+
+````java
+static void m3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    Class<?> clazz = Class.forName("com.xx.javase.chapter07.Student");
+    Method method = clazz.getDeclaredMethod("test", String.class);   //通过方法名和形参类型获取类中的方法
+
+    System.out.println(method.getName());   //获取方法名称
+    System.out.println(method.getReturnType());   //获取返回值类型
+}
+````
+
+当方法的参数为可变参数时：
+
+````java
+Method method = clazz.getDeclaredMethod("test", String[].class);
+````
+
+反射非常强大，尤其是越权访问，一定要谨慎使用，将某个方法设置为private一定有理由的，如果实在是需要使用定义为private的方法，就必须确保这样做是安全的，在没有了解别人代码的整个过程就强行越权访问，可能会出现无法预知的错误。
+
+### 7.2.6.修改类的属性
+
+可以通过反射访问一个类中定义的成员字段也可以修改一个类的对象中的成员字段值：
+
+````java
+public class Student {
+
+    public int i = 1;
+
+    public void test() {
+        System.out.println("萨日朗 " + i);
+    }
+}
+
+public static void m1() throws ReflectiveOperationException {
+    Class<?> clazz = Class.forName("com.xx.javase.chapter07.Student");
+    Object instance = clazz.newInstance();
+
+    Field field = clazz.getField("i");   //获取类的成员字段i
+    field.set(instance, 100);   //将类实例instance的成员字段i设置为100
+
+    Method method = clazz.getMethod("test");
+    method.invoke(instance);// 萨日朗 100
+}
+````
+
+当访问private字段时，同样可以按照上面的操作进行越权访问：
+
+````java
+public static void main(String[] args) throws ReflectiveOperationException {
+    Class<?> clazz = Class.forName("com.xx.javase.chapter07.Student");
+    Object instance = clazz.newInstance();
+
+    Field field = clazz.getDeclaredField("i");   //获取类的成员字段i
+    field.setAccessible(true);
+    field.set(instance, 100);   //将类实例instance的成员字段i设置为100
+
+    Method method = clazz.getMethod("test");
+    method.invoke(instance);
+}
+````
+
+反射几乎可以把一个类的老底都给扒出来，任何属性，任何内容，都可以被反射修改，无论权限修饰符是什么。甚至通过反射可以直接将final修饰符直接去除，去随意修改内容：
+
+````java
+private final int i = 10;
+
+public static void main(String[] args) throws ReflectiveOperationException {
+    Integer i = 10;
+
+    Field field = Integer.class.getDeclaredField("value");
+
+    //这里要获取Field类的modifiers字段进行修改
+    Field modifiersField = Field.class.getDeclaredField("modifiers");  
+    modifiersField.setAccessible(true);
+    //去除final标记
+    modifiersField.setInt(field,field.getModifiers()&~Modifier.FINAL);  
+
+    field.setAccessible(true);
+    field.set(i, 100);   //强行设置值
+
+    System.out.println(i);
+}
+````
+
+### 7.2.7.类加载器
+
+**思考：** 既然Class对象和加载的类唯一对应，那如果手动创建一个与JDK包名一样，同时类名也保持一致，JVM会加载这个类吗？
+
+````java
+package java.lang;
+
+public class String {    //JDK提供的String类也是
+    public static void main(String[] args) {
+        System.out.println("我姓🐴，我叫🐴nb");
+    }
+}
+````
+
+运行，报错：
+
+````java
+错误: 在类 java.lang.String 中找不到 main 方法, 请将 main 方法定义为:
+  public static void main(String[] args)
+否则 JavaFX 应用程序类必须扩展javafx.application.Application
+````
+
+这是由于 `ClassLoader` 的**双亲委派机制**在保护Java程序的正常运行：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/10/04/5p6jdXDA8VtCEfN.png" alt="双亲委派机制">
+
+- 类最开始是由 `BootstarpClassLoader` 进行加载，加载JDK提供的类。
+- 自己编写的类是由 `AppClassLoader` 加载的，只有 `BootstarpClassLoader` 都没有加载的类，才会让 `AppClassLoader` 来加载
+- 因此自己编写的同名包同名类不会被加载，而实际要去启动的是真正的String类，也就自然找不到main方法了
+
+## 7.3.注解
+
+注解（Annotation）是 Java
+编程语言中的一种元数据机制，它允许程序员在代码中添加一些额外的信息，这些信息可以在编译时、类加载时或运行时被读取并用于各种处理。注解本身不会直接影响程序的逻辑，但它们可以被编译器或运行时环境使用，从而影响程序的行为。
+
+### 7.3.1.预设注解
+
+JDK 预设了以下注解，作用于代码：
+
+- `@Override` - 检查（仅仅是检查，不保留到运行时）该方法是否是重写方法。如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误
+- `@Deprecated` - 标记过时方法。如果使用该方法，会报编译警告
+- `@SuppressWarnings` - 指示编译器去忽略注解中声明的警告（仅仅编译器阶段，不保留到运行时）
+- `@FunctionalInterface` - Java 8 开始支持，标识一个匿名函数或函数式接口
+- `@SafeVarargs` - Java 7 开始支持，忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告
+
+### 7.3.2.元注解
+
+元注解是作用于注解上的注解，用于我们编写自定义的注解：
+
+- `@Retention` - 标识这个注解怎么保存，是只在代码中，还是编入class文件中，或者是在运行时可以通过反射访问
+- `@Documented` - 标记这些注解是否包含在用户文档中
+- `@Target` - 标记这个注解应该是哪种 Java 成员
+- `@Inherited` - 标记这个注解是继承于哪个注解类(默认 注解并没有继承于任何子类)
+- `@Repeatable` - Java 8 开始支持，标识某注解可以在同一个声明上使用多次
+
+比如 `@Override` ：
+
+````java
+@Target(ElementType.METHOD)//只能作用于方法上
+@Retention(RetentionPolicy.SOURCE)//注解的生命周期仅限于源码阶段，在编译时，这个注解会被丢弃，不会被保留在字节码中，也不能在运行时通过反射获取到
+public @interface Override {
+}
+````
