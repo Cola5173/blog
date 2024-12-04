@@ -69,7 +69,7 @@ export function sidebar() {
                 base: "/backend/springcloudAlibaba/",
                 items: [
                     {text: "SpringCloudAlibaba", link: "01_springcloudAlibaba.md"},
-                    {text: "Nacos", link: "Nacos.md"},
+                    {text: "Nacos", link: "02_Nacos.md"},
                 ],
                 collapsed: true,
             },
