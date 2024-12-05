@@ -695,13 +695,5 @@ public static void main(String[] args) {
 **练习**：尝试一下用Reader和Writer来拷贝纯文本文件。
 
 ```java:line-numbers
-public static void main(String[] args) {
-    try(FileReader reader = new FileReader("test.txt")){
-        char[] str = new char[10];
-        reader.read(str);
-        System.out.println(str);   //直接读取到char[]中
-    }catch (IOException e){
-        e.printStackTrace();
-    }
-}
+
 ```

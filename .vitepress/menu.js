@@ -20,13 +20,10 @@ export function sidebar() {
                 collapsed: true,
             },
             {
-                text: "工具类",
-                base: "/backend/tools/",
+                text: "javaWeb",
+                base: "/backend/javaWeb/",
                 items: [
-                    {text: "Lombok", link: "Lombok.md"},
-                    {text: "Git", link: "Git.md"},
-                    {text: "EasyExcel", link: "EasyExcel.md"},
-                    {text: "Linux", link: "Linux.md"},
+                    {text: "JavaWeb（一）计算机网络基础", link: "javaWeb01.md"},
                 ],
                 collapsed: true,
             },
@@ -36,6 +33,17 @@ export function sidebar() {
                 items: [
                     {text: "Spring", link: "Spring.md"},
                     {text: "MyBatisPlus", link: "MyBatisPlus.md"},
+                ],
+                collapsed: true,
+            },
+            {
+                text: "工具类",
+                base: "/backend/tools/",
+                items: [
+                    {text: "Lombok", link: "Lombok.md"},
+                    {text: "Git", link: "Git.md"},
+                    {text: "EasyExcel", link: "EasyExcel.md"},
+                    {text: "Linux", link: "Linux.md"},
                 ],
                 collapsed: true,
             },

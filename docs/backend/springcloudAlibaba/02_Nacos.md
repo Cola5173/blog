@@ -90,10 +90,15 @@ startup.cmd -m standalone
 访问地址为，无需用户名和密码，即可使用：
 
 ````txt
-http://10.40.160.231:8848/nacos/index.html 
+http://xx.xx.xxx.xxx:8848/nacos/index.html 
 ````
 
 至此，Nacos的安装与部署完成。
 
 ## 3.服务注册与发现
 
+要想实现基于 Nacos 的服务与发现，需要引入相关的依赖：
+
+````xml
+
+````
