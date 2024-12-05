@@ -32,7 +32,7 @@ export function sidebar() {
                 base: "/backend/SSM/",
                 items: [
                     {text: "Spring", link: "Spring.md"},
-                    {text: "MyBatisPlus", link: "MyBatisPlus.md"},
+                    {text: "MybatisPlus", link: "MybatisPlus.md"},
                 ],
                 collapsed: true,
             },
@@ -60,7 +60,7 @@ export function sidebar() {
                 text: "数据库",
                 base: "/backend/database/",
                 items: [
-                    // {text: "MyBatisPlus", link: "MyBatisPlus.md"}
+                    // {text: "MyBatisPlus", link: "MybatisPlus.md"}
                 ],
                 collapsed: true,
             },
