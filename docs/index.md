@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: 关于我
-      link: /other/mixed/aboutMe
+      link: /other/aboutMe
     - theme: alt
       text: B站大学
       link: https://www.bilibili.com

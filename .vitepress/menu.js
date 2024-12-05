@@ -17,7 +17,7 @@ export function sidebar() {
                     {text: "JavaSE（六）集合类与IO", link: "JavaSE06.md"},
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "工具类",
@@ -129,10 +129,9 @@ export function sidebar() {
         // 其它
         "/other/": [
             {
-                text: "其它",
+                text: "收藏",
                 base: "/other/mixed/",
                 items: [
-                    {text: "关于我", link: "aboutMe.md"},
                     {text: "文档小工具", link: "icons.md"},
                     {text: "收藏网址", link: "myCollections.md"},
                 ],
@@ -191,7 +190,7 @@ export function nav() {
         },
         {
             text: "🤖其它",
-            link: "/other/mixed/aboutMe.md",
+            link: "/other/aboutMe.md",
             activeMatch: "/other/",
         }
     ];
