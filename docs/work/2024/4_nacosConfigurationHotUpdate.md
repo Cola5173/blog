@@ -15,7 +15,7 @@
 
 当Nacos服务器上的配置发生变化时，它会自动推送给已订阅该配置的客户端，客户端收到更新后，会触发相应的处理逻辑来应用新配置，从而达到热更新的效果。
 
-<img src="https://ask.qcloudimg.com/http-save/yehe-10074098/a169d0dbd3ca7c4addf248510dfc25ae.jpg" alt="nacos配置中心">
+<img src="https://cdn.nlark.com/lark/0/2018/png/15914/1542119181336-b6dc0fc1-ed46-43a7-9e5f-68c9ca344d60.png" alt="nacos配置中心">
 
 ## 具体实现
 
