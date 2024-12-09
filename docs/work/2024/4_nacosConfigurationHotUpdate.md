@@ -32,7 +32,7 @@
 ````yml:line-numbers
 xxx:
   nacos:
-    server-addr: 172.30.34.73:8846
+    server-addr: 172.xx.xx.xx:8848
     username: nacos
     password: xxxx
     config-namespace: xxx
@@ -41,7 +41,7 @@ xxx:
 
 spring:
   application:
-    name: st-logplatform-service
+    name: xxxxxxxxxx
   cloud:
     nacos:
       config:
