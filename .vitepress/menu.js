@@ -108,6 +108,7 @@ export function sidebar() {
                 text: "2024",
                 base: "/work/2024/",
                 items: [
+                    {text: "Nginx日志切割", link: "5_nginxLogCut.md"},
                     {text: "Nacos配置文件热更新", link: "4_nacosConfigurationHotUpdate.md"},
                     {text: "Vector", link: "Vector.md"},
                     {text: "问题修复记录", link: "bugs.md"},
