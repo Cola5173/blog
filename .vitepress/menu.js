@@ -26,7 +26,7 @@ export function sidebar() {
                 items: [
                     {text: "JavaWeb（一）计算机网络基础", link: "javaWeb01.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "SSM",
