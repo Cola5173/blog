@@ -16,8 +16,9 @@ export function sidebar() {
                     {text: "JavaSE（五）泛型程序设计", link: "JavaSE05.md"},
                     {text: "JavaSE（六）集合类与IO", link: "JavaSE06.md"},
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
+                    {text: "Java新特性介绍", link: "JavaSE08.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "javaWeb",
