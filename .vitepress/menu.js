@@ -4,10 +4,10 @@
 export function sidebar() {
     return {
         // 后端开发
-        "/backend/": [
+        "/java/": [
             {
                 text: "javaSE",
-                base: "/backend/javaSE/",
+                base: "/java/javaSE/",
                 items: [
                     {text: "JavaSE（一）走进Java语言", link: "JavaSE01.md"},
                     {text: "JavaSE（二）面向过程编程", link: "JavaSE02.md"},
@@ -21,7 +21,7 @@ export function sidebar() {
             },
             {
                 text: "javaWeb",
-                base: "/backend/javaWeb/",
+                base: "/java/javaWeb/",
                 items: [
                     {text: "JavaWeb（一）计算机网络基础", link: "javaWeb01.md"},
                 ],
@@ -29,7 +29,7 @@ export function sidebar() {
             },
             {
                 text: "SSM",
-                base: "/backend/SSM/",
+                base: "/java/SSM/",
                 items: [
                     {text: "Spring", link: "Spring.md"},
                     {text: "MybatisPlus", link: "MybatisPlus.md"},
@@ -38,7 +38,7 @@ export function sidebar() {
             },
             {
                 text: "工具类",
-                base: "/backend/tools/",
+                base: "/java/tools/",
                 items: [
                     {text: "Lombok", link: "Lombok.md"},
                     {text: "Git", link: "Git.md"},
@@ -49,7 +49,7 @@ export function sidebar() {
             },
             {
                 text: "并发编程",
-                base: "/backend/concurrent/",
+                base: "/java/concurrent/",
                 items: [
                     {text: "JUC", link: "JUC.md"},
                     {text: "CompletableFuture", link: "CompletableFuture.md"},
@@ -57,31 +57,37 @@ export function sidebar() {
                 collapsed: true,
             },
             {
-                text: "数据库",
-                base: "/backend/database/",
-                items: [
-                    // {text: "MyBatisPlus", link: "MybatisPlus.md"}
-                ],
-                collapsed: true,
-            },
-            {
-                text: "消息队列",
-                base: "/backend/mq/",
-                items: [
-                    {text: "消息队列", link: "MQ.md"},
-                    {text: "Kafka", link: "Kafka.md"},
-                ],
-                collapsed: true,
-            },
-            {
                 text: "SpringCloudAlibaba",
-                base: "/backend/springcloudAlibaba/",
+                base: "/java/springcloudAlibaba/",
                 items: [
                     {text: "SpringCloudAlibaba", link: "01_springcloudAlibaba.md"},
                     {text: "Nacos", link: "02_Nacos.md"},
                 ],
                 collapsed: true,
             },
+        ],
+        // golang
+        "/golang/": [
+            {
+                text: "基础学习",
+                base: "/golang/2024",
+                items: [
+                    {text: "还没写", link: "还没写.md"}
+                ],
+                collapsed: true,
+            }
+        ],
+        // 中间件
+        "/middleware/": [
+            {
+                text: "消息队列",
+                base: "/middleware/mq",
+                items: [
+                    {text: "消息队列", link: "MQ.md"},
+                    {text: "Kafka", link: "Kafka.md"},
+                ],
+                collapsed: true,
+            }
         ],
         // 力扣
         "/leetcode/": [
@@ -124,17 +130,6 @@ export function sidebar() {
                 ],
                 collapsed: true,
             },
-        ],
-        // 生活随记
-        "/life/": [
-            {
-                text: "2024",
-                base: "/life/2024",
-                items: [
-                    {text: "还没写", link: "还没写.md"}
-                ],
-                collapsed: true,
-            }
         ],
         // 其它
         "/other/": [
@@ -179,9 +174,19 @@ export function nav() {
     return [
         {text: "首页", link: "/"},
         {
-            text: "⌨️后端开发",
-            link: "/backend/backendIndex.md",
-            activeMatch: "/backend/"
+            text: "Java",
+            link: "/java/javaIndex.md",
+            activeMatch: "/java/"
+        },
+        {
+            text: "Golang",
+            link: "/golang/golangIndex.md",
+            activeMatch: "/golang/"
+        },
+        {
+            text: "🛰️中间件",
+            link: "/middleware/middlewareIndex.md",
+            activeMatch: "/middleware/"
         },
         {
             text: "🔢力扣",
@@ -192,11 +197,6 @@ export function nav() {
             text: "👩🏻‍💻工作",
             link: "/work/工作首页.md",
             activeMatch: "/work/",
-        },
-        {
-            text: "🍵生活随记",
-            link: `/life/Life.md`,
-            activeMatch: "/life/",
         },
         {
             text: "🤖其它",
