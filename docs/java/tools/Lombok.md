@@ -1,10 +1,11 @@
 # Lombok极速上手
 
-> [!TIP]
->
-> [Lombok 代码简化框架 极速上手 已完结（IDEA 2024 最新版）4K蓝光画质+杜比音效 从入门到上瘾_](https://www.bilibili.com/video/BV1gb421J7ok/?spm_id_from=333.999.0.0&vd_source=4bafaafda0bd3c09e8f2fee0406b0edb)
->
-> [柏码知识库 | Lombok 极速上手 (itbaima.cn)](https://www.itbaima.cn/document/iqbc2haub31bwqtz?segment=1#doc1-Lombok极速上手)
+:::details 参考资料：
+
+- [Lombok 代码简化框架 极速上手 已完结（IDEA 2024 最新版）4K蓝光画质+杜比音效 从入门到上瘾_](https://www.bilibili.com/video/BV1gb421J7ok/?spm_id_from=333.999.0.0&vd_source=4bafaafda0bd3c09e8f2fee0406b0edb)
+- [柏码知识库 | Lombok 极速上手 (itbaima.cn)](https://www.itbaima.cn/document/iqbc2haub31bwqtz?segment=1#doc1-Lombok极速上手)
+
+:::
 
 我们发现，在以往编写项目时，尤其是在类进行类的内部成员字段封装时，需要编写大量的get/set方法，如果字段名称发生改变，又要挨个进行修改，甚至当字段变得很多时，构造方法的编写会非常的麻烦：
 
@@ -23,7 +24,8 @@ public class Account {
 
 那么有没有一种更加完美的方案来处理这种问题呢？
 
-通过使用Lombok（小辣椒）就可以做到，他就是专门用于简化 Java 编程中的样板代码，通过注解的方式，能够自动生成常见的代码，比如构造函数、getter和setter方法、toString方法，equals和hashCode方法等，使得开发者能够更专注于业务逻辑，而不必重复编写冗长的代码。
+通过使用Lombok（小辣椒）就可以做到，他就是专门用于简化 Java
+编程中的样板代码，通过注解的方式，能够自动生成常见的代码，比如构造函数、getter和setter方法、toString方法，equals和hashCode方法等，使得开发者能够更专注于业务逻辑，而不必重复编写冗长的代码。
 
 [官网地址—Project Lombok](https://projectlombok.org/)
 
@@ -32,12 +34,13 @@ public class Account {
 使用 maven 构造项目，首先需要导入 Lombok 的依赖：
 
 ```xml
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
-            <scope>provided</scope>
-        </dependency>
+
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.34</version>
+    <scope>provided</scope>
+</dependency>
 ```
 
 只需要在测试的实体类上，添加 @Data 注解：
@@ -55,7 +58,7 @@ public class Account {
 }
 ```
 
-接着测试一下，是否可以直接使用，@Data 会为我们的类自动生成 Getter  和 Setter 方法，我们可以直接调用：
+接着测试一下，是否可以直接使用，@Data 会为我们的类自动生成 Getter 和 Setter 方法，我们可以直接调用：
 
 ```java
 public class Main {
@@ -65,8 +68,6 @@ public class Main {
     }
 }
 ```
-
-
 
 ## 使用 Lombok
 
@@ -119,9 +120,11 @@ public class Account {
 }
 ```
 
-很方便，使用也很灵。但是注意它存在一定的命名规则，如果该字段名为 foo，则将其直接按照字段名称命名为 getFoo，但是注意，如果字段的类型为 boolean，则会命名为 isFoo，这是比较特殊的地方。
+很方便，使用也很灵。但是注意它存在一定的命名规则，如果该字段名为 foo，则将其直接按照字段名称命名为 getFoo，但是注意，如果字段的类型为
+boolean，则会命名为 isFoo，这是比较特殊的地方。
 
-接下来看 Getter 注解的其它属性，首先是访问权限，默认情况下为 public，但是有时候可能我们只希望生成一个 private 的 get 方法，此时我们可以对其进行修改：
+接下来看 Getter 注解的其它属性，首先是访问权限，默认情况下为 public，但是有时候可能我们只希望生成一个 private 的 get
+方法，此时我们可以对其进行修改：
 
 - PUBLIC - 对应public关键字
 
@@ -153,7 +156,8 @@ public class Account {
 }
 ```
 
-我们接着来看它的 `onMethod` 属性，这个属性用于添加一些额外的注解到生成的方法上，比如我们要为Getter方法添加一个额外的 `@Deprecated` 表示它不推荐使用，那么：
+我们接着来看它的 `onMethod` 属性，这个属性用于添加一些额外的注解到生成的方法上，比如我们要为Getter方法添加一个额外的
+`@Deprecated` 表示它不推荐使用，那么：
 
 ```java
 @Getter
@@ -240,13 +244,12 @@ public class Account {
 
 Lombok 提供了一个 `@Accessors` 注解，用于配置 lombok 如何生成和查找 getters 和 setters。
 
-
-
 ### 构造方法
 
 [柏码知识库 | Lombok 极速上手 (itbaima.cn)](https://www.itbaima.cn/document/iqbc2haub31bwqtz?segment=1#doc5-构造方法相关)
 
-Lombok 也可以为我们自动生成对应的构造方法，它提供了三个用于处理构造方法的注解，首先是最简单的 `@AllArgsConstructor` ，它用于为类中所有的字段生成一个构造方法：
+Lombok 也可以为我们自动生成对应的构造方法，它提供了三个用于处理构造方法的注解，首先是最简单的 `@AllArgsConstructor`
+，它用于为类中所有的字段生成一个构造方法：
 
 ```java
 @AllArgsConstructor// 只能添加到类上
@@ -273,7 +276,7 @@ public class Account {
 }
 ```
 
- 这个参数包含一些属性：
+这个参数包含一些属性：
 
 ```java
 @Target(ElementType.TYPE)
@@ -291,7 +294,8 @@ public @interface AllArgsConstructor {
 }
 ```
 
-这里的 `List.of()` 其实就是一种静态构造方法，通常用于快速构造对应的类对象，我们也可以像这样去编写，只需要将`staticName`设置一个名字即可：
+这里的 `List.of()` 其实就是一种静态构造方法，通常用于快速构造对应的类对象，我们也可以像这样去编写，只需要将`staticName`
+设置一个名字即可：
 
 ```java
 @AllArgsConstructor(staticName = "with")
@@ -341,7 +345,8 @@ public class Account {
 }
 ```
 
-构造方法的最后一个注解是 `@RequiredArgsConstructor` 用于生成那些需要初始化的参数的构造方法，也就是类中的哪些字段为 final ，只针对这些字段生成对应的构造方法，比如：
+构造方法的最后一个注解是 `@RequiredArgsConstructor` 用于生成那些需要初始化的参数的构造方法，也就是类中的哪些字段为 final
+，只针对这些字段生成对应的构造方法，比如：
 
 ```java
 @RequiredArgsConstructor
@@ -364,8 +369,6 @@ public class Account {
     }
 }
 ```
-
-
 
 ### 打印对象
 
@@ -390,7 +393,7 @@ public class Account {
     }
 ```
 
- `@ToString` 注解的参数如下：
+`@ToString` 注解的参数如下：
 
 ```java
 @Target(ElementType.TYPE)
@@ -436,8 +439,6 @@ public @interface ToString {
 }
 ```
 
-
-
 ### 比较
 
 Lombok 的 `@EqualsAndHashCode` 注解可以为我们自动生成类属性的比较方法以及对应的HashCode计算：
@@ -476,8 +477,6 @@ public class Account {
 
 该注解中的一些属性和 `@ToString` 注解差不多，使用的时候再具体看吧。
 
-
-
 ### 建造者
 
 可以采用 `@Builder` 注解将一个类快速的转换为建造者模式：
@@ -504,8 +503,6 @@ public static void main(String[] args) {
     System.out.println(account);
 }
 ```
-
-
 
 ### 资源释放
 
@@ -553,8 +550,6 @@ public static void main(String[] args) throws IOException {
     }
 ```
 
-
-
 ### 异常处理
 
 在很多需要处理异常的情形下，导致很多地方都需要写 throws 去抛出异常，lombok 提供了 `@SneakyThrows` 注解抛出异常：
@@ -595,8 +590,6 @@ public static void main(String[] args) throws IOException {
     }
 ```
 
-
-
 ### 非空判断
 
 lombok 提供了 `@NonNUll` 注解去进行非空的判断：
@@ -620,8 +613,6 @@ public static void test(@NonNull String text) {
 ```
 
 除了方法的形式参数外，`@NonNull` 也可以添加到局部变量上 ，但是只会有一个警告效果。
-
-
 
 ### 锁
 
@@ -671,8 +662,6 @@ public void test() {
 - 静态方法：统一使用一个名称为 `$LOCK` 的锁作为类锁。
 
 除了 `@Synchronized `之外，Lombok也为我们提供了一个JUC版本，它采用ReentrantLock作为锁，注解名称为 `@Locked`：
-
-
 
 ### 日志
 

@@ -25,6 +25,7 @@ export function sidebar() {
                 base: "/java/javaWeb/",
                 items: [
                     {text: "JavaWeb（一）计算机网络基础", link: "javaWeb01.md"},
+                    {text: "JavaWeb（二）前端基础", link: "javaWeb02.md"},
                 ],
                 collapsed: false,
             },
