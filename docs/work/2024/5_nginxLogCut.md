@@ -163,9 +163,9 @@ find $LOG_DIR -name "error_*.log" -mtime +7 -delete
 
 ### 2、环境准备
 
-以下操作均为在 `172.29.247.156` 环境下，nginx 目录结构为：
+nginx 目录结构为：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/5_nginxLogCut/image-20241217102439516.png" alt="nginx 目录结构">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/5_01.png" alt="nginx 目录结构">
 
 ### 3、实践流程
 
@@ -189,10 +189,6 @@ http {
 ```shell
 # 启动
 /data/nginx/nginxServer-1.15.9/sbin/nginx
-```
-
-```
-http://172.29.247.156/
 ```
 
 #### 3.2.配置 `logrotate`
@@ -269,7 +265,7 @@ vim /etc/logrotate.d/nginx
 
 手动测试 `logrotate` 是否按预期工作，测试前的环境：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/5_nginxLogCut/image-20241217110445393.png" alt="测试前的环境">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/5_02.png" alt="测试前的环境">
 
 使用以下命令来模拟日志轮转：
 
@@ -279,7 +275,7 @@ sudo logrotate -f /etc/logrotate.d/nginx
 
 这将强制执行一次日志轮转，检查 `/data/nginx/nginxServer-1.15.9/logs` 目录，查看是否已生成以日期为后缀的日志文件：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/5_nginxLogCut/image-20241217110516847.png" alt="结果">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/5_03.png" alt="结果">
 
 ### 4、定期执行
 

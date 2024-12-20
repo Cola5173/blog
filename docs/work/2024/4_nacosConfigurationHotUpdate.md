@@ -15,7 +15,7 @@
 
 当Nacos服务器上的配置发生变化时，它会自动推送给已订阅该配置的客户端，客户端收到更新后，会触发相应的处理逻辑来应用新配置，从而达到热更新的效果。
 
-<img src="https://cdn.nlark.com/lark/0/2018/png/15914/1542119181336-b6dc0fc1-ed46-43a7-9e5f-68c9ca344d60.png" alt="nacos配置中心">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/4_01.png" alt="nacos配置中心">
 
 ## 具体实现
 
@@ -23,7 +23,7 @@
 
 在对应的 `namespace` 下，创建需要进行配置文件热更新的配置文件：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/4_nacosConfigurationHotUpdate/01.png" alt="创建配置文件">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/4_02.png" alt="创建配置文件">
 
 ### 编写bootstrap.yml
 
@@ -89,17 +89,17 @@ public class LogExportConfig {
 
 启动项目，在日志中可以发现已成功监听对应的配置文件：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/4_nacosConfigurationHotUpdate/02.png" alt="监听成功">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/4_03.png" alt="监听成功">
 
 现在，只需验证是否可以热更新。
 
 在nacos控制台中，修改配置文件的某几项：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/4_nacosConfigurationHotUpdate/03.png" alt="修改配置文件">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/4_04.png" alt="修改配置文件">
 
 查看项目日志：
 
-<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/20204/4_nacosConfigurationHotUpdate/04.png" alt="成功更新">
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/work/2024/4_05.png" alt="成功更新">
 
 ## 问题
 
