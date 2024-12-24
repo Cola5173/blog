@@ -606,3 +606,173 @@ let f = function (str) {
 ````
 
 ### 3.4.数组和对象
+
+js 中的数组定义与 Java 不同，它更像是 Python 中的列表，数组中的每个元素并不需要是同样的类型：
+
+````js
+let arr = [1, "lbwnb", false, undefined, NaN]
+console.info(arr[1])
+````
+
+数组还可以动态扩容，如果尝试访问超出数组长度的元素，并不会出现错误，而是得到 `undefined` 。也可以使用 `push` 和 `pop`
+来实现栈操作：
+
+````js
+let arr = [1, "lbwnb", false, undefined, NaN]
+arr.push("bbb")
+console.info(arr.pop())
+console.info(arr)
+````
+
+js 中也能定义对象：
+
+````js
+let obj = new Object()
+let obj = {}
+````
+
+可以动态为其添加属性：
+
+````js
+let obj = {}
+obj.name = "伞兵一号"
+console.info(obj)
+````
+
+也可以给对象动态添加一个函数：
+
+````js
+let obj = {}
+obj.f = function () {
+    console.info("我是对象内部的函数")
+}
+
+obj.f()
+````
+
+可以在函数内使用 `this` 关键字来指定对象内的属性：
+
+````js
+let name = "我是外部变量"
+let obj = {}
+obj.name = "我是内部变量"
+obj.f = function () {
+    console.info("name属性为：" + this.name)
+}
+
+obj.f()
+````
+
+如果使用 lambda 表达式，那么 this 并不会指向对象。
+
+除了动态添加属性，也可以在一开始的时候指定对象内部的成员：
+
+````js
+let obj = {
+    name: "我是内部的变量",
+    f: function () {
+        console.info("name属性为：" + this.name)
+    }
+}
+
+obj.f()
+````
+
+如果有多行属性，需要在属性定义后添加一个 `,` 进行分割！
+
+### 3.5.js事件
+
+当我们点击一个页面中的按钮之后，希望能够进行登陆操作，或是执行一些 js 代码来实现某些功能，那么这时候，就需要用到事件。
+
+事件相当于一个通知，可以提前设定好事件发生时需要执行的内容，当事件发生时，就会执行预先设定好的 js 代码。
+
+事件有很多种类型，其中常用的有：
+
+- `onclick`：点击事件
+- `oninput`：内容输入事件
+- `onsubmit`：内容提交事件
+
+可以直接为一个元素添加对应事件的属性，比如 `oninput` 事件，可以直接在事件的值中编写 `js`
+代码，但是注意，只能使用单引号，因为双引号用于囊括整个值:
+
+````js
+<input type="password" oninput="console.info('正在输入文本')">
+````
+
+也可以单独编写一个函数，当事件发生时直接调用函数：
+
+````js
+function f() {
+    window.alert("你输入了一个字符")
+}
+````
+
+### 3.6.Document对象
+
+当网页被加载时，浏览器会创建页面的文档对象模型（`Document Object Model`），它将整个页面的所有元素全部映射为 js 对象，这样就可以在
+js 中操纵页面中的元素:
+
+<img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/JGkodEb31PMQ64A.gif" alt="document对象">
+
+通过 document 对象就能够快速获取当前页面中对应的元素，并且也可以快速获取元素中的一些属性:
+
+````js
+document.getElementById("pwd").value
+````
+
+可以结合事件，来进行密码长度的校验，密码长度小于6则不合法，不合法的密码，会让密码框边框变红，首先先来编写一个css样式：
+
+````css
+.illegal-pwd {
+    border: red 1px solid !important;
+    box-shadow: 0 0 5px red;
+}
+````
+
+来编写一下js代码，定义一个函数，此函数接受一个参数（元素本身的对象）检测输入的长度是否大于6，否则就将当前元素的class属性设定为css指定的class：
+
+````js
+function checkIllegal(e) {
+    if (e.value.length < 6) {
+        e.setAttribute("class", "illegal-pwd")
+    } else {
+        e.removeAttribute("class")
+    }
+}
+````
+
+最后将此函数绑定到 `oninput` 事件即可，注意传入了一个this，这里的this代表的是输入框元素本身：
+
+````html
+<input id="pwd" oninput="checkIllegal(this)" type="password">
+````
+
+在输入的时候，会自动检查密码是否合法。
+
+### 3.7.发送XHR请求
+
+通过使用 XMLHttpRequest 对象，来向服务器发送一个 HTTP 请求，下面是一个最简单的请求格式：
+
+````js
+let xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://www.baidu.com');
+xhr.send();
+````
+
+将其绑定到一个按钮上作为事件触发：
+
+````js
+function http() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://www.baidu.com');
+    xhr.send();
+}
+````
+
+````html
+<input id="button" type="button" onclick="http()">
+````
+
+可以在网络中查看发起的HTTP请求并且查看请求的响应结果，比如上面的请求，会返回百度这个页面的全部HTML代码。
+
+在浏览器得到页面响应后，会加载当前页面，如果当前页面还引用了其他资源文件，那么会继续向服务器发起请求，直到页面中所有的资源文件全部加载完成后，才会停止。
