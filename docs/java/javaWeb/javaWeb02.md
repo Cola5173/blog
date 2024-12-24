@@ -712,7 +712,7 @@ function f() {
 当网页被加载时，浏览器会创建页面的文档对象模型（`Document Object Model`），它将整个页面的所有元素全部映射为 js 对象，这样就可以在
 js 中操纵页面中的元素:
 
-<img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/JGkodEb31PMQ64A.gif" alt="document对象">
+<img src="https://oss.itbaima.cn/internal/markdown/2023/03/06/JGkodEb31PMQ64A.gif" alt="document对象" style="margin: auto">
 
 通过 document 对象就能够快速获取当前页面中对应的元素，并且也可以快速获取元素中的一些属性:
 
