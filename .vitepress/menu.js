@@ -75,7 +75,8 @@ export function sidebar() {
                 text: "8小时转职Golang工程师",
                 base: "/golang/golangSE/",
                 items: [
-                    {text: "golang环境安装", link: "golangSE01.md"}
+                    {text: "golang环境安装", link: "golangSE01.md"},
+                    {text: "golang", link: "golangSE02.md"}
                 ],
                 collapsed: false,
             }
