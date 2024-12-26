@@ -3,7 +3,7 @@
  * -------------------------------------------------------------------------- */
 export function sidebar() {
     return {
-        // 后端开发
+        // Java
         "/java/": [
             {
                 text: "javaSE",
@@ -71,12 +71,12 @@ export function sidebar() {
         // golang
         "/golang/": [
             {
-                text: "基础学习",
-                base: "/golang/2024",
+                text: "8小时转职Golang工程师",
+                base: "/golang/golangSE/",
                 items: [
-                    {text: "还没写", link: "还没写.md"}
+                    {text: "golang环境安装", link: "golangSE01.md"}
                 ],
-                collapsed: true,
+                collapsed: false,
             }
         ],
         // 中间件
