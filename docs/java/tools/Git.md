@@ -139,6 +139,9 @@ git config --local https.proxy http://127.0.0.1:1087
 # 设置项目级别的用户名和邮箱（这样提交代码，就不会使用全局配置的公司用户名和邮箱咯）：
 git config user.name "你的GitHub用户名"
 git config user.email "你的GitHub邮箱"
+
+# 删除远端的main分支
+git push origin --delete main
 ````
 
 ## 5.提交规范
