@@ -70,3 +70,19 @@ echo %GOROOT%
 ````
 
 至此，环境安装完毕。
+
+## go mod
+
+Go Modules 是 Go 语言从 1.11 版本开始引入的官方包管理方式，能够帮助你更加方便地管理依赖，并且支持项目脱离 GOPATH 进行开发。在 Go 1.16 之后，Go Modules 成为了官方推荐的做法。
+
+为什么推荐使用 Go Modules？
+
+- 脱离 GOPATH：Go Modules 不需要依赖 $GOPATH 目录结构，项目可以放在任何位置
+- 版本管理：go.mod 文件允许你明确指定项目的依赖版本，避免依赖版本冲突
+- 跨项目依赖：Go Modules 允许更好地处理跨项目依赖
+
+假设你在项目根目录创建了一个 Go Modules：
+
+````cmd
+go mod init modulesName
+````
