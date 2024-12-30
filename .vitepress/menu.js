@@ -78,6 +78,7 @@ export function sidebar() {
                     {text: "golang-（一）环境安装", link: "golangSE01.md"},
                     {text: "golang（二）语言特性", link: "golangSE02.md"},
                     {text: "golang（三）基本语法", link: "golangSE03.md"},
+                    {text: "golang（四）数据类型", link: "golangSE04.md"},
                 ],
                 collapsed: false,
             }
