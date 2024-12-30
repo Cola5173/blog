@@ -80,7 +80,7 @@ export function sidebar() {
                     {text: "golang（三）基本语法", link: "golangSE03.md"},
                     {text: "golang（四）数据类型", link: "golangSE04.md"},
                     {text: "golang（五）常量", link: "golangSE05.md"},
-                    {text: "golang（五）变量", link: "golangSE06.md"},
+                    {text: "golang（六）变量", link: "golangSE06.md"},
                 ],
                 collapsed: false,
             }
