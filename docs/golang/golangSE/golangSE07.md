@@ -167,3 +167,355 @@ func main() {
   }
 }
 ````
+
+## 2、条件控制
+
+在 Go 中，条件控制语句总共有三种 `if` ，`switch` ，`select`。
+
+`select` 相对前两者而言比较特殊，本节不会讲解，将会留到并发那一节再做介绍。
+
+### 2.1.if else
+
+if else 至多两个判断分支，语句格式如下：
+
+````go
+if expression {
+
+}
+````
+
+或者
+
+````go
+if expression {
+
+}else {
+
+}
+````
+
+`expression` 必须是一个布尔表达式，即结果要么为真要么为假，必须是一个布尔值：
+
+````go
+func main() {
+   a, b := 1, 2
+   if a > b {
+      b++
+   } else {
+      a++
+   }
+}
+````
+
+也可以把表达式写的更复杂些，必要时为了提高可读性，应当使用括号来显式的表示谁应该优先计算。
+
+````go
+func main() {
+   a, b := 1, 2
+    if a<<1%100+3 > b*100/20+6 { // (a<<1%100)+3 > (b*100/20)+6
+      b++
+   } else {
+      a++
+   }
+}
+````
+
+同时 `if` 语句也可以包含一些简单的语句：
+
+````go
+func main() {
+  if x := 1 + 1; x > 2 {
+    fmt.Println(x)
+  }
+}
+````
+
+### 2.2.else if
+
+`else if` 语句可以在 `if else` 的基础上创建更多的判断分支，语句格式如下：
+
+````go
+if expression1 {
+
+}else if expression2 {
+
+}else if expression3 {
+
+}else {
+
+}
+````
+
+在执行的过程中每一个表达式的判断是从左到右，整个if语句的判断是从上到下 。一个根据成绩打分的例子如下，第一种写法:
+
+````go
+func main() {
+   score := 90
+   var ans string
+   if score == 100 {
+      ans = "S"
+   } else if score >= 90 && score < 100 {
+      ans = "A"
+   } else if score >= 80 && score < 90 {
+      ans = "B"
+   } else if score >= 70 && score < 80 {
+      ans = "C"
+   } else if score >= 60 && score < 70 {
+      ans = "E"
+   } else if score >= 0 && score < 60 {
+      ans = "F"
+   } else {
+      ans = "nil"
+   }
+   fmt.Println(ans)
+}
+````
+
+第二种写法利用了if语句是从上到下的判断的前提，所以代码要更简洁些:
+
+````go
+func main() {
+  score := 90
+  var ans string
+  if score >= 0 && score < 60 {
+    ans = "F"
+  } else if score < 70 {
+    ans = "D"
+  } else if score < 80 {
+    ans = "C"
+  } else if score < 90 {
+    ans = "B"
+  } else if score < 100 {
+    ans = "A"
+  } else if score == 100 {
+    ans = "S"
+    }else {
+        ans = "nil"
+    }
+  fmt.Println(ans)
+}
+````
+
+### 2.3.switch
+
+`switch` 语句也是一种多分支的判断语句，语句格式如下：
+
+````go
+switch expr {
+  case case1:
+    statement1
+  case case2:
+    statement2
+  default:
+    default statement
+}
+````
+
+一个简单的例子如下：
+
+````go
+func main() {
+   str := "a"
+   switch str {
+   case "a":
+      str += "a"
+      str += "c"
+   case "b":
+      str += "bb"
+      str += "aaaa"
+   default: // 当所有case都不匹配后，就会执行default分支
+      str += "CCCC"
+   }
+   fmt.Println(str)
+}
+````
+
+还可以在表达式之前编写一些简单语句，例如声明新变量：
+
+````go
+func main() {
+  switch num := f(); { // 等价于 switch num := f(); true {
+  case num >= 0 && num <= 1:
+    num++
+  case num > 1:
+    num--
+    fallthrough
+  case num < 0:
+    num += num
+  }
+}
+
+func f() int {
+  return 1
+}
+````
+
+switch语句也可以没有入口处的表达式：
+
+````go
+func main() {
+   num := 2
+   switch { // 等价于 switch true {
+   case num >= 0 && num <= 1:
+      num++
+   case num > 1:
+      num--
+   case num < 0:
+      num *= num
+   }
+   fmt.Println(num)
+}
+````
+
+通过fallthrough关键字来继续执行相邻的下一个分支：
+
+````go
+func main() {
+   num := 2
+   switch {
+   case num >= 0 && num <= 1:
+      num++
+   case num > 1:
+      num--
+      fallthrough // 执行完该分支后，会继续执行下一个分支
+   case num < 0:
+      num += num
+   }
+   fmt.Println(num)
+}
+````
+
+### 2.4.label
+
+给一个代码块打上标签，可以是 `goto` ， `break` ， `continue` 的目标：
+
+````go
+func main() {
+  A:
+    a := 1
+  B:
+    b := 2
+}
+````
+
+### 2.5.goto
+
+`goto` 将控制权传递给在同一函数中对应标签的语句：
+
+````go
+func main() {
+   a := 1
+   if a == 1 {
+      goto A
+   } else {
+      fmt.Println("b")
+   }
+A:
+   fmt.Println("a")
+}
+````
+
+在实际应用中 `goto` 用的很少，跳来跳去的很降低代码可读性，性能消耗也是一个问题。
+
+## 3、循环控制
+
+在 Go 中，有仅有一种循环语句：`for` ，Go 抛弃了 `while` 语句，for 语句可以被当作 while 来使用。
+
+### 3.1.for
+
+语句格式如下：
+
+````go
+for init statement; expression; post statement {
+  execute statement
+}
+````
+
+当只保留循环条件时，就变成了while：
+
+````go
+for expression {
+  execute statement
+}
+````
+
+这是一个死循环，永远也不会退出：
+
+````go
+for {
+  execute statement
+}
+````
+
+### 3.2.for range
+
+`for range` 可以更加方便的遍历一些可迭代的数据结构，如数组，切片，字符串，映射表，通道。语句格式如下：
+
+````go
+for index, value := range iterable {
+  // body
+}
+````
+
+`index` 为可迭代数据结构的索引，`value` 则是对应索引下的值。例如，使用for range遍历一个字符串：
+
+````go
+func main() {
+   sequence := "hello world"
+   for index, value := range sequence {
+      fmt.Println(index, value)
+   }
+}
+````
+
+也可以迭代一个整型值，字面量，常量，变量：
+
+````go
+for i := range 10 {
+    fmt.Println(i)
+}
+
+n := 10
+for i := range n {
+    fmt.Println(i)
+}
+
+const n = 10
+for i := range n {
+  fmt.Println(i)
+}
+````
+
+### 3.3.break
+
+`break` 关键字会终止最内层的 for 循环，结合标签一起使用可以达到终止外层循环的效果：
+
+````go
+func main() {
+  for i := 0; i < 10; i++ {
+    for j := 0; j < 10; j++ {
+      if i <= j {
+        break
+      }
+      fmt.Println(i, j)
+    }
+  }
+}
+````
+
+### 3.4.continue
+
+`continue` 关键字会跳过最内层循环的本次迭代，直接进入下一次迭代，结合标签使用可以达到跳过外层循环的效果：
+
+````go
+func main() {
+  for i := 0; i < 10; i++ {
+    for j := 0; j < 10; j++ {
+      if i > j {
+        continue
+      }
+      fmt.Println(i, j)
+    }
+  }
+}
+````
