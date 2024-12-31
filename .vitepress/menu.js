@@ -82,6 +82,7 @@ export function sidebar() {
                     {text: "golang（五）常量", link: "golangSE05.md"},
                     {text: "golang（六）变量", link: "golangSE06.md"},
                     {text: "golang（七）控制", link: "golangSE07.md"},
+                    {text: "golang（八）函数", link: "golangSE08.md"},
                 ],
                 collapsed: false,
             }
