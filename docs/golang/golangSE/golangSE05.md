@@ -76,6 +76,8 @@ const (
 const iota = 0
 ````
 
+默认的第一行的 `iota` 的默认值是 0 ： 
+
 ````go
 const (
    Num = iota // 0
