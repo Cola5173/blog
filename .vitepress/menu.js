@@ -72,12 +72,17 @@ export function sidebar() {
         // golang
         "/golang/": [
             {
-                text: "8小时转职Golang工程师",
+                text: "语法基础",
                 base: "/golang/golangSE/",
                 items: [
-                    {text: "golang-（一）环境安装", link: "golangSE01.md"},
+                    {text: "golang（一）环境安装", link: "golangSE01.md"},
                     {text: "golang（二）语言特性", link: "golangSE02.md"},
-                    {text: "golang（三）基础语法", link: "golangSE03.md"},
+                    {text: "golang（三）基本语法", link: "golangSE03.md"},
+                    {text: "golang（四）数据类型", link: "golangSE04.md"},
+                    {text: "golang（五）常量和变量", link: "golangSE05.md"},
+                    {text: "golang（六）函数", link: "golangSE06.md"},
+                    {text: "golang（七）控制", link: "golangSE07.md"},
+                    {text: "golang（八）函数", link: "golangSE08.md"},
                 ],
                 collapsed: false,
             }
