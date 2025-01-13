@@ -489,22 +489,58 @@ public class Student {
 
 ### 1.5.自动装配
 
+如果使用依赖注入，需要对property参数进行配置：
 
+````xml
 
-````
-````
-
-````
-````
-
-````
+<bean name="student" class="com.test.bean.Student">
+    <property name="teacher" ref="teacher"/>
+</bean>
 ````
 
-````
+有些时候为了方便，也可以开启自动装配。自动装配就是让IoC容器自己去寻找需要填入的值，只需要将set方法提供好就可以了，这里需要添加autowire属性：
+
+````xml
+<!--自动装配-->
+<bean name="student" class="com.test.bean.Student" autowire="byType"/>
 ````
 
+autowire属性有两个值普通，一个是byName，还有一个是byType，顾名思义，一个是根据类型去寻找合适的Bean自动装配，还有一个是根据名字去找。
+
+对于使用构造方法完成的依赖注入，也支持自动装配，只需要将autowire修改为：
+
+````xml
+<!--构造器自动装配-->
+<bean name="student" class="com.test.bean.Student" autowire="constructor"/>
 ````
+
+只需要提供一个对应参数的构造方法就可以了（这种情况默认也是byType寻找的）。
+
+自动化的东西虽然省事，但是太过机械，有些时候，自动装配可能会遇到一些问题，比如出现了下面的情况：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/11/22/SQTchJBq4G8NWyC.png" alt="自动装配的问题" style="margin: auto">
+
+由于autowire的规则为byType，存在两个候选Bean，但是希望ProgramTeacher这个Bean在任何情况下都不参与到自动装配中，此时就可以将它的自动装配候选关闭：
+
+````xml
+<!--关闭自动装配-->
+<bean name="teacher" class="com.test.bean.ArtTeacher"/>
+<bean name="teacher2" class="com.test.bean.ProgramTeacher" autowire-candidate="false"/>
+<bean name="student" class="com.test.bean.Student" autowire="byType"/>
 ````
+
+当autowire-candidate设定false时，这个Bean将不再作为自动装配的候选Bean，此时自动装配候选就只剩下一个唯一的Bean了，报错消失，程序可以正常运行。
+
+除了这种方式，我们也可以设定primary属性，表示这个Bean作为主要的Bean，当出现歧义时，也会优先选择：
+
+````xml
+<!--自动装配-->
+<bean name="teacher" class="com.test.bean.ArtTeacher" primary="true"/>
+<bean name="teacher2" class="com.test.bean.ProgramTeacher"/>
+<bean name="student" class="com.test.bean.Student" autowire="byType"/>
+````
+
+### 1.6.生命周期与继承
 
 ````
 ````
