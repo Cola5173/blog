@@ -272,7 +272,236 @@ System.out.println(student1 == student2);
 <bean name="student" class="com.test.bean.Student" depends-on="teacher"/>
 ````
 
-### 1.3.依赖注入
+### 1.4.依赖注入
+
+依赖注入(Dependency Injection, DI)是一种设计模式，也是Spring框架的核心概念之一。
+
+比如现在有一个教师接口：
+
+````java
+public interface Teacher {
+    void teach();
+}
+````
+
+具体的实现有两个：
+
+````java
+public class ArtTeacher implements Teacher{
+    @Override
+    public void teach() {
+        System.out.println("我是美术老师，我教你画画！");
+    }
+}
+````
+
+````java
+public class ProgramTeacher implements Teacher{
+    @Override
+    public void teach() {
+        System.out.println("我是编程老师，我教你学Golang！");
+    }
+}
+````
+
+学生一开始有一个老师教他，比如美术老师：
+
+````java
+public class Student {
+    private Teacher teacher = new ArtTeacher();   
+  	//在以前，如果我们需要制定哪个老师教我们，直接new创建对应的对象就可以了
+    public void study(){
+        teacher.teach();
+    }
+}
+````
+
+如果美术老师不教了，现在来了一个其他的老师教学生，那么就需要去修改Student类的定义：
+
+````java
+public class Student {
+    private Teacher teacher = new ProgramTeacher();
+  	...
+````
+
+有了依赖注入之后，Student中的Teacher成员变量，可以由IoC容器来选择一个合适的Teacher对象进行赋值，通过property标签来实现，将bean标签展开：
+
+````xml
+<!--DI注入-->
+<bean name="teacher" class="com.fkx.spring.bean.ProgramTeacher"/>
+<bean name="student" class="com.fkx.spring.bean.Student">
+<property name="teacher" ref="teacher"/>
+</bean>
+````
+
+同时还需要修改一下Student类，依赖注入要求对应的属性必须有一个set方法：
+
+````java
+public class Student {
+
+    private Teacher teacher;
+
+    //要使用依赖注入，我们必须提供一个set方法（无论成员变量的访问权限是什么）命名规则依然是驼峰命名法
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    //在以前，如果我们需要制定哪个老师教我们，直接new创建对应的对象就可以了
+    public void study() {
+        teacher.teach();
+    }
+
+}
+````
+
+使用property来指定需要注入的值或是一个Bean，选择ProgramTeacher，那么在使用时，Student类中的得到的就是这个Bean的对象了：
+
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/java/SSM/Spring03.png" alt="运行失败" style="margin: auto">
+
+就算切换老师的实现为另一个类，也不用去调整代码，只需要变动一下Bean的类型就可以：
+
+````xml
+<!--只需要修改这里的class即可，现在改为ArtTeacher-->
+<bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
+<bean name="student" class="com.fkx.spring.bean.Student">
+<property name="teacher" ref="teacher"/>
+</bean>
+````
+
+依赖注入并不一定要注入其他的Bean，也可以是一个简单的值。
+
+````java
+private String name;
+
+public void setName(String name) {
+    this.name = name;
+}    
+````
+
+直接使用value可以直接传入一个具体值。
+
+实际上，在很多情况下，类中的某些参数是在构造方法中就已经完成的初始化，而不是创建之后，比如：
+
+````java
+public class Student {
+    private final Teacher teacher;   //构造方法中完成，所以说是一个final变量
+
+    public Student(Teacher teacher){   //Teacher属性是在构造方法中完成的初始化
+        this.teacher = teacher;
+    }
+  	...
+````
+
+Bean实际上是由IoC容器进行创建的，但是现在修改了默认的无参构造，可以看到配置文件里面报错了：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/11/22/5HN8GKQywWaYvrF.png" alt="构造参数问题" style="margin: auto">
+
+IoC容器默认只会调用无参构造，所以需要指明一个可以用的构造方法，展开bean标签，添加一个constructor-arg标签：
+
+````xml
+<!--构造参数放啊-->
+<bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
+<bean name="student" class="com.fkx.spring.bean.Student">
+<constructor-arg ref="teacher"/>
+</bean>
+````
+
+那要是出现这种情况呢？Student类中是这样定义的：
+
+````java
+public class Student {
+    private final String name;
+    public Student(String name){
+        System.out.println("我是一号构造方法");
+        this.name = name;
+    }
+
+    public Student(int age){
+        System.out.println("我是二号构造方法");
+        this.name = String.valueOf(age);
+    }
+}
+````
+
+此时希望使用的是二号构造方法，那么怎么才能指定呢？有2种方式，可以给标签添加类型：
+
+````xml
+<!--指定类型-->
+<constructor-arg value="1" type="int"/>
+````
+
+也可以指定为对应的参数名称：
+
+````xml
+<!--指定名称-->
+<constructor-arg value="1" name="age"/>
+````
+
+只要能够保证指定的参数匹配到目标构造方法即可。
+
+类中出现了一个比较特殊的类型，它是一个集合类型：
+
+````java
+public class Student {
+    private List<String> list;
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+}
+````
+
+对于这种集合类型，有着特殊的支持：
+
+````xml
+<!--集合-->
+<bean name="student" class="com.test.bean.Student">
+    <!--  对于集合类型，我们可以直接使用标签编辑集合的默认值  -->
+    <property name="list">
+        <list>
+            <value>AAA</value>
+            <value>BBB</value>
+            <value>CCC</value>
+        </list>
+    </property>
+</bean>
+````
+
+不仅仅是List，Map、Set这类常用集合类包括数组在内，都是支持这样编写的，比如Map类型，可以使用entry来注入：
+
+````xml
+<!--map集合-->
+<bean name="student" class="com.test.bean.Student">
+    <property name="map">
+        <map>
+            <entry key="语文" value="100.0"/>
+            <entry key="数学" value="80.0"/>
+            <entry key="英语" value="92.5"/>
+        </map>
+    </property>
+</bean>
+````
+
+至此，我们就已经完成了两种依赖注入的学习：
+
+- Setter依赖注入：通过成员属性对应的set方法完成注入。
+- 构造方法依赖注入：通过构造方法完成注入。
+
+### 1.5.自动装配
+
+
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
 
 ````
 ````
