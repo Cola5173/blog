@@ -212,30 +212,43 @@ zookeeper 。
 
 ![Kafka King](./imgs/Kafka/04.png)
 
-## 3.使用
+## 3.常用命令
 
-在日常使用 Kafka ，首先应该是使用命令行 or GUI 客户端工具创建 topic ，指定分区和副本。在使用 Kafka 创建 topic
-时，指定分区（partition）和副本（replica）的数量需要根据 Kafka 集群的 broker 数量来规划和配置。
+本地使用 Kafka King 真的挺不错的，各种功能都有😄。
 
-建议创建 topic 前，考虑集群中 broker 数量和业务需求，按实考量 🌶️。
-
-命令行创建：
-
-```shell
-# 创建名为 test 的topic，分区 1，副本 1
-kafka-topics.sh --create --topic test --partitions 1 --replication-factor 1 --bootstrap-server <broker_host>:<port>
-```
-
-直接使用 Kafka King 创建就简单多了，大部分在公司工作的时候，都是使用客户端工具去操作就行了。万一，如果让你在linux上操作，那就现学现搜就行。
-
-本地使用 Kafka King 真的挺不错的，各种功能都有
-😄。如果是大型集群，建议使用：[Know Streaming](https://github.com/didi/KnowStreaming)，可以观察流量，Kafka中的数据积压。
-
+如果是大型集群，建议使用：[Know Streaming](https://github.com/didi/KnowStreaming)，可以观察流量，Kafka中的数据积压。
 在开发时候，需要关注的 `consumer group` 中的三个信息：
 
 - current-offset：最后被消费的消息的偏移量
 - log-end-offset：消息总量（最后一条消息的偏移量）
 - lag：积压消息总量
+
+其实在线上排查问题的时候，并没有很多工具可以使用，主要靠命令行：
+
+**列出所有 Topic：**
+
+````shell
+./bin/kafka-topics.sh --list --bootstrap-server <ip:port>
+````
+
+**创建topic：**
+
+````shell
+# 创建名为 test 的topic，分区 1，副本 1
+./bin/kafka-topics.sh --create --topic test --partitions 1 --replication-factor 1 --bootstrap-server <broker_host:port;ip:port>
+````
+
+**查看 test 的 topic 下的消息量：**
+
+````shell
+./bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list <ip:port> --topic test
+````
+
+查看消费者的偏移量：
+
+```shell
+./bin/kafka-consumer-groups.sh --describe --group consumerName --bootstrap-server <broker_host:port;ip:port>
+```
 
 ## 4.Java
 

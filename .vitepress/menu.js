@@ -91,7 +91,7 @@ export function sidebar() {
         "/middleware/": [
             {
                 text: "消息队列",
-                base: "/middleware/mq",
+                base: "/middleware/mq/",
                 items: [
                     {text: "消息队列", link: "MQ.md"},
                     {text: "Kafka", link: "Kafka.md"},
