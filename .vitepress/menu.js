@@ -37,7 +37,7 @@ export function sidebar() {
                     {text: "Spring", link: "Spring.md"},
                     {text: "MybatisPlus", link: "MybatisPlus.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "工具类",
