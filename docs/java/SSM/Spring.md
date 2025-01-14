@@ -330,7 +330,7 @@ public class Student {
 <!--DI注入-->
 <bean name="teacher" class="com.fkx.spring.bean.ProgramTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-<property name="teacher" ref="teacher"/>
+    <property name="teacher" ref="teacher"/>
 </bean>
 ````
 
@@ -364,7 +364,7 @@ public class Student {
 <!--只需要修改这里的class即可，现在改为ArtTeacher-->
 <bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-<property name="teacher" ref="teacher"/>
+    <property name="teacher" ref="teacher"/>
 </bean>
 ````
 
@@ -402,7 +402,7 @@ IoC容器默认只会调用无参构造，所以需要指明一个可以用的�
 <!--构造参数放啊-->
 <bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-<constructor-arg ref="teacher"/>
+    <constructor-arg ref="teacher"/>
 </bean>
 ````
 
@@ -492,7 +492,7 @@ public class Student {
 如果使用依赖注入，需要对property参数进行配置：
 
 ````xml
-
+<!--依赖注入-->
 <bean name="student" class="com.test.bean.Student">
     <property name="teacher" ref="teacher"/>
 </bean>
@@ -542,20 +542,438 @@ autowire属性有两个值普通，一个是byName，还有一个是byType，顾
 
 ### 1.6.生命周期与继承
 
+除了修改构造方法，也可以为Bean指定初始化方法和销毁方法，以便在对象创建和被销毁时执行一些其他的任务：
+
+````java
+public void init(){
+    System.out.println("我是对象初始化时要做的事情！");    
+}
+
+public void destroy(){
+    System.out.println("我是对象销毁时要做的事情！");
+}
 ````
+
+可以通过`init-method`和`destroy-method`来指定：
+
+````xml
+<!--bean的生命周期-->
+<bean name="student" class="com.test.bean.Student" init-method="init" destroy-method="destroy"/>
 ````
+
+那么什么时候是初始化，什么时候又是销毁呢？
+
+````java
+//当容器创建时，默认情况下Bean都是单例的，那么都会在一开始就加载好，对象构造完成后，会执行init-method
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("test.xml");
+//可以调用close方法关闭容器，此时容器内存放的Bean也会被一起销毁，会执行destroy-method
+context.close();
+````
+
+如果Bean不是单例模式，而是采用的原型模式，那么就只会在获取时才创建，并调用init-method，而对应的销毁方法不会被调用（因此，对于原型模式下的Bean，Spring无法顾及其完整生命周期，而在单例模式下，Spring能够从Bean对象的创建一直管理到对象的销毁）。
+
+Bean之间也是具备继承关系的，只不过这里的继承并不是类的继承，而是属性的继承，比如：
+
+````java
+public class SportStudent {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+````
+
+````java
+public class ArtStudent {
+    private String name;
+   
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+````
+
+先将ArtStudent注册一个Bean：
+
+````xml
+<!--注册bean-->
+<bean name="artStudent" class="com.test.bean.ArtStudent">
+    <property name="name" value="小明"/>
+</bean>
+````
+
+注入一个name的初始值，此时创建了一个SportStudent的Bean，如果希望这个Bean的属性跟刚刚创建的Bean属性是一样的，那么可以让SportStudent这个Bean直接继承ArtStudent这个Bean配置的属性：
+
+````xml
+<!--继承属性-->
+<bean class="com.test.bean.SportStudent" parent="artStudent"/>
+````
+
+在ArtStudent Bean中配置的属性，会直接继承给SportStudent Bean（注意，所有配置的属性，在子Bean中必须也要存在，并且可以进行注入，否则会出现错误）。
+
+如果子类中某些属性比较特殊，也可以在继承的基础上单独配置：
+
+````xml
+<!--单独配置-->
+<bean name="artStudent" class="com.test.bean.ArtStudent" abstract="true">
+    <property name="name" value="小明"/>
+    <property name="id" value="1"/>
+</bean>
+<bean class="com.test.bean.SportStudent" parent="artStudent">
+    <property name="id" value="2"/>
+</bean>
+````
+
+如果只是希望某一个Bean仅作为一个配置模版供其他Bean继承使用，那么可以将其配置为abstract，这样，容器就不会创建这个Bean的对象了：
+
+````xml
+<bean name="artStudent" class="com.test.bean.ArtStudent" abstract="true">
+    <property name="name" value="小明"/>
+</bean>
+<bean class="com.test.bean.SportStudent" parent="artStudent"/>
+````
+
+注意，一旦声明为抽象Bean，那么就无法通过容器获取到其实例化对象了。
+
+不过Bean的继承使用频率不是很高，了解就行。
+
+
+### 1.7.工厂模式和工厂bean
+
+默认情况下，容器会调用Bean对应类型的构造方法进行对象创建。但是在某些时候，可能不希望外界使用类的构造方法完成对象创建，更希望利用反射机制先找到对应的工厂类，然后利用工厂类去生成需要的Bean对象：
+
+````java
+public class Student {
+    Student() {
+        System.out.println("我被构造了");
+    }
+}
+````
+
+````java
+public class StudentFactory {
+    public static Student getStudent(){
+      	System.out.println("欢迎光临电子厂");
+        return new Student();
+    }
+}
+````
+
+正常情况下需要使用工厂才可以得到Student对象，现在希望Spring也这样做，不要直接去反射搞构造方法创建，可以通过factory-method进行指定：
+
+````xml
+<bean class="com.test.bean.StudentFactory" factory-method="getStudent"/>
+````
+
+这里的Bean类型需要填写为Student类的工厂类，并且添加factory-method指定对应的工厂方法，但是最后注册的是工厂方法的返回类型，所以说依然是Student的Bean：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/11/23/5Id43xPneJiWfZs.png" alt="工厂方法bean">
+
+再去进行获取，拿到的也是通过工厂方法得到的对象：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/11/23/l8HzN7Rwthqrim5.png" alt="执行结果">
+
+千万不要认为是注册了StudentFactory这个Bean，class填写为这个类这个只是为了告诉Spring工厂方法在哪个位置，真正注册的是工厂方法提供的东西。
+
+当采用工厂模式后，就无法再通过配置文件对Bean进行依赖注入等操作了，而是只能在工厂方法中完成，这似乎与Spring的设计理念背道而驰？
+
+当然，可能某些工厂类需要构造出对象之后才能使用，也可以将某个工厂类直接注册为工厂Bean：
+
+````java
+public class StudentFactory {
+    public Student getStudent(){
+        System.out.println("欢迎光临电子厂");
+        return new Student();
+    }
+}
+````
+
+现在需要StudentFactory对象才可以获取到Student，此时就只能先将其注册为Bean了：
+
+````xml
+<bean name="studentFactory" class="com.test.bean.StudentFactory"/>
+````
+
+像这样将工厂类注册为Bean，称其为工厂Bean，然后再使用factory-bean来指定Bean的工厂Bean：
+
+````xml
+<bean factory-bean="studentFactory" factory-method="getStudent"/>
+````
+
+注意，使用factory-bean之后，不再要求指定class，我们可以直接使用了：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/11/23/ih1Af7xBdX3ebaG.png" alt="工厂bean">
+
+如果想获取工厂Bean，可以直接输入工厂Bean的名称，这样不会得到工厂Bean的实例，而是工厂Bean生产的Bean的实例：
+
+````java
+Student bean = (Student) context.getBean("studentFactory");
+````
+
+如果需要获取工厂类的实例，可以在名称前面添加`&`符号：
+
+````java
+StudentFactory bean = (StudentFactory) context.getBean("&studentFactory");
+````
+
+### 1.8.注解开发
+
+如果我们的项目非常庞大，整个配置文件将会充满Bean配置，并且会继续庞大下去。使用注解来进行开发，能够省去配置。
+
+使用AnnotationConfigApplicationContext作为上下文实现，它是注解配置的：
+
+````java
+ApplicationContext context = new AnnotationConfigApplicationContext();
+````
+
+使用类来编写配置文件，只需要创建一个配置类就可以了：
+
+````java
+@Configuration
+public class MainConfiguration {
+}
+````
+
+可以为AnnotationConfigApplicationContext指定一个默认的配置类：
+
+````java
+ApplicationContext context = new AnnotationConfigApplicationContext(MainConfiguration.class);
+//这个构造方法可以接收多个配置类（更准确的说是多个组件）
+````
+
+配置Bean：
+
+````java
+@Configuration
+public class MainConfiguration {
+
+    @Bean("student")
+    public Student student(){
+        return new Student();
+    }
+}
+````
+
+通过@Import还可以引入其他配置类：
+
+````java
+//在讲解到Spring原理时，我们还会遇到它，目前只做了解即可。
+@Import(LBWConfiguration.class)  
+@Configuration
+public class MainConfiguration {
+````
+
+初始化方法和摧毁方法、自动装配可以直接在@Bean注解中进行配置：
+
+````java
+@Bean(name = "", initMethod = "", destroyMethod = "", autowireCandidate = false)
+public Student student(){
+    return new Student();
+}
+````
+
+可以使用一些其他的注解来配置其他属性，比如：
+````java
+@Bean
+@Lazy(true)     //对应lazy-init属性
+@Scope("prototype")    //对应scope属性
+@DependsOn("teacher")    //对应depends-on属性
+public Student student(){
+    return new Student();
+}
+````
+
+需要引入其他Bean进行的注入，可以直接将其作为形式参数放到方法中：
+
+````java
+@Configuration
+public class MainConfiguration {
+    @Bean
+    public Teacher teacher(){
+        return new Teacher();
+    }
+
+    @Bean
+    public Student student(Teacher teacher){
+        return new Student(teacher);
+    }
+}
+````
+
+除了这种基于构造器或是Setter的依赖注入之外，也可以直接到Bean对应的类中使用自动装配：
+
+````java
+public class Student {
+    @Autowired   //使用此注解来进行自动装配，由IoC容器自动为其赋值
+    private Teacher teacher;
+}
+````
+
+`@Autowired`并不是只能用于字段，对于构造方法或是Setter，它同样可以：
+
+````java
+public class Student {
+    private Teacher teacher;
+
+    @Autowired
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+}
+````
+
+`@Autowired`默认采用byType的方式进行自动装配，那么要是出现了多个相同类型的Bean，如果想要指定使用其中的某一个该怎么办呢？
+
+````java
+@Bean("a")
+public Teacher teacherA(){
+    return new Teacher();
+}
+
+@Bean("b")
+public Teacher teacherB(){
+    return new Teacher();
+}
+````
+
+可以配合`@Qualifier`进行名称匹配：
+
+````java
+public class Student {
+    @Autowired
+    @Qualifier("a")   //匹配名称为a的Teacher类型的Bean
+    private Teacher teacher;
+}
+````
+
+随着Java版本的更新迭代，某些javax包下的包，会被逐渐弃用并移除。在JDK11版本以后，javax.annotation这个包被移除并且更名为jakarta.annotation（在JavaWeb篇已经介绍过为什么要改名字了）。
+
+其中有一个非常重要的注解，叫做`@Resource`，它的作用与`@Autowired`是相同的，也可以实现自动装配，但是在IDEA中并不推荐使用`@Autowired`注解对成员字段进行自动装配，而是推荐使用`@Resource`，如果需要使用这个注解，还需要额外导入包：
+
+````xml
+<dependency>
+    <groupId>jakarta.annotation</groupId>
+    <artifactId>jakarta.annotation-api</artifactId>
+    <version>2.1.1</version>
+</dependency>
+````
+
+使用方法一样，直接替换掉就可以了：
+
+````java
+public class Student {
+    @Resource
+    private Teacher teacher;
+}
+````
+
+只不过，他们两有些机制上的不同：
+
+- `@Resource`默认ByName如果找不到则ByType，可以添加到set方法、字段上。 
+- `@Autowired`默认是byType，只会根据类型寻找，可以添加在构造方法、set方法、字段、方法参数上。
+
+除了这个注解之外，还有`@PostConstruct`和`@PreDestroy`，它们效果和`init-method`和`destroy-method`是一样的：
+
+````java
+@PostConstruct
+public void init(){
+    System.out.println("我是初始化方法");
+}
+
+@PreDestroy
+public void destroy(){
+    System.out.println("我是销毁方法");
+}
+````
+
+使用`@Bean`来注册Bean，但是实际上如果只是简单将一个类作为Bean的话，这样写还是不太方便，能不能像之前一样，让容器自己反射获取构造方法去生成这个对象呢？
+
+可以在需要注册为Bean的类上添加`@Component`注解来将一个类进行注册，不过要实现这样的方式，需要添加一个自动扫描来告诉Spring，它需要在哪些包中查找提供的@Component声明的Bean。
+
+````java
+@Component("lbwnb")   //同样可以自己起名字
+public class Student {
+
+}
+````
+
+要注册这个类的Bean，只需要添加`@Component`即可，然后配置一下包扫描：
+
+````java
+@Configuration
+@ComponentScan("com.test.bean")   //包扫描，这样Spring就会去扫描对应包下所有的类
+public class MainConfiguration {
+
+}
+````
+
+无论是通过@Bean还是@Component形式注册的Bean，Spring都会为其添加一个默认的name属性，它的默认名称生产规则依然是类名并按照首字母小写的驼峰命名法来的。
+
+如果是通过@Bean注册的，默认名称是对应的方法名称：
+
+````java
+@Bean
+public Student artStudent(){
+    return new Student();
+}
+````
+
+````java
+Student student = (Student) context.getBean("artStudent");
+System.out.println(student);
+````
+
+相比传统的XML配置方式，注解形式的配置确实能够减少很多工作量。并且，对于这种使用@Component注册的Bean，如果其构造方法不是默认无参构造，那么默认会对其每一个参数都进行自动注入：
+
+````java
+@Component
+public class Student {
+    Teacher teacher;
+    public Student(Teacher teacher){   //如果有Teacher类型的Bean，那么这里的参数会被自动注入
+        this.teacher = teacher;
+    }
+}
+````
+
+之前使用的工厂模式，Spring也提供了接口，可以直接实现接口表示这个Bean是一个工厂Bean：
+
+````java
+@Component
+public class StudentFactory implements FactoryBean<Student> {
+    @Override
+    public Student getObject() {   //生产的Bean对象
+        return new Student();
+    }
+
+    @Override
+    public Class<?> getObjectType() {   //生产的Bean类型
+        return Student.class;
+    }
+
+    @Override
+    public boolean isSingleton() {   //生产的Bean是否采用单例模式
+        return false;
+    }
+}
+````
+
+## 2、Spring高级特性
 
 ````
 ````
-
+````
+````
+````
+````
+````
+````
+````
+````
+````
+````
+````
+````
 ````
 ````
 
-````
-````
-
-````
-````
-
-````
-````
