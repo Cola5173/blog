@@ -958,7 +958,247 @@ public class StudentFactory implements FactoryBean<Student> {
 }
 ````
 
-## 2、Spring高级特性
+## 2、SpringEL表达式
+
+SpEL 是一种强大并简洁的装配 Bean 的方式，它可以通过运行期间执行的表达式将值装配到属性或构造函数当中，更可以调用 JDK 中提供的静态常量，获取外部 Properties 文件中的的配置。
+
+### 2.1.外部属性注入
+
+有些时候，需要将一些外部配置文件中的配置进行读取，并完成注入。
+
+可以通过一个注解直接读取到外部配置文件中对应的属性值，在配置类上添加 `@PropertySource` 注解：
+
+````java
+@Configuration
+@ComponentScan("com.fkx.spring.bean")
+@PropertySource("classpath:test.properties")   //注意，类路径下的文件名称需要在前面加上classpath:
+public class TestConfig{
+
+}
+````
+
+可以使用 `@Value` 注解将外部配置文件中的值注入：
+
+````java
+@Component
+public class Student {
+    @Value("${test.name}")   //这里需要在外层套上 ${ }
+    private String name;   //String会被自动赋值为配置文件中对应属性的值
+
+    public void hello() {
+        System.out.println("我的名字是：" + name);
+    }
+}
+````
+
+`@Value`中的`${...}`表示占位符，它会读取外部配置文件的属性值装配到属性中，如果配置正确没问题的话，这里甚至还会直接显示对应配置项的值：
+
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/java/SSM/Spring04.png" alt="显示对应配置项的值" style="margin: auto">
+
+如果配置文件乱码，请将配置文件的编码格式切换成UTF-8（可以在IDEA设置中进行配置）。
+
+### 2.2.SpEL简单使用
+
+Spring官方提供了一套非常高级SpEL表达式，通过使用表达式，可以更加灵活地使用Spring框架。
+
+创建一个SpEL表达式：
+
+````java
+ExpressionParser parser = new SpelExpressionParser();
+//使用parseExpression方法来创建一个表达式
+Expression exp = parser.parseExpression("'Hello World'");  
+//表达式最终的运算结果可以通过getValue()获取
+System.out.println(exp.getValue());   
+````
+
+符串使用单引号囊括，SpEL是具有运算能力的。
+
+可以像写Java一样，对这个字符串进行各种操作，比如调用方法之类的：
+
+````java
+//调用String的toUpperCase方法
+Expression exp = parser.parseExpression("'Hello World'.toUpperCase()");   
+System.out.println(exp.getValue());
+````
+
+不仅能调用方法、还可以访问属性、使用构造方法等。对于Getter方法，可以像访问属性一样去使用：
+
+````java
+//比如 String.getBytes() 方法，就是一个Getter，那么可以写成 bytes
+Expression exp = parser.parseExpression("'Hello World'.bytes");
+System.out.println(exp.getValue());
+````
+
+表达式可以不止一级，可以多级调用：
+
+````java
+//继续访问数组的length属性
+Expression exp = parser.parseExpression("'Hello World'.bytes.length");   
+System.out.println(exp.getValue());
+````
+
+还支持根据特定表达式，从给定对象中获取属性出来：
+
+````java
+@Component
+public class Student {
+    private final String name;
+    public Student(@Value("${test.name}") String name){
+        this.name = name;
+    }
+
+    //比如下面要访问name属性，那么这个属性得可以访问才行，访问权限不够是不行的
+    public String getName() {    
+        return name;
+    }
+}
+````
+
+````java
+Student student = context.getBean(Student.class);
+ExpressionParser parser = new SpelExpressionParser();
+//直接读取对象的name属性
+Expression exp = parser.parseExpression("name");
+System.out.println(exp.getValue(student));    
+````
+
+拿到对象属性之后，甚至还可以继续去处理：
+
+````java
+//拿到name之后继续getBytes然后length
+Expression exp = parser.parseExpression("name.bytes.length");   
+````
+
+除了获取，也可以调用表达式的setValue方法来设定属性的值：
+
+````java
+Expression exp = parser.parseExpression("name");
+//同样的，这个属性得有访问权限且能set才可以，否则会报错
+exp.setValue(student, "刻师傅");   
+````
+
+除了属性调用，也可以使用运算符进行各种高级运算：
+
+````java
+//比较运算
+Expression exp = parser.parseExpression("66 > 77");   
+System.out.println(exp.getValue());
+````
+
+````java
+//算数运算
+Expression exp = parser.parseExpression("99 + 99 * 3");   
+System.out.println(exp.getValue());
+````
+
+对于那些需要导入才能使用的类，需要使用一个特殊的语法：
+
+````java
+//由T()囊括，包含完整包名+类名
+Expression exp = parser.parseExpression("T(java.lang.Math).random()");   
+//默认导入的类可以不加包名
+//Expression exp = parser.parseExpression("T(System).nanoTime()");   
+System.out.println(exp.getValue());
+````
+
+### 2.3.集合操作相关语法
+
+类中存在一些集合类：
+
+````java
+@Component
+public class Student {
+    public Map<String, String> map = Map.of("test", "你干嘛");
+    public List<String> list = List.of("AAA", "BBB", "CCC");
+}
+````
+
+可以使用SpEL快速取出集合中的元素：
+
+````java
+//对于Map这里映射型，可以直接使用map[key]来取出value
+Expression exp = parser.parseExpression("map['test']");  
+System.out.println(exp.getValue(student));
+````
+
+````java
+//对于List、数组这类，可以直接使用[index]
+Expression exp = parser.parseExpression("list[2]");   
+System.out.println(exp.getValue(student));
+````
+
+也可以快速创建集合：
+
+````java
+//使用{}来快速创建List集合
+Expression exp = parser.parseExpression("{5, 2, 1, 4, 6, 7, 0, 3, 9, 8}"); 
+List value = (List) exp.getValue();
+value.forEach(System.out::println);
+````
+
+````java
+//它是支持嵌套使用的
+Expression exp = parser.parseExpression("{{1, 2}, {3, 4}}");   
+````
+
+````java
+//创建Map也很简单，只需要key:value就可以了
+Expression exp = parser.parseExpression("{name: '小明', info: {address: '北京市朝阳区', tel: 10086}}");
+System.out.println(exp.getValue());
+````
+
+还可以直接根据条件获取集合中的元素：
+
+````java
+@Component
+public class Student {
+    public List<Clazz> list = List.of(new Clazz("高等数学", 4));
+
+    public record Clazz(String name, int score){ }
+}
+````
+
+````java
+//希望从list中获取那些满足条件的元素，并组成一个新的集合，可以使用.?运算符
+Expression exp = parser.parseExpression("list.?[name == '高等数学']");
+System.out.println(exp.getValue(student));
+````
+
+````java
+//选择学分大于3分的科目
+Expression exp = parser.parseExpression("list.?[score > 3]");   
+System.out.println(exp.getValue(student));
+````
+
+还可以针对某个属性创建对应的投影集合：
+
+````java
+//使用.!创建投影集合，这里创建的时课程名称组成的新集合
+Expression exp = parser.parseExpression("list.![name]");   
+System.out.println(exp.getValue(student));
+````
+
+接着来介绍安全导航运算符，用于避免NullPointerException，它来自Groovy语言。通常，当有对对象的引用时，可能需要在访问对象的方法或属性之前验证它是否为空。为了避免这种情况，安全导航运算符返回null而不是抛出异常：
+
+````java
+//如果Student对象中的name属性为null
+Expression exp = parser.parseExpression("name.toUpperCase()");   
+System.out.println(exp.getValue(student));
+````
+
+当遇到null时很不方便，还得写判断：
+
+````java
+Optional.ofNullable(student.name).ifPresent(System.out::println);
+````
+
+Java 8之后能这样写：
+
+````java
+Optional.ofNullable(student.name).ifPresent(System.out::println);
+````
+
+## 3、AOP
 
 ````
 ````
@@ -976,4 +1216,5 @@ public class StudentFactory implements FactoryBean<Student> {
 ````
 ````
 ````
-
+````
+````
