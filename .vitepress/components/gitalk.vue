@@ -25,17 +25,6 @@ export default {
     }
     const gitalk = new Gitalk(commentConfig)
     gitalk.render("gitalk-container")
-
-    // 根据当前模式调整 GitTalk 样式
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (isDarkMode) {
-      document.querySelector('.gt-container .gt-header-textarea').style.color = '#fff';
-      document.querySelector('.gt-container .gt-header-textarea').style.backgroundColor = '#333';
-    } else {
-      document.querySelector('.gt-container .gt-header-textarea').style.color = '#000';
-      document.querySelector('.gt-container .gt-header-textarea').style.backgroundColor = '#fff';
-    }
-
   },
 }
 </script>
