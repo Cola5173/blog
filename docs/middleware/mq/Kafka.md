@@ -235,7 +235,7 @@ zookeeper 。
 
 ````shell
 # 创建名为 test 的topic，分区 1，副本 1
-./bin/kafka-topics.sh --create --topic test --partitions 1 --replication-factor 1 --bootstrap-server <broker_host:port;ip:port>
+./bin/kafka-topics.sh --create --topic test --partitions 1 --replication-factor 1 --bootstrap-server <ip:port>
 ````
 
 **查看 test 的 topic 下的消息量：**
@@ -247,8 +247,13 @@ zookeeper 。
 查看消费者的偏移量：
 
 ```shell
-./bin/kafka-consumer-groups.sh --describe --group consumerName --bootstrap-server <broker_host:port;ip:port>
+./bin/kafka-consumer-groups.sh --describe --group consumerName --bootstrap-server <ip:port>
 ```
+
+**检查集群的状态,这个命令会显示 Kafka broker 支持的 API 版本以及其他集群信息**
+````shell
+./bin/kafka-broker-api-versions.sh --bootstrap-server <ip:port>
+````
 
 ## 4.Java
 
