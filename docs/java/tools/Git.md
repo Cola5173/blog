@@ -142,6 +142,15 @@ git config user.email "你的GitHub邮箱"
 
 # 删除远端的main分支
 git push origin --delete main
+
+# 查看标签：
+git tag
+
+# 使用 git checkout 命令切换到分支的标签。例如，假设你要从 v1.0.0 标签创建分支：
+git checkout tags/v1.0.0
+
+# 在标签上创建一个新分支并切换到该分支：
+git checkout -b new-branch-name
 ````
 
 ## 5.提交规范
