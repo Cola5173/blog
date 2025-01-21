@@ -45,8 +45,7 @@ export function sidebar() {
                 items: [
                     {text: "Lombok", link: "Lombok.md"},
                     {text: "Git", link: "Git.md"},
-                    {text: "EasyExcel", link: "EasyExcel.md"},
-                    {text: "Linux", link: "Linux.md"},
+                    {text: "EasyExcel", link: "EasyExcel.md"}
                 ],
                 collapsed: true,
             },
@@ -113,12 +112,12 @@ export function sidebar() {
         // 工作
         "/work/": [
             {
-                text: "前端学习",
-                base: "/work/frontend/",
+                text: "开发工具",
+                base: "/work/tools/",
                 items: [
-                    {text: "Dart", link: "Dart.md"},
+                    {text: "Linux", link: "Linux.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "2024",
