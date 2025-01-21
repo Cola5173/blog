@@ -330,7 +330,7 @@ public class Student {
 <!--DI注入-->
 <bean name="teacher" class="com.fkx.spring.bean.ProgramTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-    <property name="teacher" ref="teacher"/>
+<property name="teacher" ref="teacher"/>
 </bean>
 ````
 
@@ -364,7 +364,7 @@ public class Student {
 <!--只需要修改这里的class即可，现在改为ArtTeacher-->
 <bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-    <property name="teacher" ref="teacher"/>
+<property name="teacher" ref="teacher"/>
 </bean>
 ````
 
@@ -402,7 +402,7 @@ IoC容器默认只会调用无参构造，所以需要指明一个可以用的�
 <!--构造参数放啊-->
 <bean name="teacher" class="com.fkx.spring.bean.ArtTeacher"/>
 <bean name="student" class="com.fkx.spring.bean.Student">
-    <constructor-arg ref="teacher"/>
+<constructor-arg ref="teacher"/>
 </bean>
 ````
 
@@ -621,13 +621,14 @@ public class ArtStudent {
     <property name="id" value="1"/>
 </bean>
 <bean class="com.test.bean.SportStudent" parent="artStudent">
-    <property name="id" value="2"/>
+<property name="id" value="2"/>
 </bean>
 ````
 
 如果只是希望某一个Bean仅作为一个配置模版供其他Bean继承使用，那么可以将其配置为abstract，这样，容器就不会创建这个Bean的对象了：
 
 ````xml
+
 <bean name="artStudent" class="com.test.bean.ArtStudent" abstract="true">
     <property name="name" value="小明"/>
 </bean>
@@ -637,7 +638,6 @@ public class ArtStudent {
 注意，一旦声明为抽象Bean，那么就无法通过容器获取到其实例化对象了。
 
 不过Bean的继承使用频率不是很高，了解就行。
-
 
 ### 1.7.工厂模式和工厂bean
 
@@ -663,6 +663,7 @@ public class StudentFactory {
 正常情况下需要使用工厂才可以得到Student对象，现在希望Spring也这样做，不要直接去反射搞构造方法创建，可以通过factory-method进行指定：
 
 ````xml
+
 <bean class="com.test.bean.StudentFactory" factory-method="getStudent"/>
 ````
 
@@ -692,12 +693,14 @@ public class StudentFactory {
 现在需要StudentFactory对象才可以获取到Student，此时就只能先将其注册为Bean了：
 
 ````xml
+
 <bean name="studentFactory" class="com.test.bean.StudentFactory"/>
 ````
 
 像这样将工厂类注册为Bean，称其为工厂Bean，然后再使用factory-bean来指定Bean的工厂Bean：
 
 ````xml
+
 <bean factory-bean="studentFactory" factory-method="getStudent"/>
 ````
 
@@ -774,6 +777,7 @@ public Student student(){
 ````
 
 可以使用一些其他的注解来配置其他属性，比如：
+
 ````java
 @Bean
 @Lazy(true)     //对应lazy-init属性
@@ -849,9 +853,11 @@ public class Student {
 
 随着Java版本的更新迭代，某些javax包下的包，会被逐渐弃用并移除。在JDK11版本以后，javax.annotation这个包被移除并且更名为jakarta.annotation（在JavaWeb篇已经介绍过为什么要改名字了）。
 
-其中有一个非常重要的注解，叫做`@Resource`，它的作用与`@Autowired`是相同的，也可以实现自动装配，但是在IDEA中并不推荐使用`@Autowired`注解对成员字段进行自动装配，而是推荐使用`@Resource`，如果需要使用这个注解，还需要额外导入包：
+其中有一个非常重要的注解，叫做`@Resource`，它的作用与`@Autowired`是相同的，也可以实现自动装配，但是在IDEA中并不推荐使用
+`@Autowired`注解对成员字段进行自动装配，而是推荐使用`@Resource`，如果需要使用这个注解，还需要额外导入包：
 
 ````xml
+
 <dependency>
     <groupId>jakarta.annotation</groupId>
     <artifactId>jakarta.annotation-api</artifactId>
@@ -870,7 +876,7 @@ public class Student {
 
 只不过，他们两有些机制上的不同：
 
-- `@Resource`默认ByName如果找不到则ByType，可以添加到set方法、字段上。 
+- `@Resource`默认ByName如果找不到则ByType，可以添加到set方法、字段上。
 - `@Autowired`默认是byType，只会根据类型寻找，可以添加在构造方法、set方法、字段、方法参数上。
 
 除了这个注解之外，还有`@PostConstruct`和`@PreDestroy`，它们效果和`init-method`和`destroy-method`是一样的：
@@ -960,7 +966,8 @@ public class StudentFactory implements FactoryBean<Student> {
 
 ## 2、SpringEL表达式
 
-SpEL 是一种强大并简洁的装配 Bean 的方式，它可以通过运行期间执行的表达式将值装配到属性或构造函数当中，更可以调用 JDK 中提供的静态常量，获取外部 Properties 文件中的的配置。
+SpEL 是一种强大并简洁的装配 Bean 的方式，它可以通过运行期间执行的表达式将值装配到属性或构造函数当中，更可以调用 JDK
+中提供的静态常量，获取外部 Properties 文件中的的配置。
 
 ### 2.1.外部属性注入
 
@@ -1200,21 +1207,310 @@ Optional.ofNullable(student.name).ifPresent(System.out::println);
 
 ## 3、AOP
 
+AOP（Aspect Oriented Programming）是指在运行时，动态地将代码切入到类的指定方法、指定位置上。也就是说，可以使用AOP来在方法执行前或执行之后，做一些额外的操作，实际上，它就是代理！
+
+### 3.1.xml配置实现AOP
+
+Spring是支持AOP编程的框架之一（实际上它整合了AspectJ框架的一部分），要使用AOP需要先导入一个依赖：
+
+````xml
+<!--aop-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+    <version>6.0.10</version>
+</dependency>
+````
+
+要实现AOP操作，需要先知道这些内容：
+
+- 需要切入的类，类的哪个方法需要被切入
+- 切入之后需要执行什么动作
+- 是在方法执行前切入还是在方法执行后切入
+- 如何告诉Spring需要进行切入
+
+比如现在希望对这个学生对象的study方法进行增强，在不修改源代码的情况下，增加一些额外的操作：
+
+````java
+public class Student {
+    public void hello() {
+        System.out.println("Hello World!");
+    }
+}
+````
+
+````xml
+<!--注册bean-->
+<bean name="student" class="com.fkx.spring.bean.Student"/>
+````
+
+切入之后要做什么呢？这里直接创建一个新的类，并将要执行的操作写成一个方法：
+
+````java
+public class StudentAOP {
+  	//这个方法就是增强操作
+    public void afterStudy() {
+        System.out.println("为什么毕业了他们都继承家产，我还倒给他们打工，我努力的意义在哪里...");
+    }
+}
+````
+
+注意这个类也得注册为Bean才可以：
+
+````xml
+<!--注册bean-->
+<bean name="student" class="com.fkx.spring.bean.StudentAOP"/>
+````
+
+要明确这是在方法执行之前切入还是执行之后切入，很明显，按照上面的要求，需要执行之后进行切入。
+
+怎么才能告诉Spring要进行切入操作呢？需要在配置文件中进行AOP配置：
+
+````xml
+<!--配置aop-->
+<aop:config>
+
+</aop:config>
+````
+
+需要添加一个新的切点，首先填写ID，这个随便起都可以：
+
+````xml
+<!--配置aop-->
+<aop:pointcut id="test" expression=""/>
+````
+
+通过后面的expression表达式来选择到需要切入的方法，Spring AOP支持以下AspectJ切点指示器（PCD）用于表达式：
+
+- `execution`：用于匹配方法执行连接点。这是使用Spring AOP时使用的主要点切割指示器
+- `within`：限制匹配到某些类型的连接点（使用Spring AOP时在匹配类型中声明的方法的执行）
+- `this`：限制与连接点匹配（使用Spring AOP时方法的执行），其中bean引用（Spring AOP代理）是给定类型的实例
+- `target`：限制匹配连接点（使用Spring AOP时方法的执行），其中目标对象（正在代理的应用程序对象）是给定类型的实例
+- `args`：限制与连接点匹配（使用Spring AOP时方法的执行），其中参数是给定类型的实例
+- `@target`：限制匹配连接点（使用Spring AOP时方法的执行），其中执行对象的类具有给定类型的注释
+- `@args`：限制匹配到连接点（使用Spring AOP时方法的执行），其中传递的实际参数的运行时类型具有给定类型的注释
+- `@within`：限制与具有给定注释的类型中的连接点匹配（使用Spring AOP时在带有给定注释的类型中声明的方法的执行）
+- `@annotation`：与连接点主体（在Spring AOP中运行的方法）具有给定注释的连接点匹配的限制
+
+主要学习的execution填写格式如下：
+
+````xml
+修饰符 包名.类名.方法名称(方法参数)
+````
+
+- 修饰符：public、protected、private、包括返回值类型、static等等（使用*代表任意修饰符）
+- 包名：如com.test（* 代表全部，比如com.*代表com包下的全部包）
+- 类名：使用*也可以代表包下的所有类
+- 方法名称：可以使用*代表全部方法
+- 方法参数：填写对应的参数即可，比如(String, String)，也可以使用*来代表任意一个参数，使用..代表所有参数。
+
+也可以使用其他属性来进行匹配，比如`@annotation`可以用于表示标记了哪些注解的方法被切入，这里只是简单的执行，所以说只需要这样写就可以了：
+
+````xml
+<!--指明需要切入的方法-->
+<aop:pointcut id="test" expression="execution(* org.example.entity.Student.study())"/>
+````
+
+然后就是将增强方法，通过`aop:aspect`标签，并使用`ref`属性将其指向刚刚注册的AOP类Bean：
+
+````xml
+<!--指明切入的类和执行的方法-->
+<aop:config>
+    <aop:pointcut id="test" expression="execution(* org.example.entity.Student.study())"/>
+    <aop:aspect ref="studentAOP">
+
+    </aop:aspect>
+</aop:config>
+````
+
+接着就是添加后续动作了，比如执行前、执行后、抛出异常后、方法返回后等等：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/12/16/uopJ9KyqMvQSwi4.png" alt="切入方式">
+
+直接添加后续动作，注意需要指明生效的切点：
+
+````xml
+<!--指明切入的类和执行的方法-->
+<aop:config>
+    <aop:pointcut id="test" expression="execution(* org.example.entity.Student.study())"/>
+    <aop:aspect ref="studentAOP">
+        <!--     method就是增强方法，pointcut-ref指向刚刚创建的切点     -->
+        <aop:after method="afterStudy" pointcut-ref="test"/>
+    </aop:aspect>
+</aop:config>
+````
+
+配置正确会在旁边出现图标：
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/12/16/hBaSmuovMzp5iIn.png" alt="结果">
+
+AOP是基于动态代理实现的，所以如果直接获取Bean的类型，会发现不是原本的类型了：
+
+````java
+Student bean = context.getBean(Student.class);
+System.out.println(bean.getClass());
+````
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/12/16/8lsiRj6Q9eTLhSI.png" alt="动态代理">
+
+其实是Spring通过CGLib生成的动态代理类，也就不难理解为什么调用方法会直接得到增强之后的结果了。
+
+虽然这些功能已经非常强大了，在某些情况下，需要方法执行一些参数，比如方法执行之后返回了什么，或是方法开始之前传入了什么参数等等：
+
+````java
+public class Student {
+    //现在方法有一个String类型的参数
+    public void study(String str){  
+        System.out.println("都别学Java了，根本找不到工作，快去卷"+str);
+    }
+}
+````
+
+在增强的方法中也能拿到这个参数，然后进行处理。通过`JoinPoint`参数就可以快速获取切点位置的一些信息：
+
+````java
+//JoinPoint实例会被自动传入
+public void afterStudy(JoinPoint point) {   
+    //这里直接通过getArgs()返回的参数数组获取第1个参数
+    System.out.println("学什么"+point.getArgs()[0]+"，Rust天下第一！");
+}
+````
+
+接着修改一下刚刚的AOP配置（因为方法参数有变动）：
+
+````xml
+<!--修改aop配置-->
+<aop:pointcut id="test" expression="execution(* org.example.entity.Student.study(String))"/>
+````
+
+来测试一下：
+
+````java
+public static void main(String[] args) {
+    ApplicationContext context = new ClassPathXmlApplicationContext("application.xml");
+    Student bean = context.getBean(Student.class);
+    bean.study("PHP");
+}
+````
+
+<img src="https://oss.itbaima.cn/internal/markdown/2022/12/16/NrZA49JvpgEyL2O.png" alt="joinPoint结果">
+
+自定义度更高的环绕方法，在方法执行前和执行后都加入各种各样的动作：
+
+````java
+public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+    System.out.println("方法开始之前");
+    //调用process方法来执行被代理的原方法，如果有返回值，可以使用value接收
+    Object value = joinPoint.proceed();   
+    System.out.println("方法执行完成，结果为："+value);
+  	return value;
+}
+````
+
+还是以study方法为例，现在希望在调用前修改这个方法传入的参数值，然后在调用之后对返回值结果也进行处理：
+
+````java
+public String study(String str){
+    if(str.equals("Java")){
+        System.out.println("我的梦想是学Java");
+    } else {
+        System.out.println("我就要学Java，不要修改我的梦想！");
+        str = "Java";
+    }
+    return str;
+}
+````
+
+编写一个环绕方法，对其进行全方面处理：
+
+````java
+public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+    System.out.println("我是她的家长，他不能学Java，必须学Rust，这是为他好");
+    Object value = joinPoint.proceed(new Object[]{"Rust"});
+    if(value.equals("Java")) {
+        System.out.println("听话，学Rust以后进大厂！");
+        value = "Rust";
+    }
+    return value;
+}
+````
+
+修改AOP配置：
+
+````xml
+<!--指明切入的类和执行的方法-->
+<aop:config>
+    <aop:pointcut id="test" expression="execution(* org.example.entity.Student.study(String))"/>
+    <aop:aspect ref="studentAOP">
+        <!--     method就是增强方法，pointcut-ref指向刚刚创建的切点     -->
+        <aop:around method="around" pointcut-ref="test"/>
+    </aop:aspect>
+</aop:config>
+````
+
+通过合理利用AOP带来的便捷，可以使得我们的代码更加清爽和优美。这里介绍一下 AOP 领域中的特性术语，防止自己下来看不懂文章：
+
+- 通知（Advice）: AOP 框架中的增强处理，通知描述了切面何时执行以及如何执行增强处理，也就是编写的方法实现
+- 连接点（join point）: 连接点表示应用执行过程中能够插入切面的一个点，这个点可以是方法的调用、异常的抛出，实际上就是在方法执行前或是执行后需要做的内容
+- 切点（PointCut）: 可以插入增强处理的连接点，可以是方法执行之前也可以方法执行之后，还可以是抛出异常之类的
+- 切面（Aspect）: 切面是通知和切点的结合，在xml中定义的就是切面，包括很多信息
+- 引入（Introduction）：引入允许向现有的类添加新的方法或者属性
+- 织入（Weaving）: 将增强处理添加到目标对象中，并创建一个被增强的对象
+
+### 3.2.接口实现AOP
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
 ````
+
 ````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
+````
+````
+
 ````
