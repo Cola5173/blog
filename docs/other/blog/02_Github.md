@@ -116,6 +116,10 @@ C:\Windows\System32\drivers\etc
 # 查看 git 全局的配置
 git config --global -l
 
+# 设置项目级别的用户名和邮箱（这样提交代码，就不会使用全局配置的公司用户名和邮箱咯）：
+git config user.name "你的GitHub用户名"
+git config user.email "你的GitHub邮箱"
+
 # 为单个项目开启代理
 git config --local http.proxy http://127.0.0.1:7890
 git config --local https.proxy http://127.0.0.1:1087
