@@ -43,11 +43,12 @@ export function sidebar() {
                 text: "工具类",
                 base: "/java/tools/",
                 items: [
-                    {text: "Lombok", link: "Lombok.md"},
+                    {text: "Maven", link: "Maven.md"},
                     {text: "Git", link: "Git.md"},
+                    {text: "Lombok", link: "Lombok.md"},
                     {text: "EasyExcel", link: "EasyExcel.md"}
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "并发编程",
