@@ -4,7 +4,10 @@
 
 - JavaSE：梦开始的地方
 - javaWeb：浅浅了解一下即可
-- SSM：Spring+SpringMVC+Mybatis
+- SSM：
+  - Spring
+  - SpringMVC
+  - Mybatis
 - 工具：
     - maven，项目管理
     - Git，版本管理工具
