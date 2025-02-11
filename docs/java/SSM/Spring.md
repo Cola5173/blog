@@ -176,8 +176,267 @@ public class BookServiceImpl implements BookService {
 
 ## 2、IOC
 
+### 2.1.bean基础配置
 
+class属性能不能写接口 `BookDao` 的类全名呢?
 
+- 不行，接口是没办法创建对象
+
+````xml
+    <!--name:为bean指定别名，别名可以有多个，使用逗号，分号，空格进行分隔-->
+    <bean id="bookService" name="service service4 bookEbi" class="com.itheima.service.impl.BookServiceImpl">
+        <!--ref进行依赖注入，该bean必须在IOC中-->
+        <property name="bookDao" ref="bookDao"/>
+    </bean>
+
+    <!--scope：为bean设置作用范围，可选值为单例singloton（默认），非单例prototype-->
+    <bean id="bookDao" name="dao" class="com.itheima.dao.impl.BookDaoImpl"/>
+````
+
+`scope` 属性为单例模式，就避免了对象的频繁创建与销毁，达到了 bean 对象的高复用。
+
+bean在容器中是单例的，会不会产生线程安全问题?
+
+* 如果对象是有状态对象，即该对象有成员变量可以用来存储数据的，
+* 因为所有请求线程共用一个bean对象，所以会存在线程安全问题。
+* 如果对象是无状态对象，即该对象没有成员变量没有进行数据存储的，
+* 因方法中的局部变量在方法调用完成后会被销毁，所以不会存在线程安全问题。
+
+### 2.2.bean实例化
+
+Spring IOC 创建 bean 有三种方法：
+
+- 构造方法（常用）
+- 静态工厂（了解）
+- 实例工厂（了解）
+
+Spring 是通过默认的无参构造器实现 bean 的实例化的，如果重写了含参的构造方法，需要显式声明无参的构造方法。
+
+### 2.3.bean生命周期
+
+Spring 中对 bean生命周期控制提供了两种方式控制：
+
+````xml
+<bean id="bookDao" class="com.cola.spring.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory"/>
+````
+
+对于bean的生命周期控制在bean的整个生命周期中所处的位置如下:
+
+* 初始化容器
+    * 创建对象(内存分配)
+    * 执行构造方法
+    * 执行属性注入(set操作)
+    * 执行bean `init-method` (初始化方法)
+* 使用bean
+    * 执行业务操作
+* 关闭/销毁容器
+    * 执行bean `destroy-method` （销毁方法）
+
+## 3、DI
+
+优先选择使用 setter 注入
+
+### 3.1.setter 注入
+
+- 引用类型：
+
+````java
+public class BookServiceImpl implements BookService {
+    private BookDao bookDao;
+    public void setBookDao(BookDao bookDao) {
+        this.bookDao = bookDao;
+    }
+}
+````
+
+````xml
+<bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
+	<property name="bookDao" ref="bookDao"/>
+</bean>
+
+<bean id="bookDao" class="com.itheima.dao.imipl.BookDaoImpl"/>
+````
+
+- 简单数据类型：
+
+````java
+public class BookDaoImpl implements BookDao {
+
+    private String databaseName;
+    private int connectionNum;
+
+    public void setConnectionNum(int connectionNum) {
+        this.connectionNum = connectionNum;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    public void save() {
+        System.out.println("book dao save ..."+databaseName+","+connectionNum);
+    }
+}
+````
+
+````xml
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl">
+    <property name="databaseName" value="mysql"/>
+    <!--value:后面跟的是简单数据类型，对于参数类型，Spring在注入的时候会自动转换-->
+    <property name="connectionNum" value="10"/>
+</bean>
+````
+
+### 3.2.构造器注入
+
+- 引用类型：
+
+````java
+public class BookServiceImpl implements BookService{
+    private BookDao bookDao;
+    private UserDao userDao;
+
+    public BookServiceImpl(BookDao bookDao,UserDao userDao) {
+        this.bookDao = bookDao;
+        this.userDao = userDao;
+    }
+
+    public void save() {
+        System.out.println("book service save ...");
+        bookDao.save();
+        userDao.save();
+    }
+}
+````
+
+````xml
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+<bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
+    <!--name属性对应的值为构造函数中方法形参的参数名，必须要保持一致-->
+    <constructor-arg name="bookDao" ref="bookDao"/>
+    <constructor-arg name="userDao" ref="userDao"/>
+</bean>
+````
+
+- 简单类型：
+
+````java
+public class BookDaoImpl implements BookDao {
+    private String databaseName;
+    private int connectionNum;
+
+    public BookDaoImpl(String databaseName, int connectionNum) {
+        this.databaseName = databaseName;
+        this.connectionNum = connectionNum;
+    }
+
+    public void save() {
+        System.out.println("book dao save ..."+databaseName+","+connectionNum);
+    }
+}
+````
+
+````xml
+<bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl">
+    <constructor-arg name="databaseName" value="mysql"/>
+    <constructor-arg name="connectionNum" value="666"/>
+</bean>
+````
+
+### 3.3.集合注入
+
+````java
+public class BookDaoImpl implements BookDao {
+
+    private int[] array;
+
+    private List<String> list;
+
+    private Set<String> set;
+
+    private Map<String,String> map;
+
+    private Properties properties;
+
+     public void save() {
+        System.out.println("book dao save ...");
+
+        System.out.println("遍历数组:" + Arrays.toString(array));
+
+        System.out.println("遍历List" + list);
+
+        System.out.println("遍历Set" + set);
+
+        System.out.println("遍历Map" + map);
+
+        System.out.println("遍历Properties" + properties);
+    }
+	//setter....方法省略，自己使用工具生成
+}
+````
+
+- 数组：
+
+````xml
+<property name="array">
+    <array>
+        <value>100</value>
+        <value>200</value>
+        <value>300</value>
+    </array>
+</property>
+````
+
+- List：
+
+````xml
+<property name="list">
+    <list>
+        <value>itcast</value>
+        <value>itheima</value>
+        <value>boxuegu</value>
+        <value>chuanzhihui</value>
+    </list>
+</property>
+````
+
+- Set
+
+````xml
+<property name="set">
+    <set>
+        <value>itcast</value>
+        <value>itheima</value>
+        <value>boxuegu</value>
+        <value>boxuegu</value>
+    </set>
+</property>
+````
+
+- Map
+
+````xml
+<property name="map">
+    <map>
+        <entry key="country" value="china"/>
+        <entry key="province" value="henan"/>
+        <entry key="city" value="kaifeng"/>
+    </map>
+</property>
+````
+
+- Properties：
+
+````xml
+<property name="properties">
+    <props>
+        <prop key="country">china</prop>
+        <prop key="province">henan</prop>
+        <prop key="city">kaifeng</prop>
+    </props>
+</property>
+````
+---
 
 # A
 
