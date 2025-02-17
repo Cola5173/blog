@@ -438,6 +438,136 @@ public class BookDaoImpl implements BookDao {
 ````
 ---
 
+## 4、注解开发
+
+可以发现，虽然 spring 可以控制 bean 的生成，但是使用起来还是比较复杂的。主要是要写很多的配置文件，现在的 spring 已经支持纯注解开发。
+
+### 4.1.纯注解开发
+
+- 配置类：
+
+````java
+@Configuration // 当前类为配置类
+@ComponentScan("com.cola.spring") // 设定扫描路径，此注解只能添加一次，多个数据请用数组格式
+public class SpringConfig {
+}
+````
+
+- dao：
+
+````java
+@Repository
+public class BookDaoImpl implements BookDao {
+    public void save() {
+        System.out.println("book dao save ...");
+    }
+
+    @PostConstruct //在构造方法之后执行，替换 init-method
+    public void init() {
+        System.out.println("init ...");
+    }
+
+    @PreDestroy //在销毁方法之前执行,替换 destroy-method
+    public void destroy() {
+        System.out.println("destroy ...");
+    }
+}
+````
+
+- service:
+
+````java
+@Service
+public class BookServiceImpl implements BookService {
+    @Autowired
+    private BookDao bookDao;
+
+    public void save() {
+        System.out.println("book service save ...");
+        bookDao.save();
+    }
+}
+````
+
+### 4.2.DI注解开发
+
+- 按照名称注入对象：
+
+````java
+@Service
+public class BookServiceImpl implements BookService {
+    @Autowired
+    @Qualifier("bookDao1") //不能独立使用，必须和@Autowired一起使用
+    private BookDao bookDao;
+    
+    public void save() {
+        System.out.println("book service save ...");
+        bookDao.save();
+    }
+}
+````
+
+- 简单类型注入：
+
+````java
+@Repository("bookDao")
+public class BookDaoImpl implements BookDao {
+    @Value("itheima")
+    private String name;
+    public void save() {
+        System.out.println("book dao save ..." + name);
+    }
+}
+````
+
+- 读取properties配置文件：
+
+````java
+@Configuration
+@ComponentScan("com.itheima")
+@PropertySource("jdbc.properties") //如果读取的配置文件有多个，可以使用`@PropertySource`的属性来指定多个，不支持通配符
+public class SpringConfig {
+}
+````
+
+- 读取配置文件中的内容
+
+````java
+@Repository("bookDao")
+public class BookDaoImpl implements BookDao {
+    @Value("${name}")
+    private String name;
+    public void save() {
+        System.out.println("book dao save ..." + name);
+    }
+}
+````
+
+### 4.3.管理第三方bean
+
+- 制作为Spring管理的一个bean对象
+
+````java
+@Configuration
+public class SpringConfig {
+	@Bean
+    public DataSource dataSource(){
+        DruidDataSource ds = new DruidDataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/spring_db");
+        ds.setUsername("root");
+        ds.setPassword("root");
+        return ds;
+    }
+}
+````
+
+## 5、AOP
+
+AOP（`Aspect Oriented Programming`），面向切面编程，在不改原有代码的前提下对其进行增强。
+
+
+
 # A
 
 ````
@@ -446,7 +576,6 @@ public class BookDaoImpl implements BookDao {
 ````
 ````
 
-````
-````
+
 
 <img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/java/SSM/0101.png" alt="当前的问题" style="margin: auto;zoom:60%">
