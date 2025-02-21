@@ -90,14 +90,29 @@ export function sidebar() {
         // 中间件
         "/middleware/": [
             {
-                text: "消息队列",
-                base: "/middleware/mq/",
+                text: "概念",
+                base: "/middleware/concept/",
                 items: [
                     {text: "消息队列", link: "MQ.md"},
-                    {text: "Kafka", link: "Kafka.md"},
                 ],
-                collapsed: true,
-            }
+                collapsed: false,
+            },
+            {
+                text: "Kafka",
+                base: "/middleware/kafka/",
+                items: [
+                    {text: "Kafka（一）", link: "kafka01.md"},
+                ],
+                collapsed: false,
+            },
+            {
+                text: "ElasticSearch",
+                base: "/middleware/es/",
+                items: [
+                    {text: "ElasticSearch（一）", link: "es01.md"},
+                ],
+                collapsed: false,
+            },
         ],
         // 力扣
         "/leetcode/": [
