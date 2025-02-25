@@ -85,3 +85,25 @@ fmt.Println(nums03)
 
 ## 3、map
 
+map(映射、字典)是一种内置的数据结构，它是一个无序的 key-value 对的集合，map 的 key 必须是基本数据类型，value 可以是任意类型。
+
+````go
+func main() {
+	// map，声明
+	var map01 map[string]string
+	// 初始化
+	map01 = make(map[string]string)
+	// 设置值
+	map01["name"] = "cola"
+	fmt.Println(map01) // map[name:cola]
+	// 取值
+	fmt.Println(map01["name"])
+	// 删除值
+	delete(map01, "name")
+	fmt.Println(map01)
+
+	map01["sex"] = "no"
+	map01["name"] = "bob"
+	fmt.Println(map01) // map[name:bob sex:no]
+}
+````
