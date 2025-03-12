@@ -143,15 +143,7 @@ export function sidebar() {
                     {text: "可观测", link: "1_observability.md"},
                 ],
                 collapsed: true,
-            },
-            {
-                text: "软考",
-                base: "/work/CSC/",
-                items: [
-                    {text: "软考初级-程序员", link: "Programmer.md"},
-                ],
-                collapsed: true,
-            },
+            }
         ],
         // 其它
         "/other/": [
