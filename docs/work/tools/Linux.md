@@ -182,3 +182,13 @@ sudo firewall-cmd --zone=public --add-port=9100/tcp --permanent
 # 重新加载防火墙
 firewall-cmd --reload
 ```
+
+## 5、系统资源
+
+````shell
+# 查看当前系统上的所有用户
+cat /etc/passwd
+
+# 查看当前系统资源占用情况，M 按照内存从大到小
+top
+````
