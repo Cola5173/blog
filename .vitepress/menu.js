@@ -99,6 +99,7 @@ export function sidebar() {
                 items: [
                     {text: "Kafka（一）基础概念", link: "kafka01.md"},
                     {text: "Kafka（二）安装和部署", link: "kafka02.md"},
+                    {text: "Kafka（三）工具和命令", link: "kafka03.md"},
                 ],
                 collapsed: false,
             },
