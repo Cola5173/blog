@@ -145,7 +145,7 @@ Kafka 的客户端（包括生产者和消费者）在连接集群时会与任�
 为了便于学习，将在 windows 环境下安装 kafka，安装的版本为 [kafka_2.13-3.8.0.tgz](https://kafka.apache.org/downloads) ，含义是
 scala 语言版本为 2.13，对应的 Kafka 版本是3.8.0。
 
-### 2.1.下载解压
+- 下载解压
 
 下载解压，由于是 tgz 文件，采用 powershell ，进入下载文件存放的目录，输入：
 
@@ -156,13 +156,13 @@ tar -zxvf .\kafka_2.13-3.8.0.tgz
 
 就可以解压文件：
 
-![解压后的目录结构](./imgs/Kafka/01.png)
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/middleware/kafka/07.png" alt="解压后的目录结构" style="margin: auto;zoom: 50%">
 
 然后在你解压完文件的目录下，创建 `logs` 文件夹用于存放日志文件，创建 `data` 文件夹用于存放数据。
 
-![添加日志和数据后的目录结构](./imgs/Kafka/02.png)
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/middleware/kafka/08.png" alt="添加日志和数据后的目录结构" style="margin: auto;zoom: 50%">
 
-### 2.2.修改zk配置文件
+- 修改zk配置文件
 
 进入 config 目录下，找到 `zookeeper.properties` 文件，配置存储路径：
 

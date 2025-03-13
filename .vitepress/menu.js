@@ -98,6 +98,7 @@ export function sidebar() {
                 base: "/middleware/kafka/",
                 items: [
                     {text: "Kafka（一）基础概念", link: "kafka01.md"},
+                    {text: "Kafka（二）安装和部署", link: "kafka02.md"},
                 ],
                 collapsed: false,
             },
