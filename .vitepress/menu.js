@@ -97,7 +97,7 @@ export function sidebar() {
                 text: "Kafka",
                 base: "/middleware/kafka/",
                 items: [
-                    {text: "Kafka（一）", link: "kafka01.md"},
+                    {text: "Kafka（一）基础概念", link: "kafka01.md"},
                 ],
                 collapsed: false,
             },
