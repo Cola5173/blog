@@ -102,7 +102,7 @@ export function sidebar() {
                     {text: "Kafka（三）工具和命令", link: "kafka03.md"},
                     {text: "Kafka（四）Java客户端", link: "kafka04.md"}
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "ElasticSearch",
@@ -116,7 +116,7 @@ export function sidebar() {
                 text: "Docker",
                 base: "/middleware/docker/",
                 items: [
-                    {text: "Docker（一）", link: "docker01.md"},
+                    {text: "Docker（一）安装和概念", link: "docker01.md"},
                 ],
                 collapsed: false,
             },
