@@ -117,6 +117,7 @@ export function sidebar() {
                 base: "/middleware/docker/",
                 items: [
                     {text: "Docker（一）安装和概念", link: "docker01.md"},
+                    {text: "Docker（二）示例和命令", link: "docker02.md"},
                 ],
                 collapsed: false,
             },
