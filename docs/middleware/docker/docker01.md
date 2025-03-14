@@ -9,7 +9,11 @@
 
 ## 安装和概念
 
+---
+
 ### 1、安装
+
+---
 
 参考安装 [Docker-Centos 官方文档](https://docs.docker.com/engine/install/centos/) ，步骤如下所示。
 
@@ -71,7 +75,11 @@ docker -v
 docker compose version
 ````
 
+---
+
 ### 2、概念
+
+---
 
 [Docker](https://www.docker.com/) 是一个开源的容器化平台，允许开发者将应用程序及其依赖项打包成标准化的单元（即容器），然后可以在任何支持 Docker 的环境中运行这些容器。
 

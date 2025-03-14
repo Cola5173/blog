@@ -119,6 +119,7 @@ export function sidebar() {
                     {text: "Docker（一）安装和概念", link: "docker01.md"},
                     {text: "Docker（二）示例和命令", link: "docker02.md"},
                     {text: "Docker（三）Dockerfile", link: "docker03.md"},
+                    {text: "Docker（四）Docker Compose", link: "docker04.md"},
                 ],
                 collapsed: false,
             },
