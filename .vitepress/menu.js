@@ -108,7 +108,7 @@ export function sidebar() {
                 text: "ElasticSearch",
                 base: "/middleware/es/",
                 items: [
-                    {text: "ElasticSearch（一）", link: "es01.md"},
+                    {text: "es（一）简介和安装", link: "es01.md"},
                 ],
                 collapsed: false,
             },
