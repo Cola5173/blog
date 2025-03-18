@@ -5,11 +5,14 @@
 ````
 ````
 
-| 命令           | 含义                         | 示例                          |
-|--------------|----------------------------|-----------------------------|
-| `FROM`       | 指定基础镜像                     | FROM centos:6               |
-| `ENV`        | 设置环境变量，可在后面指令使用            | ENV key value               |
-| `COPY`       | 拷贝本地文件到镜像的指定目录             | COPY ./xx.jar /tmp/app.jar  |
-| `RUN`        | 执行Linux的shell命令，一般是安装过程的命令 | RUN yum install gcc         |
-| `EXPOSE`     | 指定容器运行时监听的端口，是给镜像使用者看的     | EXPOSE 8080                 |
-| `ENTRYPOINT` | 镜像中应用的启动命令，容器运行时调用         | ENTRYPOINT java -jar xx.jar |
+| 属性                 | 类型       | 必须指定 | 默认值   | 描述                                                            |
+|--------------------|----------|------|-------|---------------------------------------------------------------|
+| `value`            | String   | 否    | ""    | 表名                                                            |
+| `schema`           | String   | 否    | ""    | schema                                                        |
+| `keepGlobalPrefix` | boolean  | 否    | false | 是否保持使用全局的 tablePrefix 的值（当全局 tablePrefix 生效时）                 |
+| `resultMap`        | String   | 否    | ""    | xml 中 resultMap 的 id（用于满足特定类型的实体类对象绑定）                        |
+| `autoResultMap`    | boolean  | 否    | false | 是否自动构建 resultMap 并使用（如果设置 resultMap 则不会进行 resultMap 的自动构建与注入） |
+| `excludeProperty`  | String[] | 否    | {}    | 需要排除的属性名 @since 3.3.1                                         |
+
+
+

@@ -121,7 +121,6 @@ export function sidebar() {
                     {text: "Docker（一）安装和概念", link: "docker01.md"},
                     {text: "Docker（二）示例和命令", link: "docker02.md"},
                     {text: "Docker（三）Dockerfile", link: "docker03.md"},
-                    {text: "Docker（四）Docker Compose", link: "docker04.md"},
                 ],
                 collapsed: false,
             },
@@ -185,11 +184,19 @@ export function sidebar() {
                 collapsed: true,
             },
             {
-                text: "股票",
-                base: "/other/stock/",
+                text: "基金",
+                base: "/other/fund/",
                 items: [
-                    {text: "趋势交易", link: "TrendTrading.md"},
-                    {text: "股票基础常识", link: "Basics.md"},
+                    {text: "基金（一）基础知识", link: "fund01.md"},
+                    {text: "基金（二）", link: "fund02.md"},
+                ],
+                collapsed: false,
+            },
+            {
+                text: "ZGNB",
+                base: "/other/zgnb/",
+                items: [
+                    {text: "基础知识", link: "zg01.md"},
                 ],
                 collapsed: true,
             },
