@@ -111,6 +111,7 @@ export function sidebar() {
                     {text: "es（一）简介和安装", link: "es01.md"},
                     {text: "es（二）操作索引库", link: "es02.md"},
                     {text: "es（三）操作文档", link: "es03.md"},
+                    {text: "es（）JavaClient", link: "es00.md"},
                 ],
                 collapsed: false,
             },
