@@ -87,9 +87,9 @@ export function sidebar() {
         "/python/": [
             {
                 text: "语法基础",
-                base: "/python/python/",
+                base: "/python/pythonSE/",
                 items: [
-                    {text: "golang（一）环境安装", link: "pythonSE01.md"},
+                    {text: "python（一）", link: "pythonSE01.md"},
                 ],
                 collapsed: false,
             }
