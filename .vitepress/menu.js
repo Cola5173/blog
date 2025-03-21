@@ -89,7 +89,8 @@ export function sidebar() {
                 text: "语法基础",
                 base: "/python/pythonSE/",
                 items: [
-                    {text: "python（一）", link: "pythonSE01.md"},
+                    {text: "python（一）概述", link: "pythonSE01.md"},
+                    {text: "python（二）变量和运算符", link: "pythonSE02.md"},
                 ],
                 collapsed: false,
             }
