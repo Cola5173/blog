@@ -83,6 +83,17 @@ export function sidebar() {
                 collapsed: false,
             }
         ],
+        // python
+        "/python/": [
+            {
+                text: "语法基础",
+                base: "/python/python/",
+                items: [
+                    {text: "golang（一）环境安装", link: "pythonSE01.md"},
+                ],
+                collapsed: false,
+            }
+        ],
         // 中间件
         "/middleware/": [
             {
@@ -220,6 +231,11 @@ export function nav() {
             text: "Golang",
             link: "/golang/golangIndex.md",
             activeMatch: "/golang/"
+        },
+        {
+            text: "Python",
+            link: "/python/pythonIndex.md",
+            activeMatch: "/python/"
         },
         {
             text: "🛰️中间件",
