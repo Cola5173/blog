@@ -181,7 +181,7 @@ export function sidebar() {
                     {text: "文档小工具", link: "icons.md"},
                     {text: "收藏网址", link: "myCollections.md"},
                 ],
-                collapsed: true,
+                collapsed: false,
             },
             {
                 text: "博客搭建流程",
@@ -202,7 +202,7 @@ export function sidebar() {
                     {text: "基金（一）基础知识", link: "fund01.md"},
                     {text: "基金（二）", link: "fund02.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "ZGNB",
