@@ -167,5 +167,5 @@ print(f"1.1 的类型是{type(1.1)}")
 Python 整数就是用于存放整数值的，比如：12，30，3456，-1，可以表示很大的数（官方：the limit (4300 digits) for integer）.
 
 ````py
-
+1
 ````
