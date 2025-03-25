@@ -7,7 +7,7 @@
 
 :::
 
-## 变量和运算符
+## 变量和数据类型
 
 ---
 
@@ -167,5 +167,43 @@ print(f"1.1 的类型是{type(1.1)}")
 Python 整数就是用于存放整数值的，比如：12，30，3456，-1，可以表示很大的数（官方：the limit (4300 digits) for integer）.
 
 ````py
-1
+n3 = 9 ** 88  # 计算9的88次方
+print("n3 = ", n3, type(n3))
+
+# 计算9的888次方
+n3 = 9 ** 888
+print("n3 = ", n3, type(n3))
+
+# 计算9的8888次方
+# n3 = 9 ** 8888
+# ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+# print("n3 = ", n3, type(n3))
+
+# 计算9的8888次方
+import sys
+
+n3 = 9 ** 8888
+sys.set_int_max_str_digits(0)
+print("n3 = ", n3, type(n3))
 ````
+
+Python 的整数有十进制、十六进制、八进制、二进制：
+- 十进制就是我们最常见的写法，比如：1，66，123
+- 十六进制写法：加前缀 0x，由 0-9 和 A-F 的数字和字母结合
+- 八进制写法：加前缀 0o，由 0-7 数字组合
+- 二进制写法：加前缀 0b，只有 0 和 1 数字结合
+- 运行时，会自动转化为十进制输出
+
+````py
+# 进制（输出都是十进制）
+print(10)  # 十进制
+print(0x10)  # 十六进制
+print(0o10)  # 八进制
+print(0b10)  # 二进制
+````
+
+字节（byte）：计算机中基本存储单元
+
+位（bit）：计算机中的最小存储单位
+
+1 byte = 8 bit

@@ -90,7 +90,7 @@ export function sidebar() {
                 base: "/python/pythonSE/",
                 items: [
                     {text: "python（一）概述", link: "pythonSE01.md"},
-                    {text: "python（二）变量和运算符", link: "pythonSE02.md"},
+                    {text: "python（二）变量和数据类型", link: "pythonSE02.md"},
                 ],
                 collapsed: false,
             }
