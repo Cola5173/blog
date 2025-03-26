@@ -202,8 +202,114 @@ print(0o10)  # 八进制
 print(0b10)  # 二进制
 ````
 
-字节（byte）：计算机中基本存储单元
+`byte`（字节）：计算机中基本存储单元；
 
-位（bit）：计算机中的最小存储单位
+`bit`（位）：计算机中的最小存储单位，`1 byte = 8 bit` .
 
-1 byte = 8 bit
+字节数是随着数字增大而增大（即：Python 整型是变长的），每次的增量是 4 个字节。
+
+````py
+n1 = 0
+n2 = 1
+n3 = 2
+n4 = 2 ** 15
+n5 = 2 ** 30
+n6 = 2 ** 128
+
+# sys.getsizeof(object) 返回对象的大小（以字节为单位）
+print(n1, sys.getsizeof(n1), "类型", type(n1))
+print(n2, sys.getsizeof(n2), "类型", type(n3))
+print(n3, sys.getsizeof(n3), "类型", type(n3))
+print(n4, sys.getsizeof(n4), "类型", type(n4))
+print(n5, sys.getsizeof(n5), "类型", type(n5))
+print(n6, sys.getsizeof(n6), "类型", type(n6))
+````
+
+#### 2.3.浮点
+
+Python 的浮点类型可以表示一个小数，比如：123.4，7.8，-0.12：
+
+- 浮点数表示形式为：十进制数（5.12，.512，必须有小数点）、科学计数法（5.12e，5.12e-2）
+- 浮点数有大小限制：max（1.7976931348623157e+308）、min（2.2250738585072014e-308）
+- 浮点类型计算后，存在精度的缺失，需要使用 Decimal 类进行精确计算
+
+````py
+n1 = 5.12
+n2 = .512
+print(n2)  # 0.512
+
+n3 = 5.12e2  # 5.12 乘以 10 的 2 次方
+print(n3)  # 512.0
+
+n4 = 5.12e-2  # 5.12 乘以 10 的 -2 次方
+print(n4)  # 0.0512
+
+# float_info 是 sys 模块中的一个对象，它包含了浮点数的相关信息
+import sys
+print(sys.float_info.max)  # 最大的浮点数
+print(sys.float_info.min)  # 最小的浮点数
+
+# 浮点类型计算后，存在精度缺失问题
+n5 = 8.1 / 3
+print(n5)  # 2.6999999999999997
+
+# decimal 模块可以解决浮点数的精度问题
+from decimal import Decimal
+n6 = Decimal('8.1') / Decimal('3')
+print(n6)  # 2.7
+````
+
+#### 2.4.布尔
+
+`bool`（布尔类型），取值 `True` 和 `False` ，都是关键字，表示布尔值。
+
+适用于逻辑运算，一般用于程序流程控制：条件控制语句、循环控制语句，比如判断某个条件是否成立，或者在某个条件满足时执行某些代码。
+
+布尔类型可以和其他数据类型进行比较，比如数字、字符串等。在比较时，Python 会将 True 视为 1，False 视为 0 。在 Python 中，非 0 被视为真值，0 被视为假值。
+
+````py
+# 布尔的基本使用，逻辑运算
+n1 = 100
+n2 = 200
+if n1 > n2:
+    print("n1 大于 n2")
+else:
+    print("n1 小于等于 n2")
+
+# 把 n1 > n2 的结果赋值给变量 n3
+n3 = n1 > n2
+print(n3)
+print("n3 的类型是", type(n3))
+print(type(1 > -1))
+
+# 布尔值和整数的运算，False 相当于 0，True 相当于 1
+n4 = False
+n5 = True
+print(n4 + 10)
+print(n5 + 10)
+
+if n4 == 0:
+    print("n4 是 False")
+if n5 == 1:
+    print("n5 是 True")
+
+# 非0被视为真值，0被视为假值
+if 0:
+    print("haha")
+if 1:
+    print("lala")
+if -1.1:
+    print("ohlalala")
+````
+
+#### 2.5.字符串
+
+字符串是 Python 中很常用的数据类型，使用引号 `'` 或 `"` 包括起来，创建字符串：
+
+- Python 中不支持单字符类型，单字符在 Python 中也是作为一个字符串使用
+- 用三个单引号 '''内容''' 或三个双引号 """内容""" 可以使字符串内容保持原样输出，在输出格式复杂的内容是比较有用的
+- 在字符串前面加 `r` 可以使整个字符串不会被转义
+
+````py
+
+````
