@@ -306,10 +306,147 @@ if -1.1:
 
 字符串是 Python 中很常用的数据类型，使用引号 `'` 或 `"` 包括起来，创建字符串：
 
+````py
+# 使用引号（' or "）包括起来，创建字符串
+n1 = 'tom 说：“hello”'
+print(n1)
+n2 = "jack say hi"
+print(n2)
+````
+
 - Python 中不支持单字符类型，单字符在 Python 中也是作为一个字符串使用
 - 用三个单引号 '''内容''' 或三个双引号 """内容""" 可以使字符串内容保持原样输出，在输出格式复杂的内容是比较有用的
 - 在字符串前面加 `r` 可以使整个字符串不会被转义
 
 ````py
+# python 不支持单字符类型，单字符也是作为一个字符串使用
+n3 = 'A'
+print('n3 的值为：{} 类型是 {}'.format(n3, type(n3)))  # n3 的值为：A 类型是 <class 'str'>
 
+# 用三个单引号'''内容'''或三个双引号"""内容"""可以使字符串内容保持原样输出，在输出格式复杂的内容是比较有用的。
+content = """ Hi，我是你的百度翻译AI助手，我可以提供一站式翻译服务，'f'
+目前仅支持中文和英语，其它语种正在努力学习中；
+所有内容均由AI提供，仅供参考，如有错误请反馈，我们将持续改进！"""
+print(content)
+
+# 在字符串前面加`r`可以使整个字符串不会被转义
+str4 = "jack\ntom\tking"
+print(str4)
+str5 = r"jack\ntom\tking"
+print(str5)
+````
+
+**「字符串驻留机制」**，python仅保存一份相同且不可变的字符串，不同的值被存放在字符串的驻留池中，python的驻留机制对**相同的字符串只保存一份拷贝**，后续创建相同字符串时，不会开辟新的空间，而是把该字符串的地址赋给新创建的变量。
+
+````py
+# 字符串驻留机制
+str1 = "hello"
+str2 = "hello"
+str3 = "hello"
+
+# id()函数是可以返回对象/数据的内存地址
+print("str1的地址：", id(str1))
+print("str2的地址：", id(str2))
+print("str3的地址：", id(str3))
+````
+
+❗驻留机制的只有在以下几种情况才会发生（在终端中执行）：
+
+- 字符串是由26个英文大小写字母，0～9，_组成
+- 字符串长度为 0 或 1 时
+- 字符串在编译时进行驻留，而非运行时
+- [-5,256] 的整数数字
+
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/python/pythonSE/02.png" alt="基本概念" style="margin: auto;zoom: normal">
+
+`sys` 的 `intern()` 方法可以强制两个字符串都指向同一个对象：
+
+<img src="https://blogcola1213.oss-cn-wuhan-lr.aliyuncs.com/python/pythonSE/03.png" alt="基本概念" style="margin: auto;zoom: normal">
+
+但是 pycharm 对字符串进行了优化处理：
+
+````py
+# pycharm 进行了字符串优化处理
+n1 = 'abc#'
+n2 = 'abc#'
+print(id(n1))
+print(id(n2))
+
+n1 = -100
+n2 = -100
+print(id(n1))
+print(id(n2))
+````
+
+当需要值相同的字符串时，可以直接从字符串池里拿来使用，避免频繁的创建和销毁，提高效率和节约内存。
+
+#### 2.6.数据类型转换
+
+「隐式转换」，python 中变量的类型不是固定的，会根据变量在运行时决定，运算的时候会自动向高精度进行转换。
+
+````py
+# python 根据该变量使用的上下文在运行时决定的
+var1 = 10  # int类型
+print(type(var1))
+var1 = 1.1  # float类型
+print(type(var1))
+var1 = 'hello'  # string类型
+print(type(var1))
+
+# 在运算的时候，数据类型会向高精度自动转换，float的精度高于int
+var2 = 10
+var3 = 1.2
+var4 = var2 + var3
+print("var4=", var4, "var4的类型：", type(var4))
+var2 = var2 + 0.1
+print("var2=", var2, "var2的类型：", type(var2))
+````
+
+「显式类型转换」，指的是对变量数据类型进行转换：
+
+````py
+# 显式转换
+i = 10
+i = float(i)
+print("i={},i 的类型是 ：{}".format(i, type(i)))
+i = str(i)
+print("i={},i 的类型是 ：{}".format(i, type(i)))
+````
+
+显式类型转换的注意事项：
+
+- 不管什么值的 `int` 、 `float` 都可以转换为 `str` ，`str(x)` 将对象 x 转换为字符串
+- `int` 转换为 `float` 时，会增加小数部分
+- `float` 转换为 `int` 时，会删除小数部分
+- `str` 转 `int` 、 `float` ，使用 `int(x)` 、 `float(x)` 将对象 x 转换为`int` 、 `float`
+- 在将 `str` 类型转为 基本数据类型时，要确保 `str` 能够转成有效的数据，如果无法转成有效的数字则会报错
+- 对一个变量进行强制转换，会返回一个数据值，强制转换后并不影响原本变量的数据类型
+
+````py
+# 显式转换的注意事项
+# 显示类型转换注意事项
+n1 = 100
+n2 = 123.65
+print(str(n1))
+print(str(n2))
+
+print(float(n1))
+print(int(n2))
+
+n3 = "12.56"
+print(float(n3))
+# print(int(n3))  # ValueError: invalid literal for int() with base 10: '12.56'
+
+n4 = "hello"  # ValueError: could not convert string to float: 'hello'
+# print(float(n4))
+# print(int(n4))
+
+i = 10
+j = float(i)
+print("i的值：", i, "i的类型：", type(i))
+print("j的值：", j, "j的类型：", type(j))
+
+k = str(i)
+print("i的值：", i, "i的类型：", type(i))
+print("k的值：", k, "k的类型：", type(k))
 ````
