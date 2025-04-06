@@ -14,4 +14,3 @@
 | `autoResultMap`    | boolean  | 否    | false | 是否自动构建 resultMap 并使用（如果设置 resultMap 则不会进行 resultMap 的自动构建与注入） |
 | `excludeProperty`  | String[] | 否    | {}    | 需要排除的属性名 @since 3.3.1                                         |
 
-
