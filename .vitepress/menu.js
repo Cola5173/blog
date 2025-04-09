@@ -18,7 +18,7 @@ export function sidebar() {
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
                     {text: "Java新特性介绍", link: "JavaSE08.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "javaWeb",
@@ -37,18 +37,17 @@ export function sidebar() {
                     {text: "Spring", link: "Spring.md"},
                     {text: "MybatisPlus", link: "MybatisPlus.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "工具类",
                 base: "/java/tools/",
                 items: [
                     {text: "Maven", link: "Maven.md"},
-                    {text: "Git", link: "Git.md"},
                     {text: "Lombok", link: "Lombok.md"},
                     {text: "EasyExcel", link: "EasyExcel.md"}
                 ],
-                collapsed: false,
+                collapsed: true,
             },
             {
                 text: "并发编程",
@@ -136,7 +135,7 @@ export function sidebar() {
                     {text: "Docker（二）示例和命令", link: "docker02.md"},
                     {text: "Docker（三）Dockerfile", link: "docker03.md"},
                 ],
-                collapsed: false,
+                collapsed: true,
             },
         ],
         // 力扣
@@ -157,6 +156,15 @@ export function sidebar() {
                 base: "/work/tools/",
                 items: [
                     {text: "Linux", link: "Linux.md"},
+                    {text: "Git", link: "Git.md"},
+                ],
+                collapsed: false,
+            },
+            {
+                text: "2025",
+                base: "/work/2025/",
+                items: [
+                    {text: "Dify", link: "01_Dify.md"},
                 ],
                 collapsed: false,
             },
