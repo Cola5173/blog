@@ -175,6 +175,23 @@ export function sidebar() {
         // 有知有行
         "/practice/": [
             {
+                text: "基金",
+                base: "/practice/fund/",
+                items: [
+                    {text: "基金（一）基础知识", link: "01.md"},
+                    {text: "基金（二）ETF&LOF", link: "02.md"},
+                ],
+                collapsed: true,
+            },
+            {
+                text: "股票",
+                base: "/practice/stock/",
+                items: [
+                    {text: "基础知识", link: "01.md"},
+                ],
+                collapsed: true,
+            },
+            {
                 text: "2025",
                 base: "/practice/2025",
                 items: [
@@ -203,23 +220,6 @@ export function sidebar() {
                     {text: "3-Vercel", link: "03_Vercel.md"},
                     {text: "4-gittalk", link: "04_gittalk.md"},
                     {text: "5-增加文字总数和阅读时间组件", link: "05_ReadingStats.md"},
-                ],
-                collapsed: true,
-            },
-            {
-                text: "基金",
-                base: "/other/fund/",
-                items: [
-                    {text: "基金（一）基础知识", link: "fund01.md"},
-                    {text: "基金（二）", link: "fund02.md"},
-                ],
-                collapsed: true,
-            },
-            {
-                text: "ZGNB",
-                base: "/other/zgnb/",
-                items: [
-                    {text: "基础知识", link: "zg01.md"},
                 ],
                 collapsed: true,
             },
