@@ -91,6 +91,7 @@ export function sidebar() {
                     {text: "python（一）概述", link: "pythonSE01.md"},
                     {text: "python（二）变量和数据类型", link: "pythonSE02.md"},
                     {text: "python（三）运算符", link: "pythonSE03.md"},
+                    {text: "python（四）程序控制结构", link: "pythonSE04.md"},
                 ],
                 collapsed: false,
             }
@@ -138,17 +139,6 @@ export function sidebar() {
                 collapsed: true,
             },
         ],
-        // 力扣
-        "/leetcode/": [
-            {
-                text: "前100道",
-                base: "/leetcode/100",
-                items: [
-                    {text: "还没写", link: "还没写.md"}
-                ],
-                collapsed: true,
-            }
-        ],
         // 工作
         "/work/": [
             {
@@ -178,6 +168,17 @@ export function sidebar() {
                     {text: "Vector", link: "3_Vector.md"},
                     {text: "问题修复记录", link: "2_bugs.md"},
                     {text: "可观测", link: "1_observability.md"},
+                ],
+                collapsed: true,
+            }
+        ],
+        // 有知有行
+        "/practice/": [
+            {
+                text: "2025",
+                base: "/practice/2025",
+                items: [
+                    {text: "还没写", link: "还没写.md"}
                 ],
                 collapsed: true,
             }
@@ -253,14 +254,14 @@ export function nav() {
             activeMatch: "/middleware/"
         },
         {
-            text: "🔢力扣",
-            link: "/leetcode/力扣.md",
-            activeMatch: "/leetcode/",
-        },
-        {
             text: "👩🏻‍💻工作",
             link: "/work/工作首页.md",
             activeMatch: "/work/",
+        },
+        {
+            text: "💸有知有行",
+            link: "/practice/learnByDoing.md",
+            activeMatch: "/practice/",
         },
         {
             text: "🤖其它",
