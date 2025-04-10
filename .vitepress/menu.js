@@ -178,8 +178,8 @@ export function sidebar() {
                 text: "基金",
                 base: "/practice/fund/",
                 items: [
-                    {text: "基金（一）基础知识", link: "01.md"},
-                    {text: "基金（二）ETF&LOF", link: "02.md"},
+                    {text: "01-基础知识", link: "01.md"},
+                    {text: "02-ETF&LOF", link: "02.md"},
                 ],
                 collapsed: true,
             },
@@ -187,7 +187,7 @@ export function sidebar() {
                 text: "股票",
                 base: "/practice/stock/",
                 items: [
-                    {text: "基础知识", link: "01.md"},
+                    {text: "01-入门知识", link: "01.md"},
                 ],
                 collapsed: true,
             },
