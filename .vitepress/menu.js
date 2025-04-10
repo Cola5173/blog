@@ -188,6 +188,7 @@ export function sidebar() {
                 base: "/practice/stock/",
                 items: [
                     {text: "01-入门知识", link: "01.md"},
+                    {text: "01-基础指标", link: "02.md"},
                 ],
                 collapsed: true,
             },
