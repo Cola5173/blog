@@ -73,5 +73,151 @@ RAG 不是指一个具体的模型，而是一种架构/方法论，所以常见
 | `Semantic Kernel` | 	微软推出的 RAG 框架（C#/Python）	  | 与 Azure OpenAI 集成紧密，企业友好 |
 | `RAGas`           | 	专注评估 RAG 系统的开源框架	         | 帮你测试 RAG 的效果，比如回答准确率     |
 
+## RAG预处理流程
 
+✅ RAG 预处理流程拆解如下：
+
+🔹 1. 文档清洗（Preprocessing）
+
+目标：剔除无用信息、统一格式
+
+举例：
+- 去除 HTML 标签、控制字符、无意义符号
+- OCR 提取文本（如果是扫描版 PDF）
+- 转换编码统一格式（如 UTF-8）
+
+🔹 2. 文本分段（Chunking / Splitting）
+
+目标：把长文档按语义/长度切成小块（chunk），便于检索
+
+方法：
+- 固定长度：比如每 500 字一个 chunk
+- 语义感知分段：根据段落、标题、换行切分
+- 可加窗口重叠（sliding window）避免语义断裂
+
+工具：
+- LangChain.text_splitter 系列（RecursiveCharacterTextSplitter 等）
+- LlamaIndex 的 NodeParser（支持 markdown、PDF 等格式）
+
+🔹 3. 向量化（Embedding）
+
+每个分段文本 → 用 Embedding 模型 转成向量（高维向量）
+
+模型推荐：
+- 中文：bge-large-zh、text2vec 系列
+- 英文/多语种：E5、OpenAI text-embedding-3-small
+
+🔹 4. 向量入库（Indexing）
+
+将每个 chunk 的向量 + 原始文本 存进 向量数据库，支持向量相似度搜索（通常是 cosine 或 inner product）
+
+常见数据库：
+- 本地开发：FAISS
+- 高性能生产：Milvus、Weaviate、Qdrant
+
+## RAG核心流程
+
+预处理流程之后，RAG 的下一步就是它的核心工作流程，**用户查询时的检索和生成部分**：
+
+用户提问 → 检索相关文本 → 用 LLM 回答
+
+🎯 完整流程如下：
+
+✅ 0. 预处理阶段（离线阶段）：
+
+- 清洗文档 ✅
+- 分段（chunking）✅
+- 向量化 ✅
+- 入向量库 ✅
+
+✅ 1. 用户提问（Query）：
+
+- 用户输入问题，比如：“为什么服务A昨天宕机了？”
+- 系统把这个问题也用 embedding 模型 向量化，得到 query vector
+
+✅ 2. 向量相似度检索（Retrieval）
+
+- 拿用户的问题向量，在向量数据库中查找最相关的 K 个 chunk
+- 通常会用 Cosine Similarity 或 Inner Product
+- 找到的这些 chunk 就是“与用户问题最相关的知识碎片”
+
+✅ 3. 构建 Prompt（Prompt Injection）
+
+- 把用户问题 + 检索到的上下文拼成一个 Prompt，喂给 LLM
+- Prompt 示意如下：
+
+    你是一个智能运维助手，请根据以下上下文回答问题：
+
+    上下文：
+    [段落1]
+    [段落2]
+    [段落3]
+    
+    问题：
+    为什么服务A昨天宕机了？
+    
+    请用简洁专业的方式回答：
+
+✅ 4. LLM 生成回答（Augmented Generation）
+
+- LLM 根据上下文信息生成回答
+- 因为模型有了你数据库里的真实数据作为参考，所以：
+  - 回答更准确
+  - 更贴近你公司的知识内容
+  - 不容易“胡说八道”（Hallucination）
+
+✅ 5. 展示/输出
+
+- 把答案展示在前端，或者给 API 响应返回
+- 可选：展示参考片段、评分、重写提示等
+
+
+
+🔁 总结一下流程图
+
+````text
+📄 文档 → 分段 → 向量化 → 入库（离线阶段）
+
+用户提问 → 向量化 → 相似度检索 → 拼接 Prompt → LLM 生成回答 → 输出
+````
+
+## LLM和RAG
+
+RAG = 传统 LLM + “存储向量 + 检索”过程
+
+传统 LLM 模型（如 GPT）：
+
+- 用户提问 → 模型“凭记忆”生成回答
+
+````text
+•	只靠模型预训练的知识
+•	无法访问“实时、私有、本地”数据
+•	易出现【幻觉】（hallucination）
+````
+
+
+🔁 RAG（Retrieval-Augmented Generation）：
+
+> 用户提问 
+> 
+> → 🔍检索外部知识库（向量数据库） 
+> 
+> → 📄拼接上下文进 Prompt 
+> 
+> → 🤖 LLM 参考这些上下文生成回答
+
+
+用图表示就是：
+
+````text
+传统 LLM：  用户问题 → 模型 → 回答
+
+RAG：       用户问题
+              ↓
+       向量化 & 检索（找相关文本）
+              ↓
+        拼 prompt + 上下文
+              ↓
+          LLM 生成回答
+````
 
