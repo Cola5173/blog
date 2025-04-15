@@ -155,6 +155,8 @@ export function sidebar() {
                 base: "/work/2025/",
                 items: [
                     {text: "Dify知识库", link: "01_Dify.md"},
+                    {text: "LLM", link: "02_LLM.md"},
+                    {text: "RAG", link: "03_RAG.md"},
                 ],
                 collapsed: false,
             },
