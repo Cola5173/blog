@@ -154,9 +154,10 @@ export function sidebar() {
                 text: "2025",
                 base: "/work/2025/",
                 items: [
-                    {text: "Dify知识库", link: "01_Dify.md"},
-                    {text: "LLM", link: "02_LLM.md"},
-                    {text: "RAG", link: "03_RAG.md"},
+                    {text: "Dify知识库", link: "01.md"},
+                    {text: "LLM", link: "02.md"},
+                    {text: "RAG", link: "03.md"},
+                    {text: "DDD", link: "04.md"},
                 ],
                 collapsed: false,
             },
@@ -180,8 +181,8 @@ export function sidebar() {
                 text: "基金",
                 base: "/practice/fund/",
                 items: [
-                    {text: "01-基础知识", link: "01.md"},
-                    {text: "02-ETF&LOF", link: "02.md"},
+                    {text: "基础知识", link: "01.md"},
+                    {text: "ETF&LOF", link: "02.md"},
                 ],
                 collapsed: true,
             },
@@ -189,16 +190,18 @@ export function sidebar() {
                 text: "股票",
                 base: "/practice/stock/",
                 items: [
-                    {text: "01-入门知识", link: "01.md"},
-                    {text: "01-基础指标", link: "02.md"},
+                    {text: "股场悟道", link: "00.md"},
+                    {text: "入门知识", link: "01.md"},
+                    {text: "基础指标", link: "02.md"},
                 ],
                 collapsed: true,
             },
             {
                 text: "2025",
-                base: "/practice/2025",
+                base: "/practice/2025/",
                 items: [
-                    {text: "还没写", link: "还没写.md"}
+                    {text: "选股", link: "01.md"},
+                    {text: "买卖", link: "02.md"},
                 ],
                 collapsed: true,
             }
