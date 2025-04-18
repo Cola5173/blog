@@ -382,7 +382,7 @@ git tag <tag-name>
 git tag -a <tag-name> -m "Tag description"
 
 # 推送标签到远程（具体标签 or 所有本地标签）
-git push origin <tag-name>
+git push origin refs/tags/<tag-name>
 git push --tags
 
 # 删除标签（本地标签 or 远程标签）
