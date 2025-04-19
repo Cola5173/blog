@@ -156,7 +156,7 @@ export function sidebar() {
                 items: [
                     {text: "Dify知识库", link: "01.md"},
                     {text: "LLM", link: "02.md"},
-                    {text: "RAG", link: "03.md"},
+                    {text: "RAG", link: "00.md"},
                     {text: "DDD", link: "04.md"},
                 ],
                 collapsed: false,
@@ -200,8 +200,9 @@ export function sidebar() {
                 text: "2025",
                 base: "/practice/2025/",
                 items: [
-                    {text: "选股", link: "01.md"},
+                    {text: "支撑压力位", link: "03.md"},
                     {text: "买卖", link: "02.md"},
+                    {text: "选股", link: "01.md"},
                 ],
                 collapsed: true,
             }
