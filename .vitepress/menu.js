@@ -16,9 +16,16 @@ export function sidebar() {
                     {text: "JavaSE（五）泛型程序设计", link: "JavaSE05.md"},
                     {text: "JavaSE（六）集合类与IO", link: "JavaSE06.md"},
                     {text: "JavaSE（七）多线程与反射", link: "JavaSE07.md"},
-                    {text: "Java新特性介绍", link: "JavaSE08.md"},
                 ],
                 collapsed: true,
+            },
+            {
+                text: "java新特性",
+                base: "/java/newFeatures/",
+                items: [
+                    // {text: "", link: "01.md"},
+                ],
+                collapsed: false,
             },
             {
                 text: "javaWeb",
@@ -156,7 +163,7 @@ export function sidebar() {
                 items: [
                     {text: "Dify知识库", link: "01.md"},
                     {text: "LLM", link: "02.md"},
-                    {text: "RAG", link: "00.md"},
+                    {text: "RAG", link: "03.md"},
                     {text: "DDD", link: "04.md"},
                 ],
                 collapsed: false,
@@ -204,6 +211,7 @@ export function sidebar() {
                     {text: "买卖", link: "02.md"},
                     {text: "支撑压力位", link: "03.md"},
                     {text: "二波形态", link: "04.md"},
+                    {text: "四分之三阴量线", link: "05.md"},
                 ],
                 collapsed: true,
             }
