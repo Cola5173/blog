@@ -20,14 +20,6 @@ export function sidebar() {
                 collapsed: true,
             },
             {
-                text: "java新特性",
-                base: "/java/newFeatures/",
-                items: [
-                    // {text: "", link: "01.md"},
-                ],
-                collapsed: false,
-            },
-            {
                 text: "javaWeb",
                 base: "/java/javaWeb/",
                 items: [
@@ -35,8 +27,17 @@ export function sidebar() {
                     {text: "JavaWeb（二）前端基础", link: "javaWeb02.md"},
                     {text: "JavaWeb（三）后端开发", link: "javaWeb03.md"},
                 ],
+                collapsed: true,
+            },
+            {
+                text: "新特性",
+                base: "/java/newFeatures/",
+                items: [
+                    {text: "函数", link: "01.md"},
+                ],
                 collapsed: false,
             },
+
             {
                 text: "SSM",
                 base: "/java/SSM/",
