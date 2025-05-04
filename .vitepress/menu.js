@@ -33,7 +33,8 @@ export function sidebar() {
                 text: "新特性",
                 base: "/java/newFeatures/",
                 items: [
-                    {text: "函数", link: "01.md"},
+                    {text: "Java8关键特性", link: "01.md"},
+                    {text: "函数编程语法", link: "02.md"},
                 ],
                 collapsed: false,
             },
