@@ -33,8 +33,8 @@ export function sidebar() {
                 text: "新特性",
                 base: "/java/newFeatures/",
                 items: [
-                    {text: "Java8关键特性", link: "01.md"},
-                    {text: "函数编程语法", link: "02.md"},
+                    {text: "Java8", link: "01.md"},
+                    {text: "Java9", link: "02.md"},
                 ],
                 collapsed: false,
             },
@@ -202,6 +202,7 @@ export function sidebar() {
                     {text: "股场悟道", link: "00.md"},
                     {text: "入门知识", link: "01.md"},
                     {text: "基础指标", link: "02.md"},
+                    {text: "K线", link: "03.md"},
                 ],
                 collapsed: true,
             },
@@ -213,7 +214,7 @@ export function sidebar() {
                     {text: "买卖", link: "02.md"},
                     {text: "支撑压力位", link: "03.md"},
                     {text: "二波形态", link: "04.md"},
-                    {text: "四分之三阴量线", link: "05.md"},
+                    {text: "zettaranc", link: "05.md"},
                 ],
                 collapsed: true,
             }
