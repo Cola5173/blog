@@ -210,11 +210,8 @@ export function sidebar() {
                 text: "2025",
                 base: "/practice/2025/",
                 items: [
-                    {text: "选股", link: "01.md"},
-                    {text: "买卖", link: "02.md"},
-                    {text: "支撑压力位", link: "03.md"},
-                    {text: "二波形态", link: "04.md"},
-                    {text: "zettaranc", link: "05.md"},
+                    {text: "霜哥", link: "01.md"},
+                    {text: "zettaranc", link: "02.md"},
                 ],
                 collapsed: true,
             }
