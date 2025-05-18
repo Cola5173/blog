@@ -97,7 +97,7 @@ export function sidebar() {
                 text: "语法基础",
                 base: "/python/pythonSE/",
                 items: [
-                    {text: "python（一）概述", link: "pythonSE01.md"},
+                    {text: "python（一）基础语法", link: "pythonSE01.md"},
                 ],
                 collapsed: false,
             }
