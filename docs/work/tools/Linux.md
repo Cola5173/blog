@@ -3,7 +3,8 @@
 :::details 参考资料：
 
 - [Linux命令大全(手册)](https://www.linuxcool.com/)
-  :::
+
+:::
 
 在日常工作中，总是需要登录linux服务器进行安装和部署操作，经常使用的命令如下：
 
@@ -77,6 +78,8 @@ tar xvf File.tar -C /etc
 unzip File.zip
 # 将压缩包文件解压到指定目录中
 unzip File.zip -d /home
+# 压缩文件
+zip -r 压缩文件名 压缩文件目录
 ```
 
 ## 2.文档编辑
