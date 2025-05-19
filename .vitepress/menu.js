@@ -210,6 +210,7 @@ export function sidebar() {
                 items: [
                     {text: "霜哥", link: "01.md"},
                     {text: "zettaranc", link: "02.md"},
+                    {text: "舰长专享", link: "03.md"},
                 ],
                 collapsed: true,
             }
