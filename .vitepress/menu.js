@@ -100,6 +100,7 @@ export function sidebar() {
                     {text: "python（一）基础语法", link: "pythonSE01.md"},
                     {text: "python（二）判断语句", link: "pythonSE02.md"},
                     {text: "python（三）循环语句", link: "pythonSE03.md"},
+                    {text: "python（四）函数", link: "pythonSE04.md"},
                 ],
                 collapsed: false,
             }
