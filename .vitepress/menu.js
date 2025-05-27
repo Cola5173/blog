@@ -188,15 +188,6 @@ export function sidebar() {
         // 有知有行
         "/practice/": [
             {
-                text: "基金",
-                base: "/practice/fund/",
-                items: [
-                    {text: "基础知识", link: "01.md"},
-                    {text: "ETF&LOF", link: "02.md"},
-                ],
-                collapsed: true,
-            },
-            {
                 text: "股票",
                 base: "/practice/stock/",
                 items: [
@@ -211,8 +202,8 @@ export function sidebar() {
                 text: "2025",
                 base: "/practice/2025/",
                 items: [
-                    {text: "霜哥", link: "01.md"},
-                    {text: "zettaranc", link: "02.md"},
+                    {text: "zettaranc", link: "01.md"},
+                    {text: "股探报告", link: "02.md"},
                     {text: "舰长专享", link: "03.md"},
                 ],
                 collapsed: true,
