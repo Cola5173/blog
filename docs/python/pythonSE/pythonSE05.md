@@ -16,7 +16,7 @@
 - 集合（set）
 - 字典（dict）
 
-## 一、列表
+## 一、list
 
 ### 1.格式
 
@@ -269,3 +269,372 @@ for x in my_list:
 - 允许重复数据存在 
 - 可以修改（增加或删除元素等）
 
+## 二、tuple
+
+「元素」同列表一样,但一旦定义完成，就不可修改，可以理解成只读的列表。
+
+### 1.基本格式
+
+元组的定义使用小括号，且使用逗号隔开各个数据，数据可以是不同的类型：
+
+````python
+# 定义元组
+变量名称 = (元素1, 元素2, 元素3, 元素4, 元素5)
+# 定义只有一个元素的元组
+变量名称 = (元素1,)
+# 定义空元组
+变量名称 = ()
+变量名称 = tuple()
+````
+
+使用示例：
+
+- 元组只有一个数据，这个数据后面要添加逗号，否则不是元组
+
+````python
+my_tuple_1 = ("观止", 20, True, ("guanzhi", 20))
+my_tuple_2 = ("观止", 20, True)
+print(my_tuple_2)
+print(type(my_tuple_1))
+# 输出
+# ('观止', 20, True)
+# <class 'tuple'>
+
+# 元组只有一个数据，这个数据后面要添加逗号，否则不是元组
+my_tuple = ("观止")
+print(type(my_tuple))  # 打印 <class 'str'>
+my_tuple = ("观止",)
+print(type(my_tuple))  # 打印 <class 'tuple'>
+
+# 获取值方式与列表一致
+# my_tuple = ((1, 2, 3), (4, 5, 6))
+# print(my_tuple[0][0]) # 打印 1
+````
+
+### 2.元组的操作
+
+元组由于不可修改的特性，所以其操作方法非常少：
+
+| 方法            | 	作用                       |
+|---------------|---------------------------|
+| 元组.index(元素)	 | 查找某个数据，如果数据存在返回对应的下标，否则报错 |
+| 元组.count(元素)  | 	统计某个数据在当前元组出现的次数         |
+| len(元组)	      | 统计元组内的元素个数                |
+
+示例：
+
+````pyhton
+# 1.查询元素
+my_tuple = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+print(my_tuple.index(5))
+
+# 2.统计某个数据在元组内出现次数
+my_tuple = (1, 2, 3, 4, 5, 5, 5, 8, 9, 10)
+print(my_tuple.count(5))
+
+# 3.统计元组内元素个数
+print(len(my_tuple))
+
+# 4.不可以修改元组的内容，否则会直接报错
+my_tuple = (1, True, "观止")
+# my_tuple[0] = 5  # 报错 'tuple' object does not support item assignment
+
+# 5.可以修改元组内的list的内容（修改元素、增加、删除、反转等）
+my_tuple = (1, True, [2, 3, 4])
+my_tuple[2][0] = 5
+print(my_tuple)  # 打印 (1, True, [5, 3, 4])
+````
+
+### 3.元组小结
+
+- 可以与列表一样使用for与while循环遍历； 
+- 多数特性和list一致，不同点在于不可修改的特性； 
+- 可以容纳多个数据； 
+- 可以容纳不同类型的数据（混装）； 
+- 数据是有序存储的（下标索引）； 
+- 允许重复数据存在；
+- 不可以修改（增加或删除元素等）；
+
+## 三、str
+
+「字符串」是字符的容器，一个字符串可以存放任意数量的字符；同元组一样,字符串是一个无法修改的数据容器。
+
+### 1.索引取值
+
+同列表、元组一样，字符串也可以通过下标进行访问：
+
+````python
+name = "julie"
+# 从前向后，下标从0开始；
+print(name[0]) #j
+# 从后向前，下标从-1开始  
+print(name[-2]) #i
+````
+
+### 2.操作
+
+字符串中的常用操作为：
+
+| 操作                          | 	说明                                    |
+|-----------------------------|----------------------------------------|
+| 字符串[下标]                     | 	根据下标索引取出特定位置字符                        |
+| 字符串.index(字符串）              | 	查找给定字符的第一个匹配项的下标                      |
+| 字符串.replace(字符串1, 字符串2)	    | 将字符串内的全部字符串1，替换为字符串2 不会修改原字符串，而是得到一个新的 |
+| 字符串.split(字符串)	             | 按照给定字符串，对字符串进行分隔 不会修改原字符串，而是得到一个新的列表   |
+| 字符串.strip() 字符串.strip(字符串)	 | 移除首尾的空格和换行符或指定字符串                      |
+| 字符串.count(字符串)              | 	统计字符串内某字符串的出现次数                       |
+| len(字符串)	                   | 统计字符串的字符个数                             |
+
+示例：
+
+````python
+# 1. 查找指定元素在字符串的下标，如果找不到，报错ValueError
+name = "xiaozhang"
+print(name.index("z"))
+# print(name.index("b")) # ValueError: substring not found
+# 2. 将字符串中的指定元素替换成新的元素
+new_name = name.replace("z", "Z")
+print(name)  # xiaozhang
+print(new_name)  # xiaoZhang
+# 3. 将字符串按照指定的分隔符进行分割，返回一个列表对象
+name = "guanzhi,study,20"
+new_list = name.split(",")
+print(name)  # 打印 guanzhi,study,20
+print(new_list)  # 打印 ['guanzhi', 'study', '20']
+print(type(new_list))  # 打印 <class 'list'>
+# 4. 去除字符串前后的空格
+name = "  guanzhi  "
+new_name = name.strip()
+print(new_name)  # 打印 guanzhi
+# 5. 去除字符串的指定字符
+name = "20guanzhi20"
+new_name = name.strip("20")
+print(name)  # 打印 20guanzhi20
+print(new_name)  # 打印 guanzhi
+# 6. 统计字符串中指定字符出现的次数
+name = "20guanzhi20"
+print(name.count("20"))  # 打印 2
+# 7. 统计字符串的长度
+name = "20guanzhi 20"
+print(len(name))  # 打印 12
+````
+
+### 3.小结
+
+同列表、元组一样，字符串也支持 `while` 循环和 `for` 循环进行遍历，特点：
+
+- 只可以存储字符串；
+- 长度任意（取决于内存大小）；
+- 支持下标索引；
+- 允许重复字符串存在；
+- 不可以修改（增加或删除元素等）；
+- 基本和列表、元组相同；
+
+不同与列表和元组的在于：
+
+- 字符串容器可以容纳的类型是单一的，只能是字符串类型； 
+
+不同于列表，相同于元组的在于：
+
+- 字符串不可修改；
+
+## 四、slice
+
+### 1.序列
+
+「序列」是指内容连续、有序，可使用下表索引的一类数据容器：
+
+- 列表、元组、字符串，均可视为序列
+
+### 2.切片
+
+「切片」是指，从一个序列中，取出一个子序列：
+
+````python
+# 切片
+name = "julie"
+# 语法： 列表[开始索引:结束索引:步长]
+# - 开始索引表示截取的开始索引，可为空，默认为0
+# - 结束索引表示截取的结束索引，可为空，默认为列表末尾索引
+# - 步长表示截取的间隔，可为空，默认为1
+print(name[0:4:2])  # jl
+print(name[0:4])  # juli
+````
+
+### 3.基本用法
+
+示例：
+
+````python
+my_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# 下标1到5(不含5)
+new_list = my_list[1:5]
+print(new_list)  # [1, 2, 3, 4]
+
+# 从头开始到最后结束，步长为1
+new_list = my_list[:]
+print(new_list)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# 步长为2
+new_list = my_list[::2]
+print(my_list)  # [0, 2, 4, 6, 8, 10]
+
+# 从头开始到5结束，步长为2
+new_list = my_list[:5:2]
+print(new_list)  # [0, 2, 4]
+
+# 反转
+new_list = my_list[::-3]
+print(new_list)  # [10, 7, 4, 1]
+````
+
+## 五、set
+
+集合（`set`）不支持元素的重复（自带祛重功能），并且元素无序。
+
+### 1.基本格式
+
+`set` 的格式为：
+
+````python
+# define set
+a = {1, 2, 3, 4, 5}
+# define empty set
+b = set()
+````
+
+- 以 `{}` 为标识；
+- `set` 内每一个元素之间用 `,` 隔开
+- `set` 可以一次性存储多个元素，且可以为多个不同的数据类型，支持嵌套
+
+### 2.遍历
+
+`set` 不支持下标索引，所以不可以使用 `while` 循环：
+
+````python
+# iterate set
+for i in a:
+    print(i)
+````
+
+### 3.常用操作
+
+- 单 set：
+
+````python
+my_set = {1, 1, 2}
+# 1. add element to set
+my_set.add(3)
+print(my_set)  # {1, 2, 3}
+
+# 2. remove element from set
+my_set.remove(1)
+print(my_set)  # { 2, 3}
+
+# 3.  pop random element from set
+my_set.pop()
+print(my_set)
+
+# 4. clear set
+my_set.clear()
+print(my_set)  # set()
+````
+
+- 双 set：
+
+````python
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+# 1. set1 - set2 (set1 not change, set2 not change)
+set3 = set1.difference(set2)
+print(set3)
+
+# 2.  set1 - set2 (set1 change, set2 not change)
+set1.difference_update(set2)
+print(set1)
+
+# 3. set1 & set2 (set1 not change, set2 not change)
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+set3 = set1.union(set2)
+print(set3)
+````
+
+## 六、dict
+
+`dict`(字典) 是键值对
+
+### 1.基本格式
+
+`dict` 的格式为：
+
+````python
+# define dict
+my_dict = {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+}
+# define empty dict
+my_dict = {}
+my_dict = dict()
+````
+
+- 使用 `{}` 存储数据，每一个元素就是一个键值对；
+- 每一个键值对包含 key 和 value ，用冒号分割
+- 键值对之间用逗号分隔
+- key 和 value 可以是任意类型的数据，key 不能为 dict
+- key 不可重复，重复会对原有的数据进行覆盖
+
+### 2.使用
+
+| 操作              | 	说明                           |
+|-----------------|-------------------------------|
+| 字典[Key]	        | 获取指定Key对应的Value值              |
+| 字典[Key] = Value | 	添加或更新键值对                     |
+| 字典.pop(Key)     | 	取出Key对应的Value并在字典内删除此Key的键值对 |
+| 字典.clear()      | 	清空字典                         |
+| 字典.keys()	      | 获取字典的全部Key，可用于for循环遍历字典       |
+| len(字典)	        | 计算字典内的元素数量                    |
+
+示例：
+
+````python
+my_dict = {
+    "name": "John",
+    "age": 30,
+    "city": "New York"
+}
+# 1.  get value
+print(my_dict.get("name"))  # John
+
+# 2. add or update value
+my_dict["name"] = "Jane"
+my_dict["country"] = "China"
+print(my_dict)  # {'name': 'Jane', 'age': 30, 'city': 'New York', 'country': 'China'}
+
+# 3. delete value
+name = my_dict.pop("name")
+print(name)  # Jane
+print(my_dict)  # {'age': 30, 'city': 'New York', 'country': 'China'}
+
+# 4. get all keys
+keys = my_dict.keys()
+print(keys)  # dict_keys(['age', 'city', 'country'])
+
+# 5. length  of dict
+print(len(my_dict))  # 3
+
+# 6. clear dict
+my_dict.clear()
+print(my_dict)  # {}
+````
+
+特点：
+
+* 可以容纳多个数据
+* 可以容纳不同类型的数据
+* 每一份数据是Key-Value键值对
+* 可以通过Key获取到Value，Key不可重复（重复会覆盖）
+* 不支持下标索引
+* 可以修改（增加或删除更新元素等）
