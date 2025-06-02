@@ -102,6 +102,7 @@ export function sidebar() {
                     {text: "python（三）循环语句", link: "pythonSE03.md"},
                     {text: "python（四）函数", link: "pythonSE04.md"},
                     {text: "python（五）数据容器", link: "pythonSE05.md"},
+                    {text: "python（六）文件基础操作", link: "pythonSE06.md"},
                 ],
                 collapsed: false,
             }
@@ -202,9 +203,10 @@ export function sidebar() {
                 text: "2025",
                 base: "/practice/2025/",
                 items: [
-                    {text: "zettaranc", link: "01.md"},
-                    {text: "股探报告", link: "02.md"},
-                    {text: "舰长专享", link: "03.md"},
+                    {text: "股探报告", link: "01.md"},
+                    {text: "BS", link: "02.md"},
+                    {text: "四分之三阴量线", link: "03.md"},
+                    {text: "舰长专享", link: "04.md"},
                 ],
                 collapsed: true,
             }
