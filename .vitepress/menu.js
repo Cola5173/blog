@@ -206,7 +206,7 @@ export function sidebar() {
                     {text: "股探报告", link: "01.md"},
                     {text: "BS", link: "02.md"},
                     {text: "四分之三阴量线", link: "03.md"},
-                    {text: "舰长专享", link: "04.md"},
+                    {text: "2024/04/23", link: "04.md"},
                 ],
                 collapsed: true,
             }
