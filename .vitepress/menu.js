@@ -192,10 +192,8 @@ export function sidebar() {
                 text: "股票",
                 base: "/practice/stock/",
                 items: [
-                    {text: "股场悟道", link: "00.md"},
-                    {text: "入门知识", link: "01.md"},
-                    {text: "基础指标", link: "02.md"},
-                    {text: "K线", link: "03.md"},
+                    {text: "股场悟道", link: "01.md"},
+                    {text: "入门知识", link: "02.md"},
                 ],
                 collapsed: true,
             },
@@ -207,6 +205,7 @@ export function sidebar() {
                     {text: "BS", link: "02.md"},
                     {text: "四分之三阴量线", link: "03.md"},
                     {text: "2024/04/23", link: "04.md"},
+                    {text: "2024/04/30", link: "05.md"},
                 ],
                 collapsed: true,
             }
