@@ -104,6 +104,7 @@ export function sidebar() {
                     {text: "python（五）数据容器", link: "pythonSE05.md"},
                     {text: "python（六）文件基础操作", link: "pythonSE06.md"},
                     {text: "python（七）异常", link: "pythonSE07.md"},
+                    {text: "python（八）模块和包", link: "pythonSE08.md"},
                 ],
                 collapsed: false,
             }
