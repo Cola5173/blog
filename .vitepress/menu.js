@@ -105,6 +105,7 @@ export function sidebar() {
                     {text: "python（六）文件基础操作", link: "pythonSE06.md"},
                     {text: "python（七）异常", link: "pythonSE07.md"},
                     {text: "python（八）模块和包", link: "pythonSE08.md"},
+                    {text: "python（）案例", link: "pythonSE00.md"},
                 ],
                 collapsed: false,
             }
@@ -208,6 +209,7 @@ export function sidebar() {
                     {text: "四分之三阴量线", link: "03.md"},
                     {text: "2024/04/23", link: "04.md"},
                     {text: "2024/04/30", link: "05.md"},
+                    {text: "2024/05/08", link: "06.md"},
                 ],
                 collapsed: true,
             }
