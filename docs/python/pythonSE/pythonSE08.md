@@ -127,19 +127,34 @@ print(my_module.sub(1, 2))
 
 ### 3.第三方包
 
+第三方(其他人)开发的，Python没有内置，需要先安装才可以导入使用。
 
+在Python程序的生态中，有非常多的第三方包（非Python官方），可以极大的帮助我们提高开发效率，如：
 
-````python
+- 科学计算中常用的：`numpy` 
+- 数据分析中常用的：`pandas` 
+- 大数据计算中常用的：`pyspark`、`apache-flink`包
+- 图形可视化常用的：`matplotlib`、`pyecharts` 
+- 人工智能常用的：`tensorflow`
+
+只需要使用Python内置的pip程序即可，在终端中输入如下指令即可通过网络快速安装第三方包：
+
+````shell
+pip install 包名称
 ````
-````python
+
+由于pip是连接的国外的网站进行包的下载，下载速度经常很慢。我们可以通过如下命令，让其连接国内的网站进行包的安装：
+
+````shell
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple 包名称
+# 网站为清华大学提供的一个网站，可供pip程序下载第三方包
 ````
-````python
-````
-````python
-````
-````python
-````
-````python
-````
-````python
+
+如果经常使用上述方法过于麻烦，可直接配置成镜像源之后就不需要加连接：
+
+````shell
+python -m pip install --upgrade pip
+# 升级pip版本，防止版本过低无法配置
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# 配置为全局镜像源
 ````
