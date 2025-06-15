@@ -210,6 +210,7 @@ export function sidebar() {
                     {text: "2024/04/23", link: "04.md"},
                     {text: "2024/04/30", link: "05.md"},
                     {text: "2024/05/08", link: "06.md"},
+                    {text: "2024/05/14", link: "07.md"},
                 ],
                 collapsed: true,
             }
