@@ -211,6 +211,7 @@ export function sidebar() {
                     {text: "少妇战法", link: "03.md"},
                     {text: "少妇战法训练课", link: "04.md"},
                     {text: "少妇战法回顾总结", link: "05.md"},
+                    {text: "补票战法", link: "06.md"},
                 ],
                 collapsed: true,
             }
