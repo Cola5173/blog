@@ -222,8 +222,9 @@ export function sidebar() {
                 text: "收藏",
                 base: "/other/mixed/",
                 items: [
-                    {text: "文档小工具", link: "icons.md"},
-                    {text: "收藏网址", link: "myCollections.md"},
+                    {text: "文档小工具", link: "01.md"},
+                    {text: "收藏网址", link: "02.md"},
+                    {text: "Mac", link: "03.md"},
                 ],
                 collapsed: false,
             },
