@@ -46,7 +46,7 @@ const initGitalk = () => {
   // 创建评论组件
   const gitTalk = new Gitalk({
     // GitHub 账号 <==== 按你的实际情况修改 ====>
-    owner: 'FKX1213',
+    owner: 'Cola5173',
     // 仓库名 <==== 按你的实际情况修改 ====>
     repo: 'blogComments',
     // 客户端 ID <==== 按你的实际情况修改 ====>
@@ -54,7 +54,7 @@ const initGitalk = () => {
     // 客户端密钥 <==== 按你的实际情况修改 ====>
     clientSecret: '7c408950cfa3ba7e83947a4e902226227b8a811e',
     // Github 账号 <==== 按你的实际情况修改 ====>
-    admin: ['FKX1213'],
+    admin: ['Cola5173'],
     // 创建 Issue 时，为 Issue 增加的标签
     // labels: [ 'GitTalk' ],
     // 如果 Issue 不存在，且登陆的是管理员账号，是否显示创建 Issue 按钮
