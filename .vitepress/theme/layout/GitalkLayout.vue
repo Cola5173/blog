@@ -56,7 +56,7 @@ const initGitalk = () => {
     // Github 账号 <==== 按你的实际情况修改 ====>
     admin: ['Cola5173'],
     // 创建 Issue 时，为 Issue 增加的标签
-    // labels: [ 'GitTalk' ],
+    labels: [ 'GitTalk' ],
     // 如果 Issue 不存在，且登陆的是管理员账号，是否显示创建 Issue 按钮
     createIssueManually: true,
     // 创建 Issue 时，用于唯一标识这篇文章的标记
