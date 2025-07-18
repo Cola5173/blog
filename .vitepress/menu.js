@@ -215,6 +215,7 @@ export function sidebar() {
                     {text: "麒麟会如何运作", link: "07.md"},
                     {text: "坑里起好货", link: "08.md"},
                     {text: "交易的节奏", link: "09.md"},
+                    {text: "临时加餐", link: "10.md"},
                 ],
                 collapsed: true,
             }
