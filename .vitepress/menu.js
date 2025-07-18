@@ -214,6 +214,7 @@ export function sidebar() {
                     {text: "补票战法", link: "06.md"},
                     {text: "麒麟会如何运作", link: "07.md"},
                     {text: "坑里起好货", link: "08.md"},
+                    {text: "交易的节奏", link: "09.md"},
                 ],
                 collapsed: true,
             }
