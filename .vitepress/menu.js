@@ -216,6 +216,7 @@ export function sidebar() {
                     {text: "坑里起好货", link: "08.md"},
                     {text: "交易的节奏", link: "09.md"},
                     {text: "临时加餐", link: "10.md"},
+                    {text: "百战案例", link: "11.md"},
                 ],
                 collapsed: true,
             }
