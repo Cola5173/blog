@@ -11,9 +11,3 @@
 - [官方文档](https://go.dev/doc/)
 - [参考手册](https://go.dev/ref/spec)
 - go、gin、gorm 三个是必须的
-
-小米
-腾讯
-
-一皇一后，做波段，来回做：
-- 
