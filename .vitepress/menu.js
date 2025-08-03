@@ -217,6 +217,7 @@ export function sidebar() {
                     {text: "交易的节奏", link: "09.md"},
                     {text: "临时加餐", link: "10.md"},
                     {text: "百战案例", link: "11.md"},
+                    {text: "重要的防卖飞策略", link: "12.md"},
                 ],
                 collapsed: true,
             }
